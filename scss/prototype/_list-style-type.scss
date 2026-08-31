@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for list styling types
 /// @type Boolean
-$prototype-list-breakpoints: $global-prototype-breakpoints !default;
+$prototype-list-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Map containing all the `style-type-unordered` classes
 /// @type Map
@@ -52,10 +55,10 @@ $prototype-style-type-ordered: (
 
   @if ($prototype-list-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
         @each $style-type-unordered in $prototype-style-type-unordered {
-          @if $size != $-zf-zero-breakpoint {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             ul.#{$size}-list-#{$style-type-unordered} {
               @include style-type-unordered($style-type-unordered);
             }
@@ -75,10 +78,10 @@ $prototype-style-type-ordered: (
 
   @if ($prototype-list-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
         @each $style-type-ordered in $prototype-style-type-ordered {
-          @if $size != $-zf-zero-breakpoint {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             ol.#{$size}-list-#{$style-type-ordered} {
               @include style-type-ordered($style-type-ordered);
             }

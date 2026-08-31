@@ -1,3 +1,8 @@
+@use "../global";
+@use "../util/selector";
+@use "../util/unit";
+@use "../util/value";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,11 +13,11 @@
 
 /// Font color of text inputs.
 /// @type Color
-$input-color: $black !default;
+$input-color: global.$black !default;
 
 /// Font color of placeholder text within text inputs.
 /// @type Color
-$input-placeholder-color: $medium-gray !default;
+$input-placeholder-color: global.$medium-gray !default;
 
 /// Font family of text inputs.
 /// @type Font
@@ -20,47 +25,48 @@ $input-font-family: inherit !default;
 
 /// Font size of text inputs.
 /// @type Number
-$input-font-size: rem-calc(16) !default;
+$input-font-size: unit.rem-calc(16) !default;
 
 /// Font weight of text inputs.
 /// @type Keyword
-$input-font-weight: $global-weight-normal !default;
+$input-font-weight: global.$global-weight-normal !default;
 
 /// Line height of text inputs.
 /// @type Keyword
-$input-line-height: $global-lineheight !default;
+$input-line-height: global.$global-lineheight !default;
 
 /// Background color of text inputs.
 /// @type Color
-$input-background: $white !default;
+$input-background: global.$white !default;
 
 /// Background color of focused of text inputs.
 /// @type Color
-$input-background-focus: $white !default;
+$input-background-focus: global.$white !default;
 
 /// Background color of disabled text inputs.
 /// @type Color
-$input-background-disabled: $light-gray !default;
+$input-background-disabled: global.$light-gray !default;
 
 /// Border around text inputs.
 /// @type Border
-$input-border: 1px solid $medium-gray !default;
+$input-border: 1px solid global.$medium-gray !default;
 
 /// Border around focused text inputs.
 /// @type Color
-$input-border-focus: 1px solid $dark-gray !default;
+$input-border-focus: 1px solid global.$dark-gray !default;
 
 /// Padding of text inputs.
 /// @type Color
+$form-spacing: unit.rem-calc(16) !default;
 $input-padding: $form-spacing * 0.5 !default;
 
 /// Box shadow inside text inputs when not focused.
 /// @type Shadow
-$input-shadow: inset 0 1px 2px rgba($black, 0.1) !default;
+$input-shadow: inset 0 1px 2px rgba(global.$black, 0.1) !default;
 
 /// Box shadow outside text inputs when focused.
 /// @type Shadow
-$input-shadow-focus: 0 0 5px $medium-gray !default;
+$input-shadow-focus: 0 0 5px global.$medium-gray !default;
 
 /// Cursor to use when hovering over a disabled text input.
 /// @type Cursor
@@ -68,7 +74,9 @@ $input-cursor-disabled: not-allowed !default;
 
 /// Properties to transition on text inputs.
 /// @type Transition
-$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out !default;
+$input-transition:
+  box-shadow 0.5s,
+  border-color 0.25s ease-in-out !default;
 
 /// Enables the up/down buttons that Chrome and Firefox add to `<input type='number'>` elements.
 /// @type Boolean
@@ -76,14 +84,18 @@ $input-number-spinners: true !default;
 
 /// Radius for text inputs.
 /// @type Border
-$input-radius: $global-radius !default;
+$input-radius: global.$global-radius !default;
 
 /// Border radius for form buttons, defaulted to global-radius.
 /// @type Number
-$form-button-radius: $global-radius !default;
+$form-button-radius: global.$global-radius !default;
 
 @mixin form-element {
-  $height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1);
+  $height: ($input-font-size * unit.unitless-calc($input-line-height)) +
+    (
+      value.get-side($input-padding, "top") +
+        value.get-side($input-padding, "bottom")
+    ) - unit.rem-calc(1);
 
   display: block;
   box-sizing: border-box;
@@ -103,7 +115,7 @@ $form-button-radius: $global-radius !default;
   line-height: $input-line-height;
   color: $input-color;
 
-  @if has-value($input-transition) {
+  @if value.has-value($input-transition) {
     transition: $input-transition;
   }
 
@@ -114,7 +126,7 @@ $form-button-radius: $global-radius !default;
     background-color: $input-background-focus;
     box-shadow: $input-shadow-focus;
 
-    @if has-value($input-transition) {
+    @if value.has-value($input-transition) {
       transition: $input-transition;
     }
   }
@@ -122,7 +134,7 @@ $form-button-radius: $global-radius !default;
 
 @mixin foundation-form-text {
   // Text inputs
-  #{text-inputs()},
+  #{selector.text-inputs()},
   textarea {
     appearance: none;
     @include form-element;
@@ -148,19 +160,20 @@ $form-button-radius: $global-radius !default;
   }
 
   // Reset styles on button-like inputs
-  [type='submit'],
-  [type='button'] {
+  [type="submit"],
+  [type="button"] {
     appearance: none;
     border-radius: $form-button-radius;
   }
 
   // Reset Normalize setting content-box to search elements
-  input[type='search'] { // sass-lint:disable-line no-qualifying-elements
+  input[type="search"] {
+    // sass-lint:disable-line no-qualifying-elements
     box-sizing: border-box;
   }
 
   // Number input styles
-  [type='number'] {
+  [type="number"] {
     @if not $input-number-spinners {
       -moz-appearance: textfield; // sass-lint:disable-line no-vendor-prefixes
 

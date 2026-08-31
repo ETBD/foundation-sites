@@ -1,3 +1,11 @@
+@use "sass:math";
+@use "sass:meta";
+@use "../global";
+@use "../util/math" as math2;
+@use "functions";
+@use "vars";
+@use "row";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -17,38 +25,38 @@
 @mixin grid-column-position($position) {
   // Auto positioning
   @if $position == auto {
-    &, &:last-child:not(:first-child) {
-      float: $global-left;
+    &,
+    &:last-child:not(:first-child) {
+      float: global.$global-left;
       clear: none;
     }
 
     // Last column alignment
-    @if $grid-column-align-edge {
+    @if vars.$grid-column-align-edge {
       &:last-child:not(:first-child) {
-        float: $global-right;
+        float: global.$global-right;
       }
     }
   }
 
   // Push/pull
-  @else if type-of($position) == 'number' {
-    $offset: percentage(divide($position, $grid-column-count));
+  @else if meta.type-of($position) == "number" {
+    $offset: math.percentage(math2.divide($position, vars.$grid-column-count));
 
     position: relative;
-    #{$global-left}: $offset;
+    #{global.$global-left}: $offset;
   }
 
   // Center positioning
   @else if $position == center {
     margin-left: auto;
     margin-right: auto;
-    &, &:last-child:not(:first-child) {
+    &,
+    &:last-child:not(:first-child) {
       float: none;
       clear: both;
     }
-  }
-
-  @else {
+  } @else {
     @warn 'Wrong syntax for grid-column-position(). Enter a positive or negative number, "center" or "auto".';
   }
 }
@@ -64,14 +72,14 @@
 /// Offsets a column to the right by `$n` columns.
 /// @param {Number|List} $n - Width to offset by. You can pass in any value accepted by the `grid-column()` mixin, such as `6`, `50%`, or `1 of 2`.
 @mixin grid-column-offset($n) {
-  margin-#{$global-left}: grid-column($n);
+  margin-#{global.$global-left}: functions.grid-column($n);
 }
 
 /// Disable the default behavior of the last column in a row aligning to the opposite edge.
 @mixin grid-column-end {
   // This extra specificity is required for the property to be applied
   &:last-child:last-child {
-    float: $global-left;
+    float: global.$global-left;
   }
 }
 

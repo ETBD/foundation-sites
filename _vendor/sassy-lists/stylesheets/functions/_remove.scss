@@ -1,3 +1,5 @@
+@use "replace";
+
 ///
 /// Removes value(s) `$value` from `$list`.
 ///
@@ -16,9 +18,7 @@
 ///
 
 @function sl-remove($list, $value) {
-  $_: sl-missing-dependencies('sl-replace');
-
-  @return sl-replace($list, $value, null);
+  @return replace.sl-replace($list, $value, null);
 }
 
 ///

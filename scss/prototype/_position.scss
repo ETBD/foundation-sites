@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for position helpers
 /// @type Boolean
-$prototype-position-breakpoints: $global-prototype-breakpoints !default;
+$prototype-position-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Map containing all the `position` classes
 /// @type Map
@@ -38,16 +41,16 @@ $prototype-position-z-index: 975 !default;
 ) {
   position: $position !important;
   @if $top != null {
-    top: $top * $global-position !important;
+    top: $top * global.$global-position !important;
   }
   @if $right != null {
-    right: $right * $global-position !important;
+    right: $right * global.$global-position !important;
   }
   @if $bottom != null {
-    bottom: $bottom * $global-position !important;
+    bottom: $bottom * global.$global-position !important;
   }
   @if $left != null {
-    left: $left * $global-position !important;
+    left: $left * global.$global-position !important;
   }
 }
 
@@ -87,11 +90,11 @@ $prototype-position-z-index: 975 !default;
 
   @if ($prototype-position-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
         // Position: Static, Relative, Fixed, Absolute
         @each $position in $prototype-position {
-          @if $size != $-zf-zero-breakpoint {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             .#{$size}-position-#{$position} {
               @include position($position);
             }
@@ -99,7 +102,7 @@ $prototype-position-z-index: 975 !default;
         }
 
         // Position: Fixed Top, Fixed Bottom
-        @if $size != $-zf-zero-breakpoint {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-position-fixed-top {
             @include position-fixed-top;
           }

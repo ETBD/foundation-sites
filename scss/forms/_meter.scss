@@ -1,3 +1,7 @@
+@use "../global";
+@use "../util/color";
+@use "../util/value";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -12,23 +16,23 @@ $meter-height: 1rem !default;
 
 /// Border radius of a `<meter>` element.
 /// @type Length
-$meter-radius: $global-radius !default;
+$meter-radius: global.$global-radius !default;
 
 /// Background color of a `<meter>` element.
 /// @type Color
-$meter-background: $medium-gray !default;
+$meter-background: global.$medium-gray !default;
 
 /// Meter fill for an optimal value in a `<meter>` element.
 /// @type Color
-$meter-fill-good: $success-color !default;
+$meter-fill-good: color.$success-color !default;
 
 /// Meter fill for an average value in a `<meter>` element.
 /// @type Color
-$meter-fill-medium: $warning-color !default;
+$meter-fill-medium: color.$warning-color !default;
 
 /// Meter fill for a suboptimal value in a `<meter>` element.
 /// @type Color
-$meter-fill-bad: $alert-color !default;
+$meter-fill-bad: color.$alert-color !default;
 
 @mixin foundation-meter-element {
   meter {
@@ -45,7 +49,7 @@ $meter-fill-bad: $alert-color !default;
     -moz-appearance: none; // sass-lint:disable-line no-vendor-prefixes
     appearance: none;
 
-    @if has-value($meter-radius) {
+    @if value.has-value($meter-radius) {
       border-radius: $meter-radius;
     }
 
@@ -56,7 +60,7 @@ $meter-fill-bad: $alert-color !default;
     // Chrome/Safari/Edge
     &::-webkit-meter-bar {
       border: 0;
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
 
@@ -64,7 +68,7 @@ $meter-fill-bad: $alert-color !default;
     }
 
     &::-webkit-meter-inner-element {
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
     }
@@ -72,7 +76,7 @@ $meter-fill-bad: $alert-color !default;
     &::-webkit-meter-optimum-value {
       background: $meter-fill-good;
 
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
     }
@@ -80,7 +84,7 @@ $meter-fill-bad: $alert-color !default;
     &::-webkit-meter-suboptimum-value {
       background: $meter-fill-medium;
 
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
     }
@@ -88,15 +92,15 @@ $meter-fill-bad: $alert-color !default;
     &::-webkit-meter-even-less-good-value {
       background: $meter-fill-bad;
 
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
     }
 
     &::-moz-meter-bar {
-      background: $primary-color;
+      background: color.$primary-color;
 
-      @if has-value($meter-radius) {
+      @if value.has-value($meter-radius) {
         border-radius: $meter-radius;
       }
     }

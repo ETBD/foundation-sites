@@ -1,3 +1,8 @@
+@use "sass:list";
+@use "../helpers/true" as sl-true;
+@use "purge";
+@use "to-list";
+
 ///
 /// Replaces `$old` by `$new` in `$list`.
 ///
@@ -18,29 +23,27 @@
 /// @example
 /// sl-replace(a b c, y, z)
 /// // a b c
-/// 
+///
 /// @return {List}
 ///
- 
-@function sl-replace($list, $old, $value) {
-  $_: sl-missing-dependencies('sl-is-true', 'sl-purge', 'sl-to-list');
 
+@function sl-replace($list, $old, $value) {
   $running: true;
 
   @while $running {
-    $index: index($list, $old);
+    $index: list.index($list, $old);
 
     @if not $index {
       $running: false;
+    } @else {
+      $list: list.set-nth($list, $index, $value);
     }
-
-    @else {
-      $list: set-nth($list, $index, $value);
-    }
-
   }
 
-  $list: if(sl-is-true($value), $list, sl-purge($list));
-  
-  @return sl-to-list($list);
+  $should-purge: sl-true.sl-is-true($value);
+  @if not $should-purge {
+    $list: purge.sl-purge($list);
+  }
+
+  @return to-list.sl-to-list($list);
 }

@@ -6,29 +6,30 @@
 /// @group forms
 ////
 
+@use "../util/unit";
+@use "text";
+@use "checkbox";
+@use "label";
+@use "help-text";
+@use "input-group";
+@use "fieldset";
+@use "select";
+@use "range";
+@use "progress";
+@use "meter";
+@use "error";
+
 /// Global spacing for form elements.
 /// @type Number
-$form-spacing: rem-calc(16) !default;
-
-@import 'text';
-@import 'checkbox';
-@import 'label';
-@import 'help-text';
-@import 'input-group';
-@import 'fieldset';
-@import 'select';
-@import 'range';
-@import 'progress';
-@import 'meter';
-@import 'error';
+$form-spacing: unit.rem-calc(16) !default;
 
 @mixin foundation-forms {
-  @include foundation-form-text;
-  @include foundation-form-checkbox;
-  @include foundation-form-label;
-  @include foundation-form-helptext;
-  @include foundation-form-prepostfix;
-  @include foundation-form-fieldset;
-  @include foundation-form-select;
-  @include foundation-form-error;
+  @include text.foundation-form-text;
+  @include checkbox.foundation-form-checkbox;
+  @include label.foundation-form-label;
+  @include help-text.foundation-form-helptext;
+  @include input-group.foundation-form-prepostfix;
+  @include fieldset.foundation-form-fieldset;
+  @include select.foundation-form-select;
+  @include error.foundation-form-error;
 }

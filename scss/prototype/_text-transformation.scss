@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for text transformation classes
 /// @type Boolean
-$prototype-transformation-breakpoints: $global-prototype-breakpoints !default;
+$prototype-transformation-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Map containing all the `text-transformation` classes
 /// @type Map
@@ -33,10 +36,10 @@ $prototype-text-transformation: (
 
   @if ($prototype-transformation-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
         @each $transformation in $prototype-text-transformation {
-          @if $size != $-zf-zero-breakpoint {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             .#{$size}-text-#{$transformation} {
               @include text-transform($transformation);
             }

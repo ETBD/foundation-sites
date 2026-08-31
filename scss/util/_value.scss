@@ -1,3 +1,9 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+@use "unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -15,10 +21,10 @@
   @if $val == null or $val == none {
     @return false;
   }
-  @if type-of($val) == 'number' and strip-unit($val) == 0 {
+  @if meta.type-of($val) == "number" and unit.strip-unit($val) == 0 {
     @return false;
   }
-  @if type-of($val) == 'list' and length($val) == 0 {
+  @if meta.type-of($val) == "list" and list.length($val) == 0 {
     @return false;
   }
   @return true;
@@ -31,19 +37,43 @@
 ///
 /// @returns {Number} A single value based on `$val` and `$side`.
 @function get-side($val, $side) {
-  $length: length($val);
+  $length: list.length($val);
 
   @if $length == 1 {
     @return $val;
   }
   @if $length == 2 {
-    @return map-get((top: nth($val, 1), bottom: nth($val, 1), left: nth($val, 2), right: nth($val, 2), ), $side);
+    @return map.get(
+      (
+        top: list.nth($val, 1),
+        bottom: list.nth($val, 1),
+        left: list.nth($val, 2),
+        right: list.nth($val, 2),
+      ),
+      $side
+    );
   }
   @if $length == 3 {
-    @return map-get((top: nth($val, 1), left: nth($val, 2), right: nth($val, 2), bottom: nth($val, 3), ), $side);
+    @return map.get(
+      (
+        top: list.nth($val, 1),
+        left: list.nth($val, 2),
+        right: list.nth($val, 2),
+        bottom: list.nth($val, 3),
+      ),
+      $side
+    );
   }
   @if $length == 4 {
-    @return map-get((top: nth($val, 1), right: nth($val, 2), bottom: nth($val, 3), left: nth($val, 4), ), $side);
+    @return map.get(
+      (
+        top: list.nth($val, 1),
+        right: list.nth($val, 2),
+        bottom: list.nth($val, 3),
+        left: list.nth($val, 4),
+      ),
+      $side
+    );
   }
 }
 
@@ -56,14 +86,14 @@
 @function get-border-value($val, $elem) {
   // Find the width, style, or color and return it
   @each $v in $val {
-    $type: type-of($v);
-    @if $elem == width and $type == 'number' {
+    $type: meta.type-of($v);
+    @if $elem == width and $type == "number" {
       @return $v;
     }
-    @if $elem == style and $type == 'string' {
+    @if $elem == style and $type == "string" {
       @return $v;
     }
-    @if $elem == color and $type == 'color' {
+    @if $elem == color and $type == "color" {
       @return $v;
     }
   }
@@ -75,7 +105,7 @@
     color: #000,
   );
 
-  @return map-get($defaults, $elem);
+  @return map.get($defaults, $elem);
 }
 
 /// Finds a value in a nested map.
@@ -86,7 +116,7 @@
 /// @returns {Mixed} The value found in the map.
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
-    $map: map-get($map, $key);
+    $map: map.get($map, $key);
   }
   @return $map;
 }
@@ -97,31 +127,33 @@
 /// @param {Map} $map - Map to pull a value from.
 ///
 /// @returns {List} Depending on the flag, returns either $keys or $values or both.
-@function map-to-list($map, $keep: 'both') {
-  $keep: if(index('keys' 'values', $keep), $keep, 'both');
+@function map-to-list($map, $keep: "both") {
+  @if not list.index("keys" "values", $keep) {
+    $keep: "both";
+  }
 
-  @if type-of($map) == 'map' {
+  @if meta.type-of($map) == "map" {
     $keys: ();
     $values: ();
 
     @each $key, $val in $map {
-      $keys: append($keys, $key);
-      $values: append($values, $val);
+      $keys: list.append($keys, $key);
+      $values: list.append($values, $val);
     }
 
-    @if $keep == 'keys' {
+    @if $keep == "keys" {
       @return $keys;
-    }
-    @else if $keep == 'values' {
+    } @else if $keep == "values" {
       @return $values;
-    }
-    @else {
-      @return zip($keys, $values);
+    } @else {
+      @return list.zip($keys, $values);
     }
   }
 
-  @return if(type-of($map) != 'list', ($value,), $map);
-
+  @if meta.type-of($map) != "list" {
+    @return ($value);
+  }
+  @return $map;
 }
 
 /// Return a join of the two given strings `$str1` and `$str2`.
@@ -132,21 +164,23 @@
 /// @param {String} $delimiter [null] - Delimieter between `$str1` and `$str2`.
 ///
 /// @returns {String} Join of `$str1`, `$delimiter` and `$str2`.
-@function zf-str-join(
-  $str1: null,
-  $str2: null,
-  $delimiter: null
-) {
-  $ret: '';
+@function zf-str-join($str1: null, $str2: null, $delimiter: null) {
+  $ret: "";
 
-  @if $str1 and str-length($str1) > 0 {
+  @if $str1 and string.length($str1) > 0 {
     $ret: $ret + $str1;
 
-    @if $delimiter and str-length($delimiter) > 0 and $str2 and str-length($str2) > 0 {
+    @if $delimiter and
+      string.length($delimiter) >
+      0 and
+      $str2 and
+      string.length($str2) >
+      0
+    {
       $ret: $ret + $delimiter;
     }
   }
-  @if $str2 and str-length($str2) > 0 {
+  @if $str2 and string.length($str2) > 0 {
     $ret: $ret + $str2;
   }
 
@@ -160,15 +194,17 @@
 ///
 /// @returns {List} Found value.
 @function map-safe-get($map, $key) {
-  @if (type-of($map) == 'map' or (type-of($map) == 'list' and length($map) == 0)) {
-    @if (map-has-key($map, $key)) {
-      @return map-get($map, $key);
-    }
-    @else {
+  @if (
+    meta.type-of($map) ==
+      "map" or
+      (meta.type-of($map) == "list" and list.length($map) == 0)
+  ) {
+    @if (map.has-key($map, $key)) {
+      @return map.get($map, $key);
+    } @else {
       @error 'Key: `#{$key}` is not available in `#{$map}`';
     }
-  }
-  @else {
+  } @else {
     @error '`#{$map}` is not a valid map';
   }
 }
@@ -180,6 +216,6 @@
 /// @param {*} $val - Value to convert.
 ///
 /// @returns {Boolean} Converted Boolean value.
-@function -zf-bool($val) {
+@function zf-bool($val) {
   @return $val != false and has-value($val);
 }

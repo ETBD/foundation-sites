@@ -1,3 +1,7 @@
+@use "../global";
+@use "../typography/base";
+@use "../util/mixins";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -12,19 +16,19 @@ $has-tip-cursor: help !default;
 
 /// Default font weight of the defined term.
 /// @type Keyword | Number
-$has-tip-font-weight: $global-weight-bold !default;
+$has-tip-font-weight: global.$global-weight-bold !default;
 
 /// Default border bottom of the defined term.
 /// @type List
-$has-tip-border-bottom: dotted 1px $dark-gray !default;
+$has-tip-border-bottom: dotted 1px global.$dark-gray !default;
 
 /// Default color of the tooltip background.
 /// @type Color
-$tooltip-background-color: $black !default;
+$tooltip-background-color: global.$black !default;
 
 /// Default color of the tooltip font.
 /// @type Color
-$tooltip-color: $white !default;
+$tooltip-color: global.$white !default;
 
 /// Default padding of the tooltip background.
 /// @type Number
@@ -36,7 +40,7 @@ $tooltip-max-width: 10rem !default;
 
 /// Default font size of the tooltip text. By default, we recommend a smaller font size than the body copy.
 /// @type Number
-$tooltip-font-size: $small-font-size !default;
+$tooltip-font-size: base.$small-font-size !default;
 
 /// Default pip width for tooltips.
 /// @type Number
@@ -48,7 +52,7 @@ $tooltip-pip-height: $tooltip-pip-width * 0.866 !default;
 
 /// Default radius for tooltips.
 /// @type Number
-$tooltip-radius: $global-radius !default;
+$tooltip-radius: global.$global-radius !default;
 
 @mixin has-tip {
   position: relative;
@@ -78,7 +82,7 @@ $tooltip-radius: $global-radius !default;
 
   &.bottom {
     &::before {
-      @include css-triangle($tooltip-pip-width, $tooltip-background-color, up);
+      @include mixins.css-triangle($tooltip-pip-width, $tooltip-background-color, up);
       bottom: 100%;
     }
 
@@ -90,7 +94,7 @@ $tooltip-radius: $global-radius !default;
 
   &.top {
     &::before {
-      @include css-triangle($tooltip-pip-width, $tooltip-background-color, down);
+      @include mixins.css-triangle($tooltip-pip-width, $tooltip-background-color, down);
       top: 100%;
       bottom: auto;
     }
@@ -103,7 +107,7 @@ $tooltip-radius: $global-radius !default;
 
   &.left {
     &::before {
-      @include css-triangle($tooltip-pip-width, $tooltip-background-color, right);
+      @include mixins.css-triangle($tooltip-pip-width, $tooltip-background-color, right);
       left: 100%;
     }
 
@@ -116,7 +120,7 @@ $tooltip-radius: $global-radius !default;
 
   &.right {
     &::before {
-      @include css-triangle($tooltip-pip-width, $tooltip-background-color, left);
+      @include mixins.css-triangle($tooltip-pip-width, $tooltip-background-color, left);
       right: 100%;
       left: auto;
     }

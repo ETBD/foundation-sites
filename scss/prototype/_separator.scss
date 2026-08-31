@@ -1,3 +1,10 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/color";
+@use "../util/mixins";
+@use "../util/unit";
+@use "position";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +15,7 @@
 
 /// Responsive breakpoints for separator.
 /// @type Boolean
-$prototype-separator-breakpoints: $global-prototype-breakpoints !default;
+$prototype-separator-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Default alignment of a separator.
 /// @type String
@@ -16,7 +23,7 @@ $prototype-separator-align: center !default;
 
 /// Height of a separator.
 /// @type Number
-$prototype-separator-height: rem-calc(2) !default;
+$prototype-separator-height: unit.rem-calc(2) !default;
 
 /// Width of a separator.
 /// @type Number
@@ -24,11 +31,11 @@ $prototype-separator-width: 3rem !default;
 
 /// Default color of a separator.
 /// @type Color
-$prototype-separator-background: $primary-color !default;
+$prototype-separator-background: color.$primary-color !default;
 
 /// Top Margin of a separator.
 /// @type Number
-$prototype-separator-margin-top: $global-margin !default;
+$prototype-separator-margin-top: global.$global-margin !default;
 
 /// Title separator Utility, mostly used to style the main heading of a section
 /// @param {String} $align [$prototype-separator-align] - separator Alignment
@@ -44,10 +51,10 @@ $prototype-separator-margin-top: $global-margin !default;
   $top: $prototype-separator-margin-top
 ) {
   text-align: $align !important;
-  @include clearfix;
+  @include mixins.clearfix;
 
   &::after {
-    @include position(relative);
+    @include position.position(relative);
     width: $width;
     border-bottom: $height solid $background;
     margin: $top auto 0;
@@ -77,9 +84,9 @@ $prototype-separator-margin-top: $global-margin !default;
 
   @if ($prototype-separator-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-separator-center {
             @include separator(center);
           }

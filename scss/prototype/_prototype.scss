@@ -7,81 +7,81 @@
 ////
 
 // Relational Mixins
-@import 'relation';
+@use 'relation';
 
 // Box Mixin
-@import 'box';
+@use 'box';
 
 // Rotate Mixin
-@import 'rotate';
+@use 'rotate';
 
 // Text utilities
-@import 'text-utilities';
+@use 'text-utilities';
 
 // Text transformation classes
-@import 'text-transformation';
+@use 'text-transformation';
 
 // Text Decoration classes
-@import 'text-decoration';
+@use 'text-decoration';
 
 // Font Styling
-@import 'font-styling';
+@use 'font-styling';
 
 // List Style type
-@import 'list-style-type';
+@use 'list-style-type';
 
 // Rounded Utility
-@import 'rounded';
+@use 'rounded';
 
 // Bordered Utility
-@import 'bordered';
+@use 'bordered';
 
 // Shadow Utility
-@import 'shadow';
+@use 'shadow';
 
 // Arrow Utility
-@import 'arrow';
+@use 'arrow';
 
 // Separator Utility
-@import 'separator';
+@use 'separator';
 
 // Overflow helper classes
-@import 'overflow';
+@use 'overflow';
 
 // Display classes
-@import 'display';
+@use 'display';
 
 // Position Helpers
-@import 'position';
+@use 'position';
 
 // Border box
-@import 'border-box';
+@use 'border-box';
 
 // Border none Utilty
-@import 'border-none';
+@use 'border-none';
 
 // Sizing Utilities
-@import 'sizing';
+@use 'sizing';
 
 // Spacing Utilities
-@import 'spacing';
+@use 'spacing';
 
 @mixin foundation-prototype-classes {
-  @include foundation-prototype-text-utilities;
-  @include foundation-prototype-text-transformation;
-  @include foundation-prototype-text-decoration;
-  @include foundation-prototype-font-styling;
-  @include foundation-prototype-list-style-type;
-  @include foundation-prototype-rounded;
-  @include foundation-prototype-bordered;
-  @include foundation-prototype-shadow;
-  @include foundation-prototype-arrow;
-  @include foundation-prototype-separator;
-  @include foundation-prototype-overflow;
-  @include foundation-prototype-display;
-  @include foundation-prototype-position;
-  @include foundation-prototype-border-box;
-  @include foundation-prototype-border-none;
-  @include foundation-prototype-sizing;
-  @include foundation-prototype-spacing;
+  @include text-utilities.foundation-prototype-text-utilities;
+  @include text-transformation.foundation-prototype-text-transformation;
+  @include text-decoration.foundation-prototype-text-decoration;
+  @include font-styling.foundation-prototype-font-styling;
+  @include list-style-type.foundation-prototype-list-style-type;
+  @include rounded.foundation-prototype-rounded;
+  @include bordered.foundation-prototype-bordered;
+  @include shadow.foundation-prototype-shadow;
+  @include arrow.foundation-prototype-arrow;
+  @include separator.foundation-prototype-separator;
+  @include overflow.foundation-prototype-overflow;
+  @include display.foundation-prototype-display;
+  @include position.foundation-prototype-position;
+  @include border-box.foundation-prototype-border-box;
+  @include border-none.foundation-prototype-border-none;
+  @include sizing.foundation-prototype-sizing;
+  @include spacing.foundation-prototype-spacing;
 }

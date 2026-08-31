@@ -1,3 +1,7 @@
+@use "../global";
+@use "../util/color";
+@use "../util/mixins";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,11 +12,11 @@
 
 /// Default color for Orbit's bullets.
 /// @type Color
-$orbit-bullet-background: $medium-gray !default;
+$orbit-bullet-background: global.$medium-gray !default;
 
 /// Default active color for Orbit's bullets.
 /// @type Color
-$orbit-bullet-background-active: $dark-gray !default;
+$orbit-bullet-background-active: global.$dark-gray !default;
 
 /// Default diameter for Orbit's bullets.
 /// @type Number
@@ -32,7 +36,7 @@ $orbit-bullet-margin-bottom: 0.8rem !default;
 
 /// Default background color for Orbit's caption.
 /// @type Color
-$orbit-caption-background: rgba($black, 0.5) !default;
+$orbit-caption-background: rgba(global.$black, 0.5) !default;
 
 /// Default padding for Orbit's caption.
 /// @type Number
@@ -40,7 +44,7 @@ $orbit-caption-padding: 1rem !default;
 
 /// Default background color for Orbit's controls when hovered.
 /// @type Color
-$orbit-control-background-hover: rgba($black, 0.5) !default;
+$orbit-control-background-hover: rgba(global.$black, 0.5) !default;
 
 /// Default padding for Orbit's controls.
 /// @type Number
@@ -97,16 +101,16 @@ $orbit-control-zindex: 10 !default;
   padding: $orbit-caption-padding;
 
   background-color: $orbit-caption-background;
-  color: color-pick-contrast($orbit-caption-background);
+  color: color.color-pick-contrast($orbit-caption-background);
 }
 
 /// Adds base styles for the next/previous buttons in an Orbit slider. These styles are shared between the `.orbit-next` and `.orbit-previous` classes in the default CSS.
 @mixin orbit-control {
   z-index: $orbit-control-zindex;
   padding: $orbit-control-padding;
-  color: $white;
-  @include vertical-center;
-  @include disable-mouse-outline;
+  color: global.$white;
+  @include mixins.vertical-center;
+  @include mixins.disable-mouse-outline;
 
   &:hover,
   &:active,
@@ -117,13 +121,13 @@ $orbit-control-zindex: 10 !default;
 
 /// Adds styles for the Orbit previous button. These styles are used on the `.orbit-previous` class.
 @mixin orbit-previous {
-  #{$global-left}: 0;
+  #{global.$global-left}: 0;
 }
 
 /// Adds styles for the Orbit next button. These styles are used on the `.orbit-next` class.
 @mixin orbit-next {
-  #{$global-left}: auto;
-  #{$global-right}: 0;
+  #{global.$global-left}: auto;
+  #{global.$global-right}: 0;
 }
 
 /// Adds styles for a container of Orbit bullets. /// Adds styles for the Orbit previous button. These styles are used on the `.orbit-bullets` class.
@@ -132,7 +136,7 @@ $orbit-control-zindex: 10 !default;
   margin-top: $orbit-bullet-margin-top;
   margin-bottom: $orbit-bullet-margin-bottom;
   text-align: center;
-  @include disable-mouse-outline;
+  @include mixins.disable-mouse-outline;
 
   button {
     width: $orbit-bullet-diameter;

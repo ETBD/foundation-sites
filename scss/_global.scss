@@ -8,7 +8,14 @@
 /// @group global
 ////
 
-@import 'util/util';
+@use "sass:map";
+@use "util/util";
+@use "util/breakpoint";
+@use "util/color";
+@use "util/flex";
+@use "util/mixins";
+@use "util/unit";
+@use "vendor/normalize";
 
 /// Font size attribute applied to `<html>` and `<body>`. We use 100% by default so the value is inherited from the user's browser settings.
 /// @type Number
@@ -16,7 +23,7 @@ $global-font-size: 100% !default;
 
 /// Global width of your site. Used by the grid to determine row width.
 /// @type Number
-$global-width: rem-calc(1200) !default;
+$global-width: unit.rem-calc(1200) !default;
 
 /// Default line height for all type. `$global-lineheight` is 24px while `$global-font-size` is 16px
 /// @type Number
@@ -62,7 +69,8 @@ $body-font-color: $black !default;
 
 /// Font stack of the body.
 /// @type List
-$body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif !default;
+$body-font-family:
+  "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif !default;
 
 /// Set to `true` to enable safe padding on the body for non-rectangular devices (i.e. phones with notches)
 /// @type Boolean
@@ -119,30 +127,34 @@ $global-prototype-breakpoints: false !default;
 /// @type Keyword
 $global-button-cursor: auto !default;
 
-@if not map-has-key($foundation-palette, primary) {
+@if not map.has-key($foundation-palette, primary) {
   @error 'In $foundation-palette, you must have a color named "primary".';
 }
 
 // Internal variables used for text direction
-$global-left: if($global-text-direction == rtl, right, left);
-$global-right: if($global-text-direction == rtl, left, right);
+$global-left: left;
+$global-right: right;
+@if $global-text-direction == rtl {
+  $global-left: right;
+  $global-right: left;
+}
 
 // Internal variable that contains the flex justifying options
-$-zf-flex-justify: -zf-flex-justify($global-text-direction);
+$zf-flex-justify: flex.zf-flex-justify($global-text-direction);
 
 /// Global tolerance for color pick contrast.
 /// @type Number
 $global-color-pick-contrast-tolerance: 0 !default;
 
 // Internal variables used for colors
-@include add-foundation-colors;
+@include color.add-foundation-colors($foundation-palette);
 
 @mixin foundation-global-styles {
-  @include foundation-normalize;
+  @include normalize.foundation-normalize;
 
   // These styles are applied to a <meta> tag, which is read by the Foundation JavaScript
   .foundation-mq {
-    font-family: '#{-zf-bp-serialize($breakpoints)}';
+    font-family: "#{breakpoint.zf-bp-serialize(breakpoint.$breakpoints)}";
   }
 
   html {
@@ -221,7 +233,7 @@ $global-color-pick-contrast-tolerance: 0 !default;
 
   // Reset <button> styles created by most browsers
   button {
-    @include disable-mouse-outline;
+    @include mixins.disable-mouse-outline;
     padding: 0;
     appearance: none;
     border: 0;

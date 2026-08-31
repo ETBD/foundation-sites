@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for spacing classes (margin and padding)
 /// @type Boolean
-$prototype-sizing-breakpoints: $global-prototype-breakpoints !default;
+$prototype-sizing-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Map containing all the `sizing` classes
 /// @type Map
@@ -56,9 +59,9 @@ $prototype-sizes: (
 
   @if ($prototype-sizing-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           @each $sizing in $prototype-sizing {
             @each $length, $percentage in $prototype-sizes {
               .#{$size}-#{$sizing}-#{$length} {

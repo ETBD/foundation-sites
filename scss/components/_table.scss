@@ -1,3 +1,8 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/color" as color2;
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -12,7 +17,7 @@
 
 /// Default color for table background.
 /// @type Color
-$table-background: $white  !default;
+$table-background: global.$white  !default;
 
 /// Default scale for darkening the striped table rows and the table border.
 /// @type Number
@@ -20,11 +25,11 @@ $table-color-scale: 5% !default;
 
 /// Default style for table border.
 /// @type List
-$table-border: 1px solid smart-scale($table-background, $table-color-scale) !default;
+$table-border: 1px solid color2.smart-scale($table-background, $table-color-scale) !default;
 
 /// Default padding for table.
 /// @type Number
-$table-padding: rem-calc(8 10 10) !default;
+$table-padding: unit.rem-calc(8 10 10) !default;
 
 /// Default scale for darkening the table rows on hover.
 /// @type Number
@@ -44,7 +49,7 @@ $table-is-striped: true !default;
 
 /// Default background color for striped rows.
 /// @type Color
-$table-striped-background: smart-scale($table-background, $table-color-scale) !default;
+$table-striped-background: color2.smart-scale($table-background, $table-color-scale) !default;
 
 /// Default value for showing the stripe on rows of the tables, excluding the header and footer. If even, the even rows will have a background color. If odd, the odd rows will have a background color. If empty, or any other value, the table rows will have no striping.
 /// @type Keyword
@@ -52,7 +57,7 @@ $table-stripe: even !default;
 
 /// Default color for header background.
 /// @type Color
-$table-head-background: smart-scale($table-background, $table-color-scale * 0.5) !default;
+$table-head-background: color2.smart-scale($table-background, $table-color-scale * 0.5) !default;
 
 /// Default color of header rows on hover.
 /// @type List
@@ -60,7 +65,7 @@ $table-head-row-hover: color.adjust($table-head-background, $lightness: -$table-
 
 /// Default color for footer background.
 /// @type Color
-$table-foot-background: smart-scale($table-background, $table-color-scale) !default;
+$table-foot-background: color2.smart-scale($table-background, $table-color-scale) !default;
 
 /// Default color of footer rows on hover.
 /// @type List
@@ -68,11 +73,11 @@ $table-foot-row-hover: color.adjust($table-foot-background, $lightness: -$table-
 
 /// Default font color for header.
 /// @type Color
-$table-head-font-color: $body-font-color !default;
+$table-head-font-color: global.$body-font-color !default;
 
 /// Default font color for footer.
 /// @type Color
-$table-foot-font-color: $body-font-color !default;
+$table-foot-font-color: global.$body-font-color !default;
 
 /// Default value for showing the header when using stacked tables.
 /// @type Boolean
@@ -119,7 +124,7 @@ $table-stack-breakpoint: medium !default;
   // Caption
   caption {
     padding: $table-padding;
-    font-weight: $global-weight-bold;
+    font-weight: global.$global-weight-bold;
   }
 
   // Table head
@@ -146,8 +151,8 @@ $table-stack-breakpoint: medium !default;
     th,
     td {
       padding: $table-padding;
-      font-weight: $global-weight-bold;
-      text-align: #{$global-left};
+      font-weight: global.$global-weight-bold;
+      text-align: #{global.$global-left};
     }
   }
 
@@ -196,8 +201,8 @@ $table-stack-breakpoint: medium !default;
 ) {
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: $global-margin;
-  border-radius: $global-radius;
+  margin-bottom: global.$global-margin;
+  border-radius: global.$global-radius;
 
   @if $nest {
     @include -zf-table-children-styles($stripe);
@@ -309,7 +314,7 @@ $table-stack-breakpoint: medium !default;
   }
 
   table.stack {
-    @include breakpoint($table-stack-breakpoint down) {
+    @include breakpoint.breakpoint($table-stack-breakpoint down) {
       @include table-stack;
     }
   }

@@ -1,4 +1,7 @@
-// Foundation for Sites
+@use "../global";
+@use "../util/unit";
+
+$form-spacing: unit.rem-calc(16) !default; // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
 
@@ -7,20 +10,20 @@
 ////
 
 @mixin foundation-form-checkbox {
-  [type='file'],
-  [type='checkbox'],
-  [type='radio'] {
+  [type="file"],
+  [type="checkbox"],
+  [type="radio"] {
     margin: 0 0 $form-spacing;
   }
 
   // Styles for input/label siblings
-  [type='checkbox'] + label,
-  [type='radio'] + label {
+  [type="checkbox"] + label,
+  [type="radio"] + label {
     display: inline-block;
     vertical-align: baseline;
 
-    margin-#{$global-left}: $form-spacing * 0.5;
-    margin-#{$global-right}: $form-spacing;
+    margin-#{global.$global-left}: $form-spacing * 0.5;
+    margin-#{global.$global-right}: $form-spacing;
     margin-bottom: 0;
 
     &[for] {
@@ -29,13 +32,13 @@
   }
 
   // Styles for inputs inside labels
-  label > [type='checkbox'],
-  label > [type='radio'] {
-    margin-#{$global-right}: $form-spacing * 0.5;
+  label > [type="checkbox"],
+  label > [type="radio"] {
+    margin-#{global.$global-right}: $form-spacing * 0.5;
   }
 
   // Normalize file input width
-  [type='file'] {
+  [type="file"] {
     width: 100%;
   }
 }

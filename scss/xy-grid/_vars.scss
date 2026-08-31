@@ -1,21 +1,10 @@
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
+//
+// XY Grid variables — extracted to avoid circular @use dependencies.
 
 @use "../global";
-@forward "vars";
-@use "gutters";
-@use "grid";
-@use "cell";
-@use "frame";
-@use "position";
-@use "layout";
-@use "collapse";
-@use "classes";
-
-////
-/// @group xy-grid
-////
 
 /// Enables the XY grid.
 /// @type Boolean
@@ -40,14 +29,14 @@ $grid-margin-gutters: (
 /// @type Map | Length
 $grid-padding-gutters: $grid-margin-gutters !default;
 
-/// The amount of padding to use when padding the grid-container.
+/// The amount of padding the grid container has on the sides. To use just one size, set the variable to a number instead of a map.
 /// @type Map | Length
 $grid-container-padding: $grid-padding-gutters !default;
 
-/// The maximum width to apply to a grid container
+/// The maximum width of the grid container. Set to `null` to have no limit.
 /// @type Number
 $grid-container-max: global.$global-width !default;
 
-/// The maximum number of cells in an XY block grid.
+/// Number of times the block grid should be able to generate columns. One for each breakpoint.
 /// @type Number
 $xy-block-grid-max: 8 !default;

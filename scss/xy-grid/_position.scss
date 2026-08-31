@@ -1,3 +1,10 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/mixins";
+@use "../util/unit";
+@use "cell";
+@use "vars";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -16,22 +23,28 @@
 /// @returns {Number|String} The cell offset property value.
 @function xy-cell-offset(
   $n,
-  $gutters: $grid-margin-gutters,
+  $gutters: vars.$grid-margin-gutters,
   $gutter-type: margin,
   $breakpoint: null
 ) {
-  $breakpoint: -zf-current-breakpoint($breakpoint, $default: $-zf-zero-breakpoint);
-  $size: xy-cell-size($n);
+  $breakpoint: breakpoint.zf-current-breakpoint(
+    $breakpoint,
+    $default: breakpoint.$zf-zero-breakpoint
+  );
+  $size: cell.xy-cell-size($n);
 
   $offset: $size;
-  @if ($gutter-type == 'margin') {
+  @if ($gutter-type == "margin") {
     // Make sure that 0 is translated in 0rem for calc()
-    $gutter: rem-calc(xy-cell-gutters($gutters, $breakpoint));
+    $gutter: unit.rem-calc(cell.xy-cell-gutters($gutters, $breakpoint));
     @if $gutter == 0 {
       // sass-lint:disable zero-unit
       $gutter: 0rem;
     }
-    $offset: if($gutter == 0, $size, calc(#{$size} + #{$gutter} / 2));
+    $offset: $size;
+    @if $gutter != 0 {
+      $offset: calc(#{$size} + #{$gutter} / 2);
+    }
   }
   @return $offset;
 }
@@ -45,15 +58,24 @@
 /// @param {Boolean} $vertical [false] Sets the direction of the offset. If set to true will apply margin-top instead.
 @mixin xy-cell-offset(
   $n,
-  $gutters: $grid-margin-gutters,
+  $gutters: vars.$grid-margin-gutters,
   $gutter-type: margin,
   $breakpoint: null,
   $vertical: false
 ) {
-  $breakpoint: -zf-current-breakpoint($breakpoint, $default: $-zf-zero-breakpoint);
-  $direction: if($vertical, 'top', $global-left);
+  $breakpoint: breakpoint.zf-current-breakpoint(
+    $breakpoint,
+    $default: breakpoint.$zf-zero-breakpoint
+  );
+  $direction: global.$global-left;
+  @if $vertical {
+    $direction: "top";
+  }
 
-  @include -zf-each-breakpoint-in($breakpoint, $media-queries: 'for-lists') {
+  @include mixins.zf-each-breakpoint-in(
+    $breakpoint,
+    $media-queries: "for-lists"
+  ) {
     $offset: xy-cell-offset($n, $gutters, $gutter-type);
     margin-#{$direction}: #{$offset};
   }

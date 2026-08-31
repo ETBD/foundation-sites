@@ -1,6 +1,16 @@
+@use "sass:map";
+@use "sass:meta";
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/color" as color2;
+@use "../util/mixins";
+@use "../util/value";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
+
+@use "sass:color";
 
 ////
 /// @group button
@@ -21,7 +31,7 @@ $button-padding: 0.85em 1em !default;
 
 /// Margin around buttons.
 /// @type List
-$button-margin: 0 0 $global-margin 0 !default;
+$button-margin: 0 0 global.$global-margin 0 !default;
 
 /// Default fill for buttons. Can either be `solid` or `hollow`.
 /// @type Keyword
@@ -29,23 +39,26 @@ $button-fill: solid !default;
 
 /// Default background color for buttons.
 /// @type Color
-$button-background: $primary-color !default;
+$button-background: color2.$primary-color !default;
 
 /// Background color on hover for buttons.
 /// @type Color
-$button-background-hover: scale-color($button-background, $lightness: -15%) !default;
+$button-background-hover: color.scale(
+  $button-background,
+  $lightness: -15%
+) !default;
 
 /// Font color for buttons.
 /// @type List
-$button-color: $white !default;
+$button-color: global.$white !default;
 
 /// Alternative font color for buttons.
 /// @type List
-$button-color-alt: $black !default;
+$button-color-alt: global.$black !default;
 
 /// Border radius for buttons, defaulted to global-radius.
 /// @type Number
-$button-radius: $global-radius !default;
+$button-radius: global.$global-radius !default;
 
 /// Border for buttons, transparent by default
 /// @type List
@@ -66,7 +79,7 @@ $button-sizes: (
 
 /// Coloring classes. A map of classes to output in your CSS, like `.secondary`, `.success`, and so on.
 /// @type Map
-$button-palette: $foundation-palette !default;
+$button-palette: global.$foundation-palette !default;
 
 /// opacity for a disabled button.
 /// @type List
@@ -81,13 +94,15 @@ $button-background-hover-lightness: -20% !default;
 $button-hollow-hover-lightness: -50% !default;
 
 // Internal: flip from margin-right to margin-left for defaults
-@if $global-text-direction == 'rtl' {
-  $button-margin: 0 0 $global-margin $global-margin !default;
+@if global.$global-text-direction == "rtl" {
+  $button-margin: 0 0 global.$global-margin global.$global-margin !default;
 }
 
 /// transitions for buttons.
 /// @type List
-$button-transition: background-color 0.25s ease-out, color 0.25s ease-out !default;
+$button-transition:
+  background-color 0.25s ease-out,
+  color 0.25s ease-out !default;
 
 /// Additional responsive classes for .expanded
 /// @type Boolean
@@ -102,25 +117,24 @@ $button-responsive-expanded: false !default;
   border-radius: $button-radius;
   transition: $button-transition;
   font-family: $button-font-family;
-  font-size: map-get($button-sizes, default);
+  font-size: map.get($button-sizes, default);
   font-weight: $button-font-weight;
   -webkit-appearance: none; // sass-lint:disable-line no-vendor-prefixes
   line-height: 1;
   text-align: center;
   cursor: pointer;
 
-  @if (type-of($button-padding) == 'map') {
+  @if (meta.type-of($button-padding) == "map") {
     @each $size, $padding in $button-padding {
-      @include breakpoint($size) {
+      @include breakpoint.breakpoint($size) {
         padding: $padding;
       }
     }
-  }
-  @else {
+  } @else {
     padding: $button-padding;
   }
 
-  @include disable-mouse-outline;
+  @include mixins.disable-mouse-outline;
 }
 
 /// Expands a button to make it full-width.
@@ -131,8 +145,7 @@ $button-responsive-expanded: false !default;
     width: 100%;
     margin-right: 0;
     margin-left: 0;
-  }
-  @else {
+  } @else {
     display: inline-block;
     width: auto;
     margin: $button-margin;
@@ -142,13 +155,10 @@ $button-responsive-expanded: false !default;
 /// Sets the base styles of a hollow or clear button filling according to `$fill`.
 /// See mixin `button-fill-style` for the filling styles.
 /// @param {Keyword} $fill [$button-fill] - Type of filling between `hollow` and `clear`. `solid` has no effects.
-@mixin button-fill(
-  $fill: $button-fill
-) {
+@mixin button-fill($fill: $button-fill) {
   @if $fill == hollow {
     @include button-hollow;
-  }
-  @else if $fill == clear {
+  } @else if $fill == clear {
     @include button-clear;
   }
 }
@@ -167,11 +177,9 @@ $button-responsive-expanded: false !default;
 ) {
   @if $fill == solid {
     @include button-style($background, $background-hover, $color);
-  }
-  @else if $fill == hollow {
+  } @else if $fill == hollow {
     @include button-hollow-style($background);
-  }
-  @else if $fill == clear {
+  } @else if $fill == clear {
     @include button-clear-style($background);
   }
 }
@@ -187,23 +195,33 @@ $button-responsive-expanded: false !default;
   $background-hover-lightness: $button-background-hover-lightness
 ) {
   @if $color == auto {
-    $color: color-pick-contrast($background, ($button-color, $button-color-alt));
+    $color: color2.color-pick-contrast(
+      $background,
+      ($button-color, $button-color-alt)
+    );
   }
 
   @if $background-hover == auto {
-    $background-hover: scale-color($background, $lightness: $background-hover-lightness);
+    $background-hover: color.scale(
+      $background,
+      $lightness: $background-hover-lightness
+    );
   }
 
   // Default and disabled states
   &,
-  &.disabled, &[disabled],
-  &.disabled:hover, &[disabled]:hover,
-  &.disabled:focus, &[disabled]:focus {
+  &.disabled,
+  &[disabled],
+  &.disabled:hover,
+  &[disabled]:hover,
+  &.disabled:focus,
+  &[disabled]:focus {
     background-color: $background;
     color: $color;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: $background-hover;
     color: $color;
   }
@@ -212,8 +230,12 @@ $button-responsive-expanded: false !default;
 /// Sets the base styles of a hollow button.
 /// See mixin `button-hollow-style` for the filling styles.
 @mixin button-hollow {
-  &, &.disabled, &[disabled] {
-    &, &:hover, &:focus {
+  &,
+  &.disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus {
       background-color: transparent;
     }
   }
@@ -228,18 +250,22 @@ $button-responsive-expanded: false !default;
   $hover-lightness: $button-hollow-hover-lightness,
   $border-width: $button-hollow-border-width
 ) {
-  $color-hover: scale-color($color, $lightness: $hover-lightness);
+  $color-hover: color.scale($color, $lightness: $hover-lightness);
 
   // Default and disabled states
   &,
-  &.disabled, &[disabled],
-  &.disabled:hover, &[disabled]:hover,
-  &.disabled:focus, &[disabled]:focus {
+  &.disabled,
+  &[disabled],
+  &.disabled:hover,
+  &[disabled]:hover,
+  &.disabled:focus,
+  &[disabled]:focus {
     border: $border-width solid $color;
     color: $color;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: $color-hover;
     color: $color-hover;
   }
@@ -248,8 +274,12 @@ $button-responsive-expanded: false !default;
 /// Sets the base styles of a clear button.
 /// See mixin `button-clear-style` for the filling styles.
 @mixin button-clear {
-  &, &.disabled, &[disabled] {
-    &, &:hover, &:focus {
+  &,
+  &.disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus {
       border-color: transparent;
       background-color: transparent;
     }
@@ -263,26 +293,28 @@ $button-responsive-expanded: false !default;
   $color: $button-background,
   $hover-lightness: $button-hollow-hover-lightness
 ) {
-  $color-hover: scale-color($color, $lightness: $hover-lightness);
+  $color-hover: color.scale($color, $lightness: $hover-lightness);
 
   // Default and disabled states
   &,
-  &.disabled, &[disabled],
-  &.disabled:hover, &[disabled]:hover,
-  &.disabled:focus, &[disabled]:focus {
+  &.disabled,
+  &[disabled],
+  &.disabled:hover,
+  &[disabled]:hover,
+  &.disabled:focus,
+  &[disabled]:focus {
     color: $color;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: $color-hover;
   }
 }
 
 /// Adds disabled styles to a button by fading the element and reseting the cursor.
 /// @param {Number} $opacity [$button-opacity-disabled] - Opacity of the disabled button.
-@mixin button-disabled(
-  $opacity: $button-opacity-disabled
-) {
+@mixin button-disabled($opacity: $button-opacity-disabled) {
   opacity: $button-opacity-disabled;
   cursor: not-allowed;
 }
@@ -293,17 +325,17 @@ $button-responsive-expanded: false !default;
 /// @param {Number} $offset [$button-padding] - Distance between the arrow and the text of the button. Defaults to whatever the right padding of a button is.
 @mixin button-dropdown(
   $size: 0.4em,
-  $color: $white,
-  $offset: get-side($button-padding, right)
+  $color: global.$white,
+  $offset: value.get-side($button-padding, right)
 ) {
   &::after {
-    @include css-triangle($size, $color, down);
+    @include mixins.css-triangle($size, $color, down);
     position: relative;
     top: 0.4em; // Aligns the arrow with the text of the button
 
     display: inline-block;
-    float: #{$global-right};
-    margin-#{$global-left}: $offset;
+    float: #{global.$global-right};
+    margin-#{global.$global-left}: $offset;
   }
 }
 
@@ -334,29 +366,31 @@ $button-responsive-expanded: false !default;
     @include button($style: none);
 
     // Sizes
-    @each $size, $value in map-remove($button-sizes, default) {
+    @each $size, $value in map.remove($button-sizes, default) {
       &.#{$size} {
         font-size: $value;
       }
     }
 
-    &.expanded { @include button-expand; }
+    &.expanded {
+      @include button-expand;
+    }
 
     @if $button-responsive-expanded {
-      @each $size in $breakpoint-classes {
-        @include breakpoint(#{$size} only) {
+      @each $size in breakpoint.$breakpoint-classes {
+        @include breakpoint.breakpoint(#{$size} only) {
           &.#{$size}-only-expanded {
             @include button-expand;
           }
         }
-        @if $size != $-zf-zero-breakpoint {
-          @include breakpoint(#{$size} down) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
+          @include breakpoint.breakpoint(#{$size} down) {
             &.#{$size}-down-expanded {
               @include button-expand;
             }
           }
 
-          @include breakpoint(#{$size}) {
+          @include breakpoint.breakpoint(#{$size}) {
             &.#{$size}-expanded {
               @include button-expand;
             }
@@ -367,7 +401,10 @@ $button-responsive-expanded: false !default;
 
     // Solid, hollow & clear styles
     @each $filling in (solid hollow clear) {
-      $selector: if($button-fill == $filling, null, '.#{$filling}');
+      $selector: ".#{$filling}";
+      @if $button-fill == $filling {
+        $selector: null;
+      }
 
       &#{$selector} {
         @include button-fill($filling);
@@ -382,7 +419,8 @@ $button-responsive-expanded: false !default;
     }
 
     // Disabled state
-    &.disabled, &[disabled] {
+    &.disabled,
+    &[disabled] {
       @include button-disabled;
     }
 
@@ -396,7 +434,8 @@ $button-responsive-expanded: false !default;
         }
       }
 
-      &.hollow, &.clear {
+      &.hollow,
+      &.clear {
         &::after {
           border-top-color: $button-background;
         }
@@ -415,11 +454,12 @@ $button-responsive-expanded: false !default;
     &.arrow-only::after {
       top: -0.1em;
       float: none;
-      margin-#{$global-left}: 0;
+      margin-#{global.$global-left}: 0;
     }
   }
 
-  a.button { // sass-lint:disable-line no-qualifying-elements
+  a.button {
+    // sass-lint:disable-line no-qualifying-elements
     &:hover,
     &:focus {
       text-decoration: none;

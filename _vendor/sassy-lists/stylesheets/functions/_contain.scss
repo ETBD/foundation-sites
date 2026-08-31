@@ -1,3 +1,4 @@
+@use "sass:list";
 ///
 /// Returns whether `$list` contains `$value`.
 ///
@@ -18,7 +19,7 @@
 ///
 
 @function sl-contain($list, $value) {
-  @return not not index($list, $value);
+  @return not not list.index($list, $value);
 }
 
 ///

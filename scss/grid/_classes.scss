@@ -1,3 +1,16 @@
+@use "sass:list";
+@use "sass:meta";
+@use "../util/breakpoint";
+@use "../util/mixins";
+@use "../util/value";
+@use "column";
+@use "vars";
+@use "gutter";
+@use "layout";
+@use "position";
+@use "row";
+@use "size";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -9,35 +22,35 @@
 /// Outputs CSS classes for the grid.
 /// @access private
 @mixin foundation-grid(
-  $row: 'row',
-  $column: 'column',
-  $column-row: 'column-row',
-  $gutter: 'gutter',
-  $push: 'push',
-  $pull: 'pull',
-  $center: 'centered',
-  $uncenter: 'uncentered',
-  $collapse: 'collapse',
-  $uncollapse: 'uncollapse',
-  $offset: 'offset',
-  $end: 'end',
-  $expanded: 'expanded',
-  $block: 'block'
+  $row: "row",
+  $column: "column",
+  $column-row: "column-row",
+  $gutter: "gutter",
+  $push: "push",
+  $pull: "pull",
+  $center: "centered",
+  $uncenter: "uncentered",
+  $collapse: "collapse",
+  $uncollapse: "uncollapse",
+  $offset: "offset",
+  $end: "end",
+  $expanded: "expanded",
+  $block: "block"
 ) {
   // Row
   .#{$row} {
-    @include grid-row;
+    @include row.grid-row;
 
     // Collapsing
     &.#{$collapse} {
       > .#{$column} {
-        @include grid-col-collapse;
+        @include gutter.grid-col-collapse;
       }
     }
 
     // Nesting
     & .#{$row} {
-      @include grid-row-nest($grid-column-gutter);
+      @include row.grid-row-nest(vars.$grid-column-gutter);
 
       &.#{$collapse} {
         margin-right: 0;
@@ -47,7 +60,7 @@
 
     // Expanded (full-width) row
     &.#{$expanded} {
-      @include grid-row-size(expand);
+      @include row.grid-row-size(expand);
 
       .#{$row} {
         margin-right: auto;
@@ -56,16 +69,16 @@
     }
 
     &:not(.#{$expanded}) .#{$row} {
-      @include grid-row-size(expand);
+      @include row.grid-row-size(expand);
     }
 
-    @if type-of($grid-column-gutter) == 'map' {
+    @if meta.type-of(vars.$grid-column-gutter) == "map" {
       // Static (unresponsive) row gutters
       //
-      @each $breakpoint, $value in $grid-column-gutter {
+      @each $breakpoint, $value in vars.$grid-column-gutter {
         &.#{$gutter}-#{$breakpoint} {
           > .#{$column} {
-            @include grid-col-gutter($value);
+            @include gutter.grid-col-gutter($value);
           }
         }
       }
@@ -74,11 +87,11 @@
 
   // Column
   .#{$column} {
-    @include grid-col;
+    @include column.grid-col;
 
-    @if $grid-column-align-edge {
+    @if vars.$grid-column-align-edge {
       &.#{$end} {
-        @include grid-col-end;
+        @include position.grid-col-end;
       }
     }
   }
@@ -97,24 +110,24 @@
     padding-left: 0;
   }
 
-  @include -zf-each-breakpoint {
-    @for $i from 1 through $grid-column-count {
+  @include mixins.zf-each-breakpoint {
+    @for $i from 1 through row.$grid-column-count {
       // Column width
-      .#{$-zf-size}-#{$i} {
-        @include grid-column-size($i);
+      .#{breakpoint.$zf-size}-#{$i} {
+        @include size.grid-column-size($i);
       }
 
       // Source ordering
-      @if $i < $grid-column-count {
+      @if $i < row.$grid-column-count {
         @if $push {
-          .#{$-zf-size}-#{$push}-#{$i} {
-            @include grid-col-pos($i);
+          .#{breakpoint.$zf-size}-#{$push}-#{$i} {
+            @include position.grid-col-pos($i);
           }
         }
 
         @if $pull {
-          .#{$-zf-size}-#{$pull}-#{$i} {
-            @include grid-col-pos(-$i);
+          .#{breakpoint.$zf-size}-#{$pull}-#{$i} {
+            @include position.grid-col-pos(-$i);
           }
         }
       }
@@ -123,22 +136,24 @@
       $o: $i - 1;
 
       @if $offset {
-        .#{$-zf-size}-#{$offset}-#{$o} {
-          @include grid-col-off($o);
+        .#{breakpoint.$zf-size}-#{$offset}-#{$o} {
+          @include position.grid-col-off($o);
         }
       }
     }
 
     // Block grid
-    @for $i from 1 through $block-grid-max {
-      .#{$-zf-size}-up-#{$i} {
-        @include grid-layout($i, '.#{$column}');
+    @for $i from 1 through vars.$block-grid-max {
+      .#{breakpoint.$zf-size}-up-#{$i} {
+        @include layout.grid-layout($i, ".#{$column}");
       }
     }
 
     // Responsive collapsing
-    .#{$-zf-size}-#{$collapse} {
-      > .#{$column} { @include grid-col-collapse; }
+    .#{breakpoint.$zf-size}-#{$collapse} {
+      > .#{$column} {
+        @include gutter.grid-col-collapse;
+      }
 
       .#{$row} {
         margin-right: 0;
@@ -146,42 +161,61 @@
       }
     }
 
-    .#{$expanded}.#{$row} .#{$-zf-size}-#{$collapse}.#{$row} {
+    .#{$expanded}.#{$row} .#{breakpoint.$zf-size}-#{$collapse}.#{$row} {
       margin-right: 0;
       margin-left: 0;
     }
 
-    .#{$-zf-size}-#{$uncollapse} {
-      > .#{$column} { @include grid-col-gutter($-zf-size); }
+    .#{breakpoint.$zf-size}-#{$uncollapse} {
+      > .#{$column} {
+        @include gutter.grid-col-gutter(breakpoint.$zf-size);
+      }
     }
 
     // Positioning
     @if $center {
-      .#{$-zf-size}-#{$center} {
-        @include grid-col-pos(center);
+      .#{breakpoint.$zf-size}-#{$center} {
+        @include position.grid-col-pos(center);
       }
     }
 
     // Gutter adjustment
-    $-gutter-unpos-selector: (
-      if($uncenter, '.#{$-zf-size}-#{$uncenter}', null),
-      if($push, '.#{$-zf-size}-#{$push}-0', null),
-      if($pull, '.#{$-zf-size}-#{$pull}-0', null),
-    );
+    $-gutter-unpos-selector: ();
+    @if $uncenter {
+      $-gutter-unpos-selector: list.append(
+        $-gutter-unpos-selector,
+        ".#{breakpoint.$zf-size}-#{$uncenter}",
+        comma
+      );
+    }
+    @if $push {
+      $-gutter-unpos-selector: list.append(
+        $-gutter-unpos-selector,
+        ".#{breakpoint.$zf-size}-#{$push}-0",
+        comma
+      );
+    }
+    @if $pull {
+      $-gutter-unpos-selector: list.append(
+        $-gutter-unpos-selector,
+        ".#{breakpoint.$zf-size}-#{$pull}-0",
+        comma
+      );
+    }
     @if ($uncenter or $push or $pull) {
       #{$-gutter-unpos-selector} {
-        @include grid-col-unpos;
+        @include position.grid-col-unpos;
       }
     }
   }
 
   // Block grid columns
   .#{$column}-#{$block} {
-    @include grid-column-margin;
+    @include gutter.grid-column-margin;
   }
 
-  @if $column == 'column' and has-value($grid-column-alias) {
-    .#{$grid-column-alias} {
+  @if $column == "column" and value.has-value(vars.$grid-column-alias) {
+    .#{vars.$grid-column-alias} {
       // sass-lint:disable-block placeholder-in-extend
       @extend .column;
     }

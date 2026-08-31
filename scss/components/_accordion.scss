@@ -1,3 +1,7 @@
+@use "../global";
+@use "../util/color";
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +12,7 @@
 
 /// Default background color of an accordion group.
 /// @type Color
-$accordion-background: $white !default;
+$accordion-background: global.$white !default;
 
 /// If `true`, adds plus and minus icons to the side of each accordion title.
 /// @type Boolean
@@ -24,15 +28,15 @@ $accordion-minus-content: '\2013' !default;
 
 /// Font size of accordion titles.
 /// @type Number
-$accordion-title-font-size: rem-calc(12) !default;
+$accordion-title-font-size: unit.rem-calc(12) !default;
 
 /// Default text color for items in a Menu.
 /// @type Color
-$accordion-item-color: $primary-color !default;
+$accordion-item-color: color.$primary-color !default;
 
 /// Default background color on hover for items in a Menu.
 /// @type Color
-$accordion-item-background-hover: $light-gray !default;
+$accordion-item-background-hover: global.$light-gray !default;
 
 /// Default padding of an accordion item.
 /// @type Number | List
@@ -40,15 +44,15 @@ $accordion-item-padding: 1.25rem 1rem !default;
 
 /// Default background color of tab content.
 /// @type Color
-$accordion-content-background: $white !default;
+$accordion-content-background: global.$white !default;
 
 /// Default border color of tab content.
 /// @type Color
-$accordion-content-border: 1px solid $light-gray !default;
+$accordion-content-border: 1px solid global.$light-gray !default;
 
 /// Default text color of tab content.
 /// @type Color
-$accordion-content-color: $body-font-color !default;
+$accordion-content-color: global.$body-font-color !default;
 
 /// Default padding for tab content.
 /// @type Number | List
@@ -58,7 +62,7 @@ $accordion-content-padding: 1rem !default;
 @mixin accordion-container (
   $background: $accordion-background
 ) {
-  margin-#{$global-left}: 0;
+  margin-#{global.$global-left}: 0;
   background: $background;
   list-style-type: none;
 
@@ -72,11 +76,11 @@ $accordion-content-padding: 1rem !default;
 /// Adds styles for the accordion item. Apply this to the list item within an accordion ul.
 @mixin accordion-item {
   &:first-child > :first-child {
-    border-radius: $global-radius $global-radius 0 0;
+    border-radius: global.$global-radius global.$global-radius 0 0;
   }
 
   &:last-child > :last-child {
-    border-radius: 0 0 $global-radius $global-radius;
+    border-radius: 0 0 global.$global-radius global.$global-radius;
   }
 }
 
@@ -101,7 +105,7 @@ $accordion-content-padding: 1rem !default;
 
   :last-child:not(.is-active) > & {
     border-bottom: $border;
-    border-radius: 0 0 $global-radius $global-radius;
+    border-radius: 0 0 global.$global-radius global.$global-radius;
   }
 
   &:hover,
@@ -113,7 +117,7 @@ $accordion-content-padding: 1rem !default;
     &::before {
       position: absolute;
       top: 50%;
-      #{$global-right}: 1rem;
+      #{global.$global-right}: 1rem;
       margin-top: -0.5rem;
       content: $accordion-plus-content;
     }

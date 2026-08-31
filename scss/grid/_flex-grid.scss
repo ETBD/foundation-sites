@@ -1,3 +1,14 @@
+@use "sass:list";
+@use "sass:math";
+@use "../util/breakpoint";
+@use "../util/math" as math2;
+@use "../util/mixins";
+@use "column";
+@use "vars";
+@use "gutter";
+@use "position";
+@use "row";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -17,36 +28,38 @@
 /// @param {Number|Map} $gutters [$grid-column-gutter] - Gutter map or single value to use when inverting margins, in case the row is nested. Responsive gutter settings by default.
 @mixin flex-grid-row(
   $behavior: null,
-  $size: $grid-row-width,
+  $size: vars.$grid-row-width,
   $columns: null,
   $base: true,
   $wrap: true,
-  $gutters: $grid-column-gutter
+  $gutters: vars.$grid-column-gutter
 ) {
   $margin: auto;
-  $wrap: if($wrap, wrap, nowrap);
+  $flex-wrap: nowrap;
+  @if $wrap {
+    $flex-wrap: wrap;
+  }
 
-  @if index($behavior, nest) != null {
-    @include grid-row-nest($gutters);
+  @if list.index($behavior, nest) != null {
+    @include row.grid-row-nest($gutters);
 
-    @if index($behavior, collapse) != null {
+    @if list.index($behavior, collapse) != null {
       margin-right: 0;
       margin-left: 0;
     }
-  }
-  @else {
-    @include grid-row-size($size);
+  } @else {
+    @include row.grid-row-size($size);
     margin-right: auto;
     margin-left: auto;
   }
 
   @if $base {
     display: flex;
-    flex-flow: row $wrap;
+    flex-flow: row $flex-wrap;
   }
 
   @if $columns != null {
-    @include grid-context($columns, $base) {
+    @include row.grid-context($columns, $base) {
       @content;
     }
   }
@@ -62,9 +75,8 @@
 
   @if $columns == shrink {
     $flex: 0 0 auto;
-  }
-  @else if $columns != expand {
-    $flex: 0 0 grid-column($columns);
+  } @else if $columns != expand {
+    $flex: 0 0 column.grid-column($columns);
   }
 
   @return $flex;
@@ -74,10 +86,7 @@
 ///
 /// @param {Mixed} $columns [expand] - Width of the column. Refer to the `flex-grid-column()` function to see possible values.
 /// @param {Number|Map} $gutters [$grid-column-gutter] - Map or single value for gutters width. See the `grid-column-gutter` mixin.
-@mixin flex-grid-column(
-  $columns: expand,
-  $gutters: $grid-column-gutter
-) {
+@mixin flex-grid-column($columns: expand, $gutters: vars.$grid-column-gutter) {
   // fixes recent Chrome version not limiting child width
   // https://stackoverflow.com/questions/34934586/white-space-nowrap-and-flexbox-did-not-work-in-chrome
   @if $columns == expand {
@@ -88,22 +97,18 @@
   @include flex-grid-size($columns);
 
   // Gutters
-  @include grid-column-gutter($gutters: $gutters);
-
+  @include gutter.grid-column-gutter($gutters: $gutters);
 }
 
 /// Creates a block grid for a flex grid row.
 ///
 /// @param {Number} $n - Number of columns to display on each row.
 /// @param {String} $selector - Selector to use to target columns within the row.
-@mixin flex-grid-layout(
-  $n,
-  $selector: '.column'
-) {
+@mixin flex-grid-layout($n, $selector: ".column") {
   flex-wrap: wrap;
 
   > #{$selector} {
-    $pct: percentage(divide(1, $n));
+    $pct: math.percentage(math2.divide(1, $n));
 
     flex: 0 0 $pct;
     max-width: $pct;
@@ -119,10 +124,9 @@
 
   // max-width fixes IE 10/11 not respecting the flex-basis property
   @if $columns != expand and $columns != shrink {
-    max-width: grid-column($columns);
+    max-width: column.grid-column($columns);
   }
 }
-
 
 @mixin foundation-flex-grid {
   // Row
@@ -141,7 +145,7 @@
 
     // Expanded row
     &.expanded {
-      @include grid-row-size(expand);
+      @include row.grid-row-size(expand);
 
       .row {
         margin-right: auto;
@@ -150,12 +154,12 @@
     }
 
     &:not(.expanded) .row {
-      @include grid-row-size(expand);
+      @include row.grid-row-size(expand);
     }
 
     &.collapse {
       > .column {
-        @include grid-col-collapse;
+        @include gutter.grid-col-collapse;
       }
     }
 
@@ -188,44 +192,44 @@
     padding-left: 0;
   }
 
-  @include -zf-each-breakpoint {
-    @for $i from 1 through $grid-column-count {
+  @include mixins.zf-each-breakpoint {
+    @for $i from 1 through row.$grid-column-count {
       // Sizing (percentage)
-      .#{$-zf-size}-#{$i} {
+      .#{breakpoint.$zf-size}-#{$i} {
         flex: flex-grid-column($i);
-        max-width: grid-column($i);
+        max-width: column.grid-column($i);
       }
 
       // Offsets
       $o: $i - 1;
 
-      .#{$-zf-size}-offset-#{$o} {
-        @include grid-column-offset($o);
+      .#{breakpoint.$zf-size}-offset-#{$o} {
+        @include position.grid-column-offset($o);
       }
     }
 
     // Block grid
-    @for $i from 1 through $block-grid-max {
-      .#{$-zf-size}-up-#{$i} {
+    @for $i from 1 through vars.$block-grid-max {
+      .#{breakpoint.$zf-size}-up-#{$i} {
         @include flex-grid-layout($i);
       }
     }
 
-    @if $-zf-size != $-zf-zero-breakpoint {
+    @if breakpoint.$zf-size != breakpoint.$zf-zero-breakpoint {
       // Sizing (expand)
-      @include breakpoint($-zf-size) {
-        .#{$-zf-size}-expand {
+      @include breakpoint.breakpoint(breakpoint.$zf-size) {
+        .#{breakpoint.$zf-size}-expand {
           flex: flex-grid-column();
         }
       }
 
       // Auto-stacking/unstacking
       @at-root (without: media) {
-        .row.#{$-zf-size}-unstack {
+        .row.#{breakpoint.$zf-size}-unstack {
           > .column {
             flex: flex-grid-column(100%);
 
-            @include breakpoint($-zf-size) {
+            @include breakpoint.breakpoint(breakpoint.$zf-size) {
               flex: flex-grid-column();
             }
           }
@@ -234,12 +238,16 @@
     }
 
     // Responsive collapsing
-    .#{$-zf-size}-collapse {
-      > .column { @include grid-col-collapse; }
+    .#{breakpoint.$zf-size}-collapse {
+      > .column {
+        @include gutter.grid-col-collapse;
+      }
     }
 
-    .#{$-zf-size}-uncollapse {
-      > .column { @include grid-col-gutter($-zf-size); }
+    .#{breakpoint.$zf-size}-uncollapse {
+      > .column {
+        @include gutter.grid-col-gutter(breakpoint.$zf-size);
+      }
     }
   }
 
@@ -251,11 +259,10 @@
 
   // Block grid columns
   .column-block {
-    @include grid-column-margin;
+    @include gutter.grid-column-margin;
   }
 
   .columns {
     @extend .column; // sass-lint:disable-line placeholder-in-extend
-
   }
 }

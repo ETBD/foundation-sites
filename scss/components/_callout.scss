@@ -1,6 +1,12 @@
+@use "sass:map";
+@use "../global";
+@use "../util/color" as color2;
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
+
+@use "sass:color";
 
 ////
 /// @group callout
@@ -8,7 +14,7 @@
 
 /// Default background color.
 /// @type Color
-$callout-background: $white !default;
+$callout-background: global.$white !default;
 
 /// Default fade value for callout backgrounds.
 /// @type Number
@@ -16,7 +22,7 @@ $callout-background-fade: 85% !default;
 
 /// Default border style for callouts.
 /// @type List
-$callout-border: 1px solid rgba($black, 0.25) !default;
+$callout-border: 1px solid rgba(global.$black, 0.25) !default;
 
 /// Default bottom margin for callouts.
 /// @type Number
@@ -32,15 +38,15 @@ $callout-sizes: (
 
 /// Default font color for callouts.
 /// @type Color
-$callout-font-color: $body-font-color !default;
+$callout-font-color: global.$body-font-color !default;
 
 /// Default font color for callouts, if the callout has a dark background.
 /// @type Color
-$callout-font-color-alt: $body-background !default;
+$callout-font-color-alt: global.$body-background !default;
 
 /// Default border radius for callouts.
 /// @type Color
-$callout-radius: $global-radius !default;
+$callout-radius: global.$global-radius !default;
 
 /// Amount to tint links used within colored panels. Set to `false` to disable this feature.
 /// @type Number | Boolean
@@ -50,7 +56,7 @@ $callout-link-tint: 30% !default;
 @mixin callout-base() {
   position: relative;
   margin: $callout-margin;
-  padding: map-get($callout-sizes, default);
+  padding: map.get($callout-sizes, default);
 
   border: $callout-border;
   border-radius: $callout-radius;
@@ -68,10 +74,13 @@ $callout-link-tint: 30% !default;
 /// Generate quick styles for a callout using a single color as a baseline.
 /// @param {Color} $color [$callout-background] - Color to use.
 @mixin callout-style($color: $callout-background) {
-  $background: scale-color($color, $lightness: $callout-background-fade);
+  $background: color.scale($color, $lightness: $callout-background-fade);
 
   background-color: $background;
-  color: color-pick-contrast($background, ($callout-font-color, $callout-font-color-alt));
+  color: color2.color-pick-contrast(
+    $background,
+    ($callout-font-color, $callout-font-color-alt)
+  );
 }
 
 @mixin callout-size($padding) {
@@ -80,7 +89,6 @@ $callout-link-tint: 30% !default;
   padding-bottom: $padding;
   padding-left: $padding;
 }
-
 
 /// Adds styles for a callout.
 /// @param {Color} $color [$callout-background] - Color to use.
@@ -93,13 +101,13 @@ $callout-link-tint: 30% !default;
   .callout {
     @include callout;
 
-    @each $name, $color in $foundation-palette {
+    @each $name, $color in global.$foundation-palette {
       &.#{"" + $name} {
         @include callout-style($color);
       }
     }
 
-    @each $size, $padding in map-remove($callout-sizes, default) {
+    @each $size, $padding in map.remove($callout-sizes, default) {
       &.#{$size} {
         @include callout-size($padding);
       }

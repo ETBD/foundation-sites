@@ -1,3 +1,8 @@
+@use "../global";
+@use "../util/unit";
+$form-spacing: unit.rem-calc(16) !default;
+
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,11 +13,11 @@
 
 /// Default color for help text.
 /// @type Color
-$helptext-color: $black !default;
+$helptext-color: global.$black !default;
 
 /// Default font size for help text.
 /// @type Number
-$helptext-font-size: rem-calc(13) !default;
+$helptext-font-size: unit.rem-calc(13) !default;
 
 /// Default font style for help text.
 /// @type Keyword

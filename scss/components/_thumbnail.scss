@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/color";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,19 +11,19 @@
 
 /// Border around thumbnail images.
 /// @type Border
-$thumbnail-border: 4px solid $white !default;
+$thumbnail-border: 4px solid global.$white !default;
 
 /// Bottom margin for thumbnail images.
 /// @type Length
-$thumbnail-margin-bottom: $global-margin !default;
+$thumbnail-margin-bottom: global.$global-margin !default;
 
 /// Box shadow under thumbnail images.
 /// @type Shadow
-$thumbnail-shadow: 0 0 0 1px rgba($black, 0.2) !default;
+$thumbnail-shadow: 0 0 0 1px rgba(global.$black, 0.2) !default;
 
 /// Box shadow under thumbnail images.
 /// @type Shadow
-$thumbnail-shadow-hover: 0 0 6px 1px rgba($primary-color, 0.5) !default;
+$thumbnail-shadow-hover: 0 0 6px 1px rgba(color.$primary-color, 0.5) !default;
 
 /// Transition proprties for thumbnail images.
 /// @type Transition
@@ -28,7 +31,7 @@ $thumbnail-transition: box-shadow 200ms ease-out !default;
 
 /// Default radius for thumbnail images.
 /// @type Number
-$thumbnail-radius: $global-radius !default;
+$thumbnail-radius: global.$global-radius !default;
 
 /// Adds thumbnail styles to an element.
 @mixin thumbnail {

@@ -1,3 +1,6 @@
+@use "gutters";
+@use "vars";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -11,27 +14,30 @@
 /// @param {Number} $width [$grid-container] - a width to limit the container to.
 /// @param {Number} $padding [$grid-container-padding] - paddings of the container.
 @mixin xy-grid-container(
-  $width: $grid-container,
-  $padding: $grid-container-padding
+  $width: vars.$grid-container,
+  $padding: vars.$grid-container-padding
 ) {
   max-width: $width;
   margin-left: auto;
   margin-right: auto;
 
-  @include xy-gutters($gutters: $padding, $gutter-type: padding);
+  @include gutters.xy-gutters($gutters: $padding, $gutter-type: padding);
 }
 
 /// Creates a container for your flex cells.
 ///
 /// @param {Keyword} $direction [horizontal] - Either horizontal or vertical direction of cells within.
 /// @param {Boolean} $wrap [true] - If the cells within should wrap or not.
-@mixin xy-grid(
-  $direction: horizontal,
-  $wrap: true
-) {
-  $direction: if($direction == 'horizontal', row, column);
-  $wrap: if($wrap, wrap, nowrap);
+@mixin xy-grid($direction: horizontal, $wrap: true) {
+  $flex-direction: column;
+  @if $direction == "horizontal" {
+    $flex-direction: row;
+  }
+  $flex-wrap: nowrap;
+  @if $wrap {
+    $flex-wrap: wrap;
+  }
 
   display: flex;
-  flex-flow: $direction $wrap;
+  flex-flow: $flex-direction $flex-wrap;
 }

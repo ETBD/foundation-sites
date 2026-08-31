@@ -1,3 +1,11 @@
+@use "../global";
+@use "../util/mixins";
+@use "../util/unit";
+$form-spacing: unit.rem-calc(16) !default;
+@use "../util/value";
+
+@use "text";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,65 +16,65 @@
 
 /// Background color for select menus.
 /// @type Color
-$select-background: $white !default;
+$select-background: global.$white !default;
 
 /// Color of the dropdown triangle inside select menus. Set to `transparent` to remove it entirely.
 /// @type Color
-$select-triangle-color: $dark-gray !default;
+$select-triangle-color: global.$dark-gray !default;
 
 /// Default radius for select menus.
 /// @type Color
-$select-radius: $global-radius !default;
+$select-radius: global.$global-radius !default;
 
 @mixin form-select {
-  $height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1);
+  $height: (text.$input-font-size * unit.unitless-calc(text.$input-line-height)) + (value.get-side(text.$input-padding, 'top') + value.get-side(text.$input-padding, 'bottom')) - unit.rem-calc(1);
 
   height: $height;
   margin: 0 0 $form-spacing;
-  padding: $input-padding;
+  padding: text.$input-padding;
 
   appearance: none;
-  border: $input-border;
+  border: text.$input-border;
   border-radius: $select-radius;
   background-color: $select-background;
 
-  font-family: $input-font-family;
-  font-size: $input-font-size;
-  font-weight: $input-font-weight;
-  line-height: $input-line-height;
-  color: $input-color;
+  font-family: text.$input-font-family;
+  font-size: text.$input-font-size;
+  font-weight: text.$input-font-weight;
+  line-height: text.$input-line-height;
+  color: text.$input-color;
 
-  @if has-value($input-transition) {
-    transition: $input-transition;
+  @if value.has-value(text.$input-transition) {
+    transition: text.$input-transition;
   }
 
   @if $select-triangle-color != transparent {
     background-origin: content-box;
-    background-position: $global-right (-$form-spacing) center;
+    background-position: global.$global-right (-($form-spacing)) center;
     background-repeat: no-repeat;
     background-size: 9px 6px;
 
-    padding-#{$global-right}: ($form-spacing * 1.5);
+    padding-#{global.$global-right}: ($form-spacing * 1.5);
 
-    @include background-triangle($select-triangle-color);
+    @include mixins.background-triangle($select-triangle-color);
   }
 
   // Focus state
   &:focus {
     outline: none;
-    border: $input-border-focus;
-    background-color: $input-background-focus;
-    box-shadow: $input-shadow-focus;
+    border: text.$input-border-focus;
+    background-color: text.$input-background-focus;
+    box-shadow: text.$input-shadow-focus;
 
-    @if has-value($input-transition) {
-      transition: $input-transition;
+    @if value.has-value(text.$input-transition) {
+      transition: text.$input-transition;
     }
   }
 
   // Disabled state
   &:disabled {
-    background-color: $input-background-disabled;
-    cursor: $input-cursor-disabled;
+    background-color: text.$input-background-disabled;
+    cursor: text.$input-cursor-disabled;
   }
 
   // Hide the dropdown arrow shown in newer IE versions

@@ -1,0 +1,19 @@
+// Foundation for Sites
+// https://get.foundation
+// Licensed under MIT Open Source
+//
+// Grid functions — extracted to avoid circular @use dependencies.
+
+@use "../util/math";
+@use "vars";
+
+/// Calculate the size of a grid column, as a percentage or `auto`.
+///
+/// @param {Mixed} $columns - Width of the column. Accepts `auto`, percentages, or integers (as fraction of total columns).
+/// @returns {Mixed} Width value in percentage or `auto`.
+@function grid-column($columns) {
+  @return math.fraction-to-percentage(
+    $columns,
+    $denominator: vars.$grid-column-count
+  );
+}

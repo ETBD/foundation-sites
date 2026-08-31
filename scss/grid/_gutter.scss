@@ -1,3 +1,7 @@
+@use "../util/mixins";
+@use "../util/unit";
+@use "vars";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -15,10 +19,10 @@
 /// @param {Number|Map} $gutters [$grid-column-gutter] - Gutter map or single value to use. Responsive gutter settings by default.
 @mixin grid-column-gutter(
   $gutter: auto,
-  $gutters: $grid-column-gutter
+  $gutters: vars.$grid-column-gutter
 ) {
-  @include -zf-breakpoint-value($gutter, $gutters) {
-    $padding: rem-calc($-zf-bp-value) * 0.5;
+  @include mixins.zf-breakpoint-value($gutter, $gutters) {
+    $padding: unit.rem-calc(mixins.$zf-bp-value) * 0.5;
 
     padding-right: $padding;
     padding-left: $padding;
@@ -34,7 +38,7 @@
 /// @alias grid-column-gutter
 @mixin grid-col-gutter(
   $gutter: auto,
-  $gutters: $grid-column-gutter
+  $gutters: vars.$grid-column-gutter
 ) {
   @include grid-column-gutter($gutter, $gutters);
 }
@@ -54,10 +58,10 @@
 /// @param {Number|Map} $margins [$grid-column-gutter] - Map or single value to use. Responsive gutter settings by default.
 @mixin grid-column-margin (
   $margin: auto,
-  $margins: $grid-column-gutter
+  $margins: vars.$grid-column-gutter
 ) {
-  @include -zf-breakpoint-value($margin, $margins) {
-    $margin-bottom: rem-calc($-zf-bp-value);
+  @include mixins.zf-breakpoint-value($margin, $margins) {
+    $margin-bottom: unit.rem-calc(mixins.$zf-bp-value);
     margin-bottom: $margin-bottom;
 
     > :last-child {

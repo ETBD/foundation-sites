@@ -1,3 +1,12 @@
+@use "sass:list";
+@use "sass:meta";
+@use "../global";
+@use "../typography/base";
+@use "../util/breakpoint";
+@use "../util/color";
+@use "../util/mixins";
+@use "menu";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -12,7 +21,7 @@ $dropdownmenu-arrows: true !default;
 
 /// Sets dropdown menu arrow color if arrow is used.
 /// @type Color
-$dropdownmenu-arrow-color: $anchor-color !default;
+$dropdownmenu-arrow-color: base.$anchor-color !default;
 
 /// Sets dropdown menu arrow size if arrow is used.
 /// @type Length
@@ -32,11 +41,11 @@ $dropdownmenu-background: null !default;
 
 /// Background color for dropdowns.
 /// @type Color
-$dropdownmenu-submenu-background: $white !default;
+$dropdownmenu-submenu-background: global.$white !default;
 
 /// Padding for top level items.
 /// @type Number
-$dropdownmenu-padding: $global-menu-padding !default;
+$dropdownmenu-padding: global.$global-menu-padding !default;
 
 /// Sets dropdown menu nested margin
 /// @type Number
@@ -48,16 +57,16 @@ $dropdownmenu-submenu-padding: $dropdownmenu-padding !default;
 
 /// Border for dropdown sub-menus.
 /// @type List
-$dropdownmenu-border: 1px solid $medium-gray !default;
+$dropdownmenu-border: 1px solid global.$medium-gray !default;
 
 // Border width for dropdown sub-menus.
 // Used to adjust top margin of a sub-menu if a border is used.
 // @type Length
-$dropdownmenu-border-width: nth($dropdownmenu-border, 1);
+$dropdownmenu-border-width: list.nth($dropdownmenu-border, 1);
 
 /// Text color of an active dropdown menu item. Explicit override for menu defaults
 /// @type Color
-$dropdown-menu-item-color-active: get-color(primary) !default;
+$dropdown-menu-item-color-active: color.get-color(primary) !default;
 
 /// Background color of an active dropdown menu item. Explicit override for menu defaults
 /// @type Color
@@ -65,17 +74,17 @@ $dropdown-menu-item-background-active: transparent !default;
 
 @mixin zf-dropdown-left-right-arrows {
   > a::after {
-    #{$global-right}: 14px;
+    #{global.$global-right}: 14px;
   }
 
   &.opens-left > a::after {
-    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, left);
+    @include mixins.css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, left);
     right: auto;
     left: 5px;
   }
 
   &.opens-right > a::after {
-    @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, right);
+    @include mixins.css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, right);
   }
 }
 
@@ -100,13 +109,13 @@ $dropdown-menu-item-background-active: transparent !default;
     @if $dropdownmenu-arrows {
       > li.is-dropdown-submenu-parent > a { // sass-lint:disable-line no-qualifying-elements
         position: relative;
-        padding-#{$global-right}: $dropdownmenu-arrow-padding;
+        padding-#{global.$global-right}: $dropdownmenu-arrow-padding;
       }
 
       > li.is-dropdown-submenu-parent > a::after { // sass-lint:disable-line no-qualifying-elements
-        @include css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, down);
-        #{$global-right}: 5px;
-        #{$global-left}: auto;
+        @include mixins.css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, down);
+        #{global.$global-right}: 5px;
+        #{global.$global-left}: auto;
         margin-top: -1 * ($dropdownmenu-arrow-size * 0.5);
       }
     }
@@ -147,7 +156,7 @@ $dropdown-menu-item-background-active: transparent !default;
     @include dropdown-menu-direction(horizontal);
 
     a {
-      @include disable-mouse-outline;
+      @include mixins.disable-mouse-outline;
     }
 
     // Top-level item
@@ -167,16 +176,16 @@ $dropdown-menu-item-background-active: transparent !default;
     }
 
     .nested.is-dropdown-submenu {
-      @include menu-nested($dropdownmenu-nested-margin);
+      @include menu.menu-nested($dropdownmenu-nested-margin);
     }
 
     &.vertical {
       @include dropdown-menu-direction(vertical);
     }
 
-    @each $size in $breakpoint-classes {
-      @if $size != $-zf-zero-breakpoint {
-        @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @if $size != breakpoint.$zf-zero-breakpoint {
+        @include breakpoint.breakpoint($size) {
           &.#{$size}-horizontal {
             @include dropdown-menu-direction(horizontal);
           }
@@ -211,15 +220,15 @@ $dropdown-menu-item-background-active: transparent !default;
     a::after {
       position: absolute;
       top: 50%;
-      #{$global-right}: 5px;
-      #{$global-left}: auto;
+      #{global.$global-right}: 5px;
+      #{global.$global-left}: auto;
       margin-top: -1 * $dropdownmenu-arrow-size;
     }
 
     &.opens-inner > .is-dropdown-submenu {
 
       top: 100%;
-      @if $global-text-direction == 'rtl' {
+      @if global.$global-text-direction == 'rtl' {
         right: auto;
       }
       @else {
@@ -241,7 +250,7 @@ $dropdown-menu-item-background-active: transparent !default;
   .is-dropdown-submenu {
     position: absolute;
     top: 0;
-    #{$global-left}: 100%;
+    #{global.$global-left}: 100%;
     z-index: 1;
 
     display: none;
@@ -260,7 +269,7 @@ $dropdown-menu-item-background-active: transparent !default;
       }
     }
 
-    @if (type-of($dropdownmenu-border-width) == 'number') {
+    @if (meta.type-of($dropdownmenu-border-width) == 'number') {
       .is-dropdown-submenu {
         margin-top: (-$dropdownmenu-border-width);
       }

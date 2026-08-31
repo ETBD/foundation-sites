@@ -1,3 +1,7 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,19 +12,19 @@
 
 /// Responsive breakpoints for font styling types
 /// @type Boolean
-$prototype-font-breakpoints: $global-prototype-breakpoints !default;
+$prototype-font-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Letter spacing for `.font-wide`
 /// @type Number
-$prototype-wide-letter-spacing: rem-calc(4) !default;
+$prototype-wide-letter-spacing: unit.rem-calc(4) !default;
 
 /// Default weight for `.font-normal`, defaulted to `global-weight-normal`
 /// @type Number
-$prototype-font-normal: $global-weight-normal !default;
+$prototype-font-normal: global.$global-weight-normal !default;
 
 /// Default weight for `.font-bold`, defaulted to `global-weight-bold`
 /// @type Number
-$prototype-font-bold: $global-weight-bold !default;
+$prototype-font-bold: global.$global-weight-bold !default;
 
 /// Font wide letter spacing!
 /// @param {Number} $letter-spacing [$prototype-wide-letter-spacing] Wide letter spacing for the font
@@ -70,9 +74,9 @@ $prototype-font-bold: $global-weight-bold !default;
 
   @if ($prototype-font-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-font-wide {
             @include font-wide;
           }

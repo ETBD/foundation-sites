@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/mixins";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,11 +11,11 @@
 
 /// Background color of a title bar.
 /// @type Color
-$titlebar-background: $black !default;
+$titlebar-background: global.$black !default;
 
 /// Color of text inside a title bar.
 /// @type Color
-$titlebar-color: $white !default;
+$titlebar-color: global.$white !default;
 
 /// Padding inside a title bar.
 /// @type Length
@@ -24,11 +27,11 @@ $titlebar-text-font-weight: bold !default;
 
 /// Color of menu icons inside a title bar.
 /// @type Color
-$titlebar-icon-color: $white !default;
+$titlebar-icon-color: global.$white !default;
 
 /// Color of menu icons inside a title bar on hover.
 /// @type Color
-$titlebar-icon-color-hover: $medium-gray !default;
+$titlebar-icon-color-hover: global.$medium-gray !default;
 
 /// Spacing between the menu icon and text inside a title bar.
 /// @type Length
@@ -40,22 +43,22 @@ $titlebar-icon-spacing: 0.25rem !default;
     background: $titlebar-background;
     color: $titlebar-color;
 
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       display: flex;
       justify-content: flex-start;
       align-items: center;
     }
     @else {
-      @include clearfix;
+      @include mixins.clearfix;
     }
 
     .menu-icon {
-      margin-#{$global-left}: $titlebar-icon-spacing;
-      margin-#{$global-right}: $titlebar-icon-spacing;
+      margin-#{global.$global-left}: $titlebar-icon-spacing;
+      margin-#{global.$global-right}: $titlebar-icon-spacing;
     }
   }
 
-  @if $global-flexbox {
+  @if global.$global-flexbox {
     .title-bar-left,
     .title-bar-right {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit

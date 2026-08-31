@@ -1,3 +1,9 @@
+@use "sass:meta";
+@use "sass:string";
+@use "../util/mixins";
+@use "../util/unit";
+@use "vars";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -13,33 +19,37 @@
 /// @param {List} $gutter-position [right left] - The position to apply gutters to. Accepts `top`, `bottom`, `left`, `right` in any combination.
 /// @param {Boolean} $negative [false] - Whether to apply the gutter as a negative value. Commonly used for nested grids.
 @mixin xy-gutters(
-  $gutters: $grid-margin-gutters,
+  $gutters: vars.$grid-margin-gutters,
   $gutter-type: margin,
   $gutter-position: right left,
   $negative: false
 ) {
-  $operator: if($negative, '-', '');
+  $operator: "";
+  @if $negative {
+    $operator: "-";
+  }
 
   // If we have declared negative gutters, force type to `margin.
-  $gutter-type: if($negative, 'margin', $gutter-type);
+  @if $negative {
+    $gutter-type: "margin";
+  }
 
   // Output our margin gutters.
-  @if (type-of($gutters) == 'map') {
-    @include -zf-breakpoint-value(auto, $gutters) {
-      $gutter: rem-calc($-zf-bp-value) * 0.5;
+  @if (meta.type-of($gutters) == "map") {
+    @include mixins.zf-breakpoint-value(auto, $gutters) {
+      $gutter: unit.rem-calc(mixins.$zf-bp-value) * 0.5;
 
       // Loop through each gutter position
       @each $value in $gutter-position {
-        #{$gutter-type}-#{$value}: unquote("#{$operator}#{$gutter}");
+        #{$gutter-type}-#{$value}: string.unquote("#{$operator}#{$gutter}");
       }
     }
-  }
-  @else if (type-of($gutters) == 'number') {
-    $gutter: rem-calc($gutters) * 0.5;
+  } @else if (meta.type-of($gutters) == "number") {
+    $gutter: unit.rem-calc($gutters) * 0.5;
 
     // Loop through each gutter position
     @each $value in $gutter-position {
-      #{$gutter-type}-#{$value}: unquote("#{$operator}#{$gutter}");
+      #{$gutter-type}-#{$value}: string.unquote("#{$operator}#{$gutter}");
     }
   }
 }

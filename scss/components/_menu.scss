@@ -1,3 +1,8 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/color";
+@use "../util/mixins";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -12,11 +17,11 @@ $menu-margin: 0 !default;
 
 /// Left-hand margin of a nested menu.
 /// @type Number
-$menu-nested-margin: $global-menu-nested-margin !default;
+$menu-nested-margin: global.$global-menu-nested-margin !default;
 
 /// Padding for items in a pill menu.
 /// @type Number
-$menu-items-padding: $global-menu-padding !default;
+$menu-items-padding: global.$global-menu-padding !default;
 
 /// margin for items in a simple menu.
 /// @type Number
@@ -24,15 +29,15 @@ $menu-simple-margin: 1rem !default;
 
 /// Text color of an active menu item.
 /// @type Color
-$menu-item-color-active: $white !default;
+$menu-item-color-active: global.$white !default;
 
 /// Alternative text color of an active menu item..
 /// @type Color
-$menu-item-color-alt-active: $black !default;
+$menu-item-color-alt-active: global.$black !default;
 
 /// Background color of an active menu item.
 /// @type Color
-$menu-item-background-active: get-color(primary) !default;
+$menu-item-background-active: color.get-color(primary) !default;
 
 /// Spacing between an icon and text in a menu item.
 /// @type Number
@@ -60,13 +65,13 @@ $menu-icons-back-compat: true !default;
   list-style: none;
   position: relative;
 
-  @if $global-flexbox {
+  @if global.$global-flexbox {
     display: flex;
     flex-wrap: wrap;
   }
 
   li {
-    @include disable-mouse-outline;
+    @include mixins.disable-mouse-outline;
   }
 
   a,
@@ -92,7 +97,7 @@ $menu-icons-back-compat: true !default;
 
 /// Expands the items of a Menu, so each item is the same width.
 @mixin menu-expand {
-  @if $global-flexbox {
+  @if global.$global-flexbox {
     li {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit
     }
@@ -111,15 +116,15 @@ $menu-icons-back-compat: true !default;
 /// Align menu items.
 @mixin menu-align($alignment) {
   @if $alignment == left {
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       justify-content: flex-start;
     }
     @else {
-      text-align: $global-left;
+      text-align: global.$global-left;
     }
   }
   @else if $alignment == right {
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       li {
         display: flex;
         justify-content: flex-end;
@@ -131,29 +136,29 @@ $menu-icons-back-compat: true !default;
 
       &.vertical li {
         display: block;
-        text-align: $global-right;
+        text-align: global.$global-right;
 
         .submenu li {
-          text-align: $global-right;
+          text-align: global.$global-right;
         }
       }
     }
     @else {
-      text-align: $global-right;
+      text-align: global.$global-right;
 
       .submenu li {
-        text-align: $global-left;
+        text-align: global.$global-left;
       }
 
       &.vertical {
         .submenu li {
-          text-align: $global-right;
+          text-align: global.$global-right;
         }
       }
     }
   }
   @else if $alignment == center {
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       li {
         display: flex;
         justify-content: center;
@@ -167,7 +172,7 @@ $menu-icons-back-compat: true !default;
       text-align: center;
 
       .submenu li {
-        text-align: $global-left;
+        text-align: global.$global-left;
       }
     }
   }
@@ -177,7 +182,7 @@ $menu-icons-back-compat: true !default;
 /// @param {Keyword} $dir [horizontal] - Direction of the Menu. Can be `horizontal` or `vertical`.
 @mixin menu-direction($dir: horizontal) {
   @if $dir == horizontal {
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       flex-wrap: wrap;
       flex-direction: row;
     }
@@ -188,7 +193,7 @@ $menu-icons-back-compat: true !default;
     }
   }
   @else if $dir == vertical {
-    @if $global-flexbox {
+    @if global.$global-flexbox {
       flex-wrap: nowrap;
       flex-direction: column;
     }
@@ -206,8 +211,8 @@ $menu-icons-back-compat: true !default;
 /// Creates a simple Menu, which has no padding or hover state.
 /// @param {Keyword} $dir [$global-left] - Direction of the menu. This effects the side of the `<li>` that receives the margin.
 /// @param {Number} $margin [$menu-simple-margin] - The margin to apply to each `<li>`.
-@mixin menu-simple($dir: $global-left, $margin: $menu-simple-margin) {
-  @if $global-flexbox {
+@mixin menu-simple($dir: global.$global-left, $margin: $menu-simple-margin) {
+  @if global.$global-flexbox {
     align-items: center;
   }
 
@@ -228,19 +233,19 @@ $menu-icons-back-compat: true !default;
   $nested-alignment: left
 ) {
   @if $nested-alignment == right {
-    margin-#{$global-right}: $margin;
-    margin-#{$global-left}: 0;
+    margin-#{global.$global-right}: $margin;
+    margin-#{global.$global-left}: 0;
   }
   @else {
-    margin-#{$global-right}: 0;
-    margin-#{$global-left}: $margin;
+    margin-#{global.$global-right}: 0;
+    margin-#{global.$global-left}: $margin;
   }
 
 }
 
 /// Adds basic styles for icons in menus.
 @mixin menu-icons() {
-  @if $global-flexbox {
+  @if global.$global-flexbox {
     a {
       display: flex;
     }
@@ -261,7 +266,7 @@ $menu-icons-back-compat: true !default;
 /// Align top/bottom icons within a menu.
 /// @param {Keyword} $alignment [center] - Alignment of the icon
 @mixin menu-icon-alignment($alignment: center) {
-  @if $global-flexbox {
+  @if global.$global-flexbox {
     &.icon-top,
     &.icon-bottom {
       li a {
@@ -289,16 +294,16 @@ $menu-icons-back-compat: true !default;
 @mixin menu-icon-position($position: left, $spacing: $menu-icon-spacing) {
   @if $position == left {
     li a {
-      @if $global-flexbox {
+      @if global.$global-flexbox {
         flex-flow: row nowrap;
       }
 
       img,
       i,
       svg {
-        margin-#{$global-right}: $spacing;
+        margin-#{global.$global-right}: $spacing;
 
-        @if not $global-flexbox {
+        @if not global.$global-flexbox {
           display: inline-block;
         }
       }
@@ -306,16 +311,16 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == right {
     li a {
-      @if $global-flexbox {
+      @if global.$global-flexbox {
         flex-flow: row nowrap;
       }
 
       img,
       i,
       svg {
-        margin-#{$global-left}: $spacing;
+        margin-#{global.$global-left}: $spacing;
 
-        @if not $global-flexbox {
+        @if not global.$global-flexbox {
           display: inline-block;
         }
       }
@@ -323,7 +328,7 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == top {
     li a {
-      @if $global-flexbox {
+      @if global.$global-flexbox {
         flex-flow: column nowrap;
       }
       @else {
@@ -333,7 +338,7 @@ $menu-icons-back-compat: true !default;
       img,
       i,
       svg {
-        @if not $global-flexbox {
+        @if not global.$global-flexbox {
           display: block;
           margin: 0 auto $spacing;
         }
@@ -347,7 +352,7 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == bottom {
     li a {
-      @if $global-flexbox {
+      @if global.$global-flexbox {
         flex-flow: column nowrap;
       }
       @else {
@@ -357,7 +362,7 @@ $menu-icons-back-compat: true !default;
       img,
       i,
       svg {
-        @if not $global-flexbox {
+        @if not global.$global-flexbox {
           display: block;
           margin: $spacing auto 0;
         }
@@ -372,7 +377,7 @@ $menu-icons-back-compat: true !default;
 }
 
 @mixin menu-text {
-  padding: $global-menu-padding;
+  padding: global.$global-menu-padding;
 
   font-weight: bold;
   line-height: 1;
@@ -381,7 +386,7 @@ $menu-icons-back-compat: true !default;
 
 @mixin menu-state-active {
   background: $menu-item-background-active;
-  color: color-pick-contrast($menu-item-background-active, ($menu-item-color-active, $menu-item-color-alt-active));
+  color: color.color-pick-contrast($menu-item-background-active, ($menu-item-color-active, $menu-item-color-alt-active));
 }
 
 @mixin foundation-menu {
@@ -411,20 +416,20 @@ $menu-icons-back-compat: true !default;
     }
 
     // Breakpoint specific versions
-    @include -zf-each-breakpoint($small: false) {
-      &.#{$-zf-size}-horizontal {
+    @include mixins.zf-each-breakpoint($small: false) {
+      &.#{breakpoint.$zf-size}-horizontal {
         @include menu-direction(horizontal);
       }
 
-      &.#{$-zf-size}-vertical {
+      &.#{breakpoint.$zf-size}-vertical {
         @include menu-direction(vertical);
       }
 
-      &.#{$-zf-size}-expanded {
+      &.#{breakpoint.$zf-size}-expanded {
         @include menu-expand;
       }
 
-      &.#{$-zf-size}-simple {
+      &.#{breakpoint.$zf-size}-simple {
         @include menu-expand;
       }
     }
@@ -487,12 +492,12 @@ $menu-icons-back-compat: true !default;
     }
 
     // Align left
-    &.align-#{$global-left} {
+    &.align-#{global.$global-left} {
       @include menu-align(left);
     }
 
     // Align right
-    &.align-#{$global-right} {
+    &.align-#{global.$global-right} {
       @include menu-align(right);
       @include menu-icon-alignment(right);
 
@@ -514,7 +519,7 @@ $menu-icons-back-compat: true !default;
   @if $menu-centered-back-compat {
     .menu-centered {
       > .menu {
-        @if $global-flexbox {
+        @if global.$global-flexbox {
           justify-content: center;
         }
 

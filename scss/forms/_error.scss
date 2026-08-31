@@ -1,6 +1,13 @@
+@use "../global";
+@use "../util/color" as color2;
+@use "../util/unit";
+$form-spacing: unit.rem-calc(16) !default;
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
+
+@use "sass:color";
 
 ////
 /// @group abide
@@ -16,23 +23,23 @@ $abide-labels: true !default;
 
 /// Background color to use for invalid text inputs.
 /// @type Color
-$input-background-invalid: get-color(alert) !default;
+$input-background-invalid: color2.get-color(alert) !default;
 
 /// Color to use for labels of invalid inputs.
 /// @type Color
-$form-label-color-invalid: get-color(alert) !default;
+$form-label-color-invalid: color2.get-color(alert) !default;
 
 /// Default font color for form error text.
 /// @type Color
-$input-error-color: get-color(alert) !default;
+$input-error-color: color2.get-color(alert) !default;
 
 /// Default font size for form error text.
 /// @type Number
-$input-error-font-size: rem-calc(12) !default;
+$input-error-font-size: unit.rem-calc(12) !default;
 
 /// Default font weight for form error text.
 /// @type Keyword
-$input-error-font-weight: $global-weight-bold !default;
+$input-error-font-weight: global.$global-weight-bold !default;
 
 /// Styles the background and border of an input field to have an error state.
 ///
@@ -44,7 +51,11 @@ $input-error-font-weight: $global-weight-bold !default;
 ) {
   &:not(:focus) {
     border-color: $background;
-    background-color: mix($background, $white, $background-lighten);
+    background-color: color.mix(
+      $background,
+      global.$white,
+      $background-lighten
+    );
 
     &::placeholder {
       color: $background;

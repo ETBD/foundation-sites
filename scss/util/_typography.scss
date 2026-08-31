@@ -1,3 +1,5 @@
+@use "value";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -22,5 +24,5 @@ $-zf-font-stack: (
 ///
 /// @returns {List} Found font stack.
 @function font-stack($stack, $map: $-zf-font-stack) {
-  @return map-safe-get($map, $stack);
+  @return value.map-safe-get($map, $stack);
 }

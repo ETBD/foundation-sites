@@ -1,14 +1,19 @@
+@use "../global";
+@use "../util/color";
+@use "../util/mixins";
+@use "menu";
+
 ////
 /// @group accordion-menu
 ////
 
 /// Sets accordion menu padding.
 /// @type Number
-$accordionmenu-padding: $global-menu-padding !default;
+$accordionmenu-padding: global.$global-menu-padding !default;
 
 /// Sets accordion menu nested margin
 /// @type Number
-$accordionmenu-nested-margin: $global-menu-nested-margin !default;
+$accordionmenu-nested-margin: global.$global-menu-nested-margin !default;
 
 /// Sets accordion menu submenu padding.
 /// @type Number
@@ -20,7 +25,7 @@ $accordionmenu-arrows: true !default;
 
 /// Sets accordion menu arrow color if arrow is used.
 /// @type Color
-$accordionmenu-arrow-color: $primary-color !default;
+$accordionmenu-arrow-color: color.$primary-color !default;
 
 /// Sets accordion menu item padding.
 /// @type Color
@@ -55,11 +60,11 @@ $accordionmenu-arrow-size: 6px !default;
     position: relative;
 
     &::after {
-      @include css-triangle($accordionmenu-arrow-size, $accordionmenu-arrow-color, down);
+      @include mixins.css-triangle($accordionmenu-arrow-size, $accordionmenu-arrow-color, down);
       position: absolute;
       top: 50%;
       margin-top: -1 * ($accordionmenu-arrow-size * 0.5);
-      #{$global-right}: 1rem;
+      #{global.$global-right}: 1rem;
     }
   }
 
@@ -101,12 +106,12 @@ $accordionmenu-arrow-size: 6px !default;
     }
 
     .nested.is-accordion-submenu {
-      @include menu-nested($accordionmenu-nested-margin);
+      @include menu.menu-nested($accordionmenu-nested-margin);
     }
 
-    &.align-#{$global-right} {
+    &.align-#{global.$global-right} {
       .nested.is-accordion-submenu {
-        @include menu-nested($accordionmenu-nested-margin, right);
+        @include menu.menu-nested($accordionmenu-nested-margin, right);
       }
     }
 
@@ -132,21 +137,21 @@ $accordionmenu-arrow-size: 6px !default;
   }
 
   .has-submenu-toggle > a {
-    margin-#{$global-right}: $accordionmenu-submenu-toggle-width;
+    margin-#{global.$global-right}: $accordionmenu-submenu-toggle-width;
   }
 
   // Submenu toggle
   .submenu-toggle {
     position: absolute;
     top: 0;
-    #{$global-right}: 0;
+    #{global.$global-right}: 0;
 
     width: $accordionmenu-submenu-toggle-width;
     height: $accordionmenu-submenu-toggle-height;
 
     cursor: pointer;
 
-    border-#{$global-left}: $accordion-submenu-toggle-border;
+    border-#{global.$global-left}: $accordion-submenu-toggle-border;
 
     @if $accordionmenu-submenu-toggle-background {
       background: $accordionmenu-submenu-toggle-background;
@@ -154,7 +159,7 @@ $accordionmenu-arrow-size: 6px !default;
 
     // Add the arrow to the toggle
     &::after {
-      @include css-triangle($accordionmenu-arrow-size, $accordionmenu-arrow-color, down);
+      @include mixins.css-triangle($accordionmenu-arrow-size, $accordionmenu-arrow-color, down);
 
       top: 0;
       bottom: 0;
@@ -169,6 +174,6 @@ $accordionmenu-arrow-size: 6px !default;
   }
 
   .submenu-toggle-text {
-    @include element-invisible;
+    @include mixins.element-invisible;
   }
 }

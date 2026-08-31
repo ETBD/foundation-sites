@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for spacing classes (margin and padding)
 /// @type Boolean
-$prototype-spacing-breakpoints: $global-prototype-breakpoints !default;
+$prototype-spacing-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Default number of spacers count (margin and padding)
 /// @type Number
@@ -26,16 +29,16 @@ $prototype-spacers-count: 3 !default;
   $left: null
 ) {
   @if $top != null {
-    margin-top: $top * $global-margin !important;
+    margin-top: $top * global.$global-margin !important;
   }
   @if $right != null {
-    margin-right: $right * $global-margin !important;
+    margin-right: $right * global.$global-margin !important;
   }
   @if $bottom != null {
-    margin-bottom: $bottom * $global-margin !important;
+    margin-bottom: $bottom * global.$global-margin !important;
   }
   @if $left != null {
-    margin-left: $left * $global-margin !important;
+    margin-left: $left * global.$global-margin !important;
   }
 }
 
@@ -51,16 +54,16 @@ $prototype-spacers-count: 3 !default;
   $left: null
 ) {
   @if $top != null {
-    padding-top: $top * $global-padding !important;
+    padding-top: $top * global.$global-padding !important;
   }
   @if $right != null {
-    padding-right: $right * $global-padding !important;
+    padding-right: $right * global.$global-padding !important;
   }
   @if $bottom != null {
-    padding-bottom: $bottom * $global-padding !important;
+    padding-bottom: $bottom * global.$global-padding !important;
   }
   @if $left != null {
-    padding-left: $left * $global-padding !important;
+    padding-left: $left * global.$global-padding !important;
   }
 }
 
@@ -119,10 +122,10 @@ $prototype-spacers-count: 3 !default;
       // All Sides
       .#{$prop}-#{$spacer} {
         @if ($prop == margin) {
-          margin: $spacer * $global-margin !important;
+          margin: $spacer * global.$global-margin !important;
         }
         @else if ($prop == padding) {
-          padding: $spacer * $global-padding !important;
+          padding: $spacer * global.$global-padding !important;
         }
       }
 
@@ -143,18 +146,18 @@ $prototype-spacers-count: 3 !default;
   @if ($prototype-spacing-breakpoints) {
     @for $spacer from 0 through $prototype-spacers-count {
       // Loop through Responsive Breakpoints
-      @each $size in $breakpoint-classes {
-        @include breakpoint($size) {
-          @if $size != $-zf-zero-breakpoint {
+      @each $size in breakpoint.$breakpoint-classes {
+        @include breakpoint.breakpoint($size) {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             .#{$size} {
               @each $prop in (margin, padding) {
                 // All Sides
                 &-#{$prop}-#{$spacer} {
                   @if ($prop == margin) {
-                    margin: $spacer * $global-margin !important;
+                    margin: $spacer * global.$global-margin !important;
                   }
                   @else if ($prop == padding) {
-                    padding: $spacer * $global-padding !important;
+                    padding: $spacer * global.$global-padding !important;
                   }
                 }
 

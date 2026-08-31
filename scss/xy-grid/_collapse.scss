@@ -1,3 +1,8 @@
+@use "../../_vendor/sassy-lists/stylesheets/functions/contain";
+@use "../util/breakpoint";
+@use "cell";
+@use "vars";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -16,12 +21,12 @@
   $selector: '.cell',
   $gutter-type: margin,
   $gutter-position: right left,
-  $min-breakpoint: $-zf-zero-breakpoint
+  $min-breakpoint: breakpoint.$zf-zero-breakpoint
 ) {
   // First, lets negate any margins on the top level
   @if ($gutter-type == 'margin') {
 
-    @include breakpoint($min-breakpoint) {
+    @include breakpoint.breakpoint($min-breakpoint) {
       @each $value in $gutter-position {
         margin-#{$value}: 0;
       }
@@ -33,25 +38,25 @@
       }
     }
 
-    $excluded-bps: -zf-breakpoints-less-than($min-breakpoint);
+    $excluded-bps: breakpoint.zf-breakpoints-less-than($min-breakpoint);
 
     // Output new widths to not include gutters
-    @each $bp in $breakpoint-classes {
-      @if(sl-contain($excluded-bps, $bp)) {
-        @include breakpoint($min-breakpoint) {
-          @for $i from 1 through $grid-columns {
+    @each $bp in breakpoint.$breakpoint-classes {
+      @if(contain.sl-contain($excluded-bps, $bp)) {
+        @include breakpoint.breakpoint($min-breakpoint) {
+          @for $i from 1 through vars.$grid-columns {
             // Sizing (percentage)
             > .#{$bp}-#{$i} {
-              @include xy-cell-size($i, $gutter-type: none);
+              @include cell.xy-cell-size($i, $gutter-type: none);
             }
           }
         }
       } @else {
-        @include breakpoint($bp) {
-          @for $i from 1 through $grid-columns {
+        @include breakpoint.breakpoint($bp) {
+          @for $i from 1 through vars.$grid-columns {
             // Sizing (percentage)
             > .#{$bp}-#{$i} {
-              @include xy-cell-size($i, $gutter-type: none);
+              @include cell.xy-cell-size($i, $gutter-type: none);
             }
           }
         }
@@ -60,7 +65,7 @@
   }
   @else {
 
-    @include breakpoint($min-breakpoint) {
+    @include breakpoint.breakpoint($min-breakpoint) {
       @each $value in $gutter-position {
         margin-#{$value}: 0;
       }

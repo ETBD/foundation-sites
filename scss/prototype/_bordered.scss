@@ -1,3 +1,7 @@
+@use "../global";
+@use "../util/breakpoint";
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,11 +12,11 @@
 
 /// Responsive breakpoints for bordered utility.
 /// @type Boolean
-$prototype-bordered-breakpoints: $global-prototype-breakpoints !default;
+$prototype-bordered-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Default value for `prototype-border-width`
 /// @type Number
-$prototype-border-width: rem-calc(1) !default;
+$prototype-border-width: unit.rem-calc(1) !default;
 
 /// Default value for `prototype-border-type`
 /// @type String
@@ -20,7 +24,7 @@ $prototype-border-type: solid !default;
 
 /// Default value for `prototype-border-color` defaulted to `medium-gray`
 /// @type Color
-$prototype-border-color: $medium-gray !default;
+$prototype-border-color: global.$medium-gray !default;
 
 /// Bordered Utility: Adds a light border to an element by default.
 /// @param {Number} $width [$prototype-border-width] Width of the border
@@ -41,9 +45,9 @@ $prototype-border-color: $medium-gray !default;
 
   @if ($prototype-bordered-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-bordered {
             @include bordered;
           }

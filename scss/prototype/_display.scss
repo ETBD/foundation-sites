@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for display classes
 /// @type Boolean
-$prototype-display-breakpoints: $global-prototype-breakpoints !default;
+$prototype-display-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Map containing all the `display` classes
 /// @type Map
@@ -35,10 +38,10 @@ $prototype-display: (
 
   @if ($prototype-display-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
         @each $display in $prototype-display {
-          @if $size != $-zf-zero-breakpoint {
+          @if $size != breakpoint.$zf-zero-breakpoint {
             .#{$size}-display-#{$display} {
               @include display($display);
             }

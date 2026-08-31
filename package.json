@@ -91,7 +91,8 @@
     "requirejs": "^2.3.6",
     "rollup": "^2.79.2",
     "rollup-plugin-babel": "^4.3.0",
-    "sass-embedded": "^1.79.3",
+    "sass-embedded": "^1.99.0",
+    "sass-migrator": "^2.5.7",
     "sass-true": "^8.0.0",
     "sassy-lists": "^3.0.1",
     "sinon": "^7.2.2",
@@ -161,6 +162,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {}
+  }
 }

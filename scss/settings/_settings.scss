@@ -61,7 +61,9 @@
 //  57. Xy Grid
 
 @use "sass:color";
-@import 'util/util';
+@use "sass:map";
+@use "../util/color" as *;
+@use "../util/unit" as *;
 
 // 1. Global
 // ---------
@@ -83,7 +85,7 @@ $black: #0a0a0a;
 $white: #fefefe;
 $body-background: $white;
 $body-font-color: $black;
-$body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+$body-font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 $body-safe-padding: false;
 $body-antialiased: true;
 $global-margin: 1rem;
@@ -102,12 +104,15 @@ $global-color-pick-contrast-tolerance: 0;
 $print-transparent-backgrounds: true;
 $print-hrefs: true;
 
-@include add-foundation-colors;
+$primary-color: map.get($foundation-palette, "primary");
+$secondary-color: map.get($foundation-palette, "secondary");
+$success-color: map.get($foundation-palette, "success");
+$warning-color: map.get($foundation-palette, "warning");
+$alert-color: map.get($foundation-palette, "alert");
 
 // 2. Breakpoints
 // --------------
 
-$-zf-size: null;
 $breakpoints: (
   "small": 0,
   "medium": 640px,
@@ -120,7 +125,7 @@ $breakpoints-hidpi: (
   "hidpi-1-5": 1.5,
   "hidpi-2": 2,
   "retina": 2,
-  "hidpi-3": 3
+  "hidpi-3": 3,
 );
 $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
@@ -135,7 +140,7 @@ $grid-column-gutter: (
   medium: 30px,
 );
 $grid-column-align-edge: true;
-$grid-column-alias: 'columns';
+$grid-column-alias: "columns";
 $block-grid-max: 8;
 
 // 4. Base Typography
@@ -144,26 +149,50 @@ $block-grid-max: 8;
 $header-font-family: $body-font-family;
 $header-font-weight: $global-weight-normal;
 $header-font-style: normal;
-$font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
+$font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
 $header-color: inherit;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
 $header-styles: (
   small: (
-    'h1': ('font-size': 24),
-    'h2': ('font-size': 20),
-    'h3': ('font-size': 19),
-    'h4': ('font-size': 18),
-    'h5': ('font-size': 17),
-    'h6': ('font-size': 16),
+    "h1": (
+      "font-size": 24,
+    ),
+    "h2": (
+      "font-size": 20,
+    ),
+    "h3": (
+      "font-size": 19,
+    ),
+    "h4": (
+      "font-size": 18,
+    ),
+    "h5": (
+      "font-size": 17,
+    ),
+    "h6": (
+      "font-size": 16,
+    ),
   ),
   medium: (
-    'h1': ('font-size': 48),
-    'h2': ('font-size': 40),
-    'h3': ('font-size': 31),
-    'h4': ('font-size': 25),
-    'h5': ('font-size': 20),
-    'h6': ('font-size': 16),
+    "h1": (
+      "font-size": 48,
+    ),
+    "h2": (
+      "font-size": 40,
+    ),
+    "h3": (
+      "font-size": 31,
+    ),
+    "h4": (
+      "font-size": 25,
+    ),
+    "h5": (
+      "font-size": 20,
+    ),
+    "h6": (
+      "font-size": 16,
+    ),
   ),
 );
 $header-text-rendering: optimizeLegibility;
@@ -174,7 +203,7 @@ $paragraph-margin-bottom: 1rem;
 $paragraph-text-rendering: optimizeLegibility;
 $enable-code-inline: true;
 $anchor-color: $primary-color;
-$anchor-color-hover: scale-color($anchor-color, $lightness: -14%);
+$anchor-color-hover: color.scale($anchor-color, $lightness: -14%);
 $anchor-text-decoration: none;
 $anchor-text-decoration-hover: none;
 $hr-width: $global-width;
@@ -213,7 +242,7 @@ $subheader-margin-bottom: 0.5rem;
 $stat-font-size: 2.5rem;
 $cite-color: $dark-gray;
 $cite-font-size: rem-calc(13);
-$cite-pseudo-content: '\2014 \0020';
+$cite-pseudo-content: "\2014 \0020";
 $code-color: $black;
 $code-font-family: $font-family-monospace;
 $code-font-weight: $global-weight-normal;
@@ -239,8 +268,8 @@ $input-error-font-weight: $global-weight-bold;
 
 $accordion-background: $white;
 $accordion-plusminus: true;
-$accordion-plus-content: '\002B';
-$accordion-minus-content: '\2013';
+$accordion-plus-content: "\002B";
+$accordion-minus-content: "\2013";
 $accordion-title-font-size: rem-calc(12);
 $accordion-item-color: $primary-color;
 $accordion-item-background-hover: $light-gray;
@@ -288,8 +317,8 @@ $breadcrumbs-item-color-disabled: $medium-gray;
 $breadcrumbs-item-margin: 0.75rem;
 $breadcrumbs-item-uppercase: true;
 $breadcrumbs-item-separator: true;
-$breadcrumbs-item-separator-item: '/';
-$breadcrumbs-item-separator-item-rtl: '\\';
+$breadcrumbs-item-separator-item: "/";
+$breadcrumbs-item-separator-item-rtl: "\\";
 $breadcrumbs-item-separator-color: $medium-gray;
 
 // 11. Button
@@ -301,7 +330,7 @@ $button-padding: 0.85em 1em;
 $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
-$button-background-hover: scale-color($button-background, $lightness: -15%);
+$button-background-hover: color.scale($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $black;
 $button-radius: $global-radius;
@@ -317,7 +346,9 @@ $button-palette: $foundation-palette;
 $button-opacity-disabled: 0.25;
 $button-background-hover-lightness: -20%;
 $button-hollow-hover-lightness: -50%;
-$button-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+$button-transition:
+  background-color 0.25s ease-out,
+  color 0.25s ease-out;
 $button-responsive-expanded: false;
 
 // 12. Button Group
@@ -325,7 +356,7 @@ $button-responsive-expanded: false;
 
 $buttongroup-margin: 1rem;
 $buttongroup-spacing: 1px;
-$buttongroup-child-selector: '.button';
+$buttongroup-child-selector: ".button";
 $buttongroup-expand-max: 6;
 $buttongroup-radius-on-each: true;
 
@@ -468,7 +499,9 @@ $input-padding: $form-spacing * 0.5;
 $input-shadow: inset 0 1px 2px rgba($black, 0.1);
 $input-shadow-focus: 0 0 5px $medium-gray;
 $input-cursor-disabled: not-allowed;
-$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
+$input-transition:
+  box-shadow 0.5s,
+  border-color 0.25s ease-in-out;
 $input-number-spinners: true;
 $input-radius: $global-radius;
 $form-button-radius: $global-radius;
@@ -537,7 +570,7 @@ $offcanvas-transition-length: 0.5s;
 $offcanvas-transition-timing: ease;
 $offcanvas-fixed-reveal: true;
 $offcanvas-exit-background: rgba($white, 0.25);
-$maincontent-class: 'off-canvas-content';
+$maincontent-class: "off-canvas-content";
 
 // 26. Orbit
 // ---------
@@ -571,8 +604,8 @@ $pagination-ellipsis-color: $black;
 $pagination-mobile-items: false;
 $pagination-mobile-current-item: false;
 $pagination-arrows: true;
-$pagination-arrow-previous: '\00AB';
-$pagination-arrow-next: '\00BB';
+$pagination-arrow-previous: "\00AB";
+$pagination-arrow-next: "\00BB";
 
 // 28. Progress Bar
 // ----------------
@@ -586,12 +619,7 @@ $progress-radius: $global-radius;
 // 29. Prototype Arrow
 // -------------------
 
-$prototype-arrow-directions: (
-  down,
-  up,
-  right,
-  left
-);
+$prototype-arrow-directions: (down, up, right, left);
 $prototype-arrow-size: 0.4375rem;
 $prototype-arrow-color: $black;
 
@@ -617,13 +645,7 @@ $prototype-border-color: $medium-gray;
 // ---------------------
 
 $prototype-display-breakpoints: $global-prototype-breakpoints;
-$prototype-display: (
-  inline,
-  inline-block,
-  block,
-  table,
-  table-cell
-);
+$prototype-display: (inline, inline-block, block, table, table-cell);
 
 // 34. Prototype Font-Styling
 // --------------------------
@@ -637,11 +659,7 @@ $prototype-font-bold: $global-weight-bold;
 // -----------------------------
 
 $prototype-list-breakpoints: $global-prototype-breakpoints;
-$prototype-style-type-unordered: (
-  disc,
-  circle,
-  square
-);
+$prototype-style-type-unordered: (disc, circle, square);
 $prototype-style-type-ordered: (
   decimal,
   lower-alpha,
@@ -656,22 +674,13 @@ $prototype-style-type-ordered: (
 // ----------------------
 
 $prototype-overflow-breakpoints: $global-prototype-breakpoints;
-$prototype-overflow: (
-  visible,
-  hidden,
-  scroll
-);
+$prototype-overflow: (visible, hidden, scroll);
 
 // 37. Prototype Position
 // ----------------------
 
 $prototype-position-breakpoints: $global-prototype-breakpoints;
-$prototype-position: (
-  static,
-  relative,
-  absolute,
-  fixed
-);
+$prototype-position: (static, relative, absolute, fixed);
 $prototype-position-z-index: 975;
 
 // 38. Prototype Rounded
@@ -694,21 +703,20 @@ $prototype-separator-margin-top: $global-margin;
 // --------------------
 
 $prototype-shadow-breakpoints: $global-prototype-breakpoints;
-$prototype-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+$prototype-box-shadow:
+  0 2px 5px 0 rgba(0, 0, 0, 0.16),
+  0 2px 10px 0 rgba(0, 0, 0, 0.12);
 
 // 41. Prototype Sizing
 // --------------------
 
 $prototype-sizing-breakpoints: $global-prototype-breakpoints;
-$prototype-sizing: (
-  width,
-  height
-);
+$prototype-sizing: (width, height);
 $prototype-sizes: (
   25: 25%,
   50: 50%,
   75: 75%,
-  100: 100%
+  100: 100%,
 );
 
 // 42. Prototype Spacing
@@ -721,21 +729,13 @@ $prototype-spacers-count: 3;
 // -----------------------------
 
 $prototype-decoration-breakpoints: $global-prototype-breakpoints;
-$prototype-text-decoration: (
-  overline,
-  underline,
-  line-through,
-);
+$prototype-text-decoration: (overline, underline, line-through);
 
 // 44. Prototype Text-Transformation
 // ---------------------------------
 
 $prototype-transformation-breakpoints: $global-prototype-breakpoints;
-$prototype-text-transformation: (
-  lowercase,
-  uppercase,
-  capitalize
-);
+$prototype-text-transformation: (lowercase, uppercase, capitalize);
 
 // 45. Prototype Text-Utilities
 // ----------------------------
@@ -782,9 +782,12 @@ $slider-radius: $global-radius;
 // ----------
 
 $switch-background: $medium-gray;
-$switch-background-focus: scale-color($switch-background, $lightness: -10%);
+$switch-background-focus: color.scale($switch-background, $lightness: -10%);
 $switch-background-active: $primary-color;
-$switch-background-active-focus: scale-color($switch-background-active, $lightness: -15%);
+$switch-background-active-focus: color.scale(
+  $switch-background-active,
+  $lightness: -15%
+);
 $switch-height: 2rem;
 $switch-height-tiny: 1.5rem;
 $switch-height-small: 1.75rem;
@@ -806,15 +809,30 @@ $table-color-scale: 5%;
 $table-border: 1px solid smart-scale($table-background, $table-color-scale);
 $table-padding: rem-calc(8 10 10);
 $table-hover-scale: 2%;
-$table-row-hover: color.adjust($table-background, $lightness: -$table-hover-scale);
-$table-row-stripe-hover: color.adjust($table-background, $lightness: -($table-color-scale + $table-hover-scale));
+$table-row-hover: color.adjust(
+  $table-background,
+  $lightness: -$table-hover-scale
+);
+$table-row-stripe-hover: color.adjust(
+  $table-background,
+  $lightness: -($table-color-scale + $table-hover-scale)
+);
 $table-is-striped: true;
 $table-striped-background: smart-scale($table-background, $table-color-scale);
 $table-stripe: even;
-$table-head-background: smart-scale($table-background, $table-color-scale * 0.5);
-$table-head-row-hover: color.adjust($table-head-background, $lightness: -$table-hover-scale);
+$table-head-background: smart-scale(
+  $table-background,
+  $table-color-scale * 0.5
+);
+$table-head-row-hover: color.adjust(
+  $table-head-background,
+  $lightness: -$table-hover-scale
+);
 $table-foot-background: smart-scale($table-background, $table-color-scale);
-$table-foot-row-hover: color.adjust($table-foot-background, $lightness: -$table-hover-scale);
+$table-foot-row-hover: color.adjust(
+  $table-foot-background,
+  $lightness: -$table-hover-scale
+);
 $table-head-font-color: $body-font-color;
 $table-foot-font-color: $body-font-color;
 $show-header-for-stacked: false;
@@ -890,10 +908,9 @@ $grid-container: $global-width;
 $grid-columns: 12;
 $grid-margin-gutters: (
   "small": 20px,
-  "medium": 30px
+  "medium": 30px,
 );
 $grid-padding-gutters: $grid-margin-gutters;
 $grid-container-padding: $grid-padding-gutters;
 $grid-container-max: $global-width;
 $xy-block-grid-max: 8;
-

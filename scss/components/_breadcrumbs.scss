@@ -1,3 +1,9 @@
+@use "sass:meta";
+@use "../global";
+@use "../util/color";
+@use "../util/mixins";
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,23 +14,23 @@
 
 /// Margin around a breadcrumbs container.
 /// @type Number
-$breadcrumbs-margin: 0 0 $global-margin 0 !default;
+$breadcrumbs-margin: 0 0 global.$global-margin 0 !default;
 
 /// Font size of breadcrumb links.
 /// @type Number
-$breadcrumbs-item-font-size: rem-calc(11) !default;
+$breadcrumbs-item-font-size: unit.rem-calc(11) !default;
 
 /// Color of breadcrumb links.
 /// @type Color
-$breadcrumbs-item-color: $primary-color !default;
+$breadcrumbs-item-color: color.$primary-color !default;
 
 /// Color of the active breadcrumb link.
 /// @type Color
-$breadcrumbs-item-color-current: $black !default;
+$breadcrumbs-item-color-current: global.$black !default;
 
 /// Opacity of disabled breadcrumb links.
 /// @type Number
-$breadcrumbs-item-color-disabled: $medium-gray !default;
+$breadcrumbs-item-color-disabled: global.$medium-gray !default;
 
 /// Margin between breadcrumb items.
 /// @type Number
@@ -39,24 +45,24 @@ $breadcrumbs-item-uppercase: true !default;
 $breadcrumbs-item-separator: true !default;
 
 // If it exists $breadcrumbs-item-slash is used to build $breadcrumbs-item-separator. See the documentation.
-@if variable-exists(breadcrumbs-item-slash) {
+@if meta.variable-exists(breadcrumbs-item-slash) {
   $breadcrumbs-item-separator: $breadcrumbs-item-slash;
 }
 
 /// Used character for the breadcrumb separator.
 /// @type Content
-$breadcrumbs-item-separator-item: '/' !default;
+$breadcrumbs-item-separator-item: "/" !default;
 
 /// Used character for the breadcrumb separator in rtl mode.
 /// @type Content
-$breadcrumbs-item-separator-item-rtl: '\\' !default;
+$breadcrumbs-item-separator-item-rtl: "\\" !default;
 
 /// Color of breadcrumb item.
 /// @type Color
-$breadcrumbs-item-separator-color: $medium-gray !default;
+$breadcrumbs-item-separator-color: global.$medium-gray !default;
 
 // If it exists $breadcrumbs-item-slash-color is used to build $breadcrumbs-item-separator-color. See the documentation.
-@if variable-exists(breadcrumbs-item-slash-color) {
+@if meta.variable-exists(breadcrumbs-item-slash-color) {
   $breadcrumbs-item-separator-color: $breadcrumbs-item-slash-color;
 }
 
@@ -65,11 +71,11 @@ $breadcrumbs-item-separator-color: $medium-gray !default;
   margin: $breadcrumbs-margin;
   list-style: none;
 
-  @include clearfix;
+  @include mixins.clearfix;
 
   // Item wrapper
   li {
-    float: #{$global-left};
+    float: #{global.$global-left};
 
     font-size: $breadcrumbs-item-font-size;
     color: $breadcrumbs-item-color-current;
@@ -81,7 +87,10 @@ $breadcrumbs-item-separator-color: $medium-gray !default;
 
     @if $breadcrumbs-item-separator {
       // Need to escape the backslash
-      $separator: if($global-text-direction == 'ltr', $breadcrumbs-item-separator-item, $breadcrumbs-item-separator-item-rtl);
+      $separator: $breadcrumbs-item-separator-item-rtl;
+      @if global.$global-text-direction == "ltr" {
+        $separator: $breadcrumbs-item-separator-item;
+      }
 
       &:not(:last-child) {
         &::after {
@@ -92,9 +101,8 @@ $breadcrumbs-item-separator-color: $medium-gray !default;
           color: $breadcrumbs-item-separator-color;
         }
       }
-    }
-    @else {
-      margin-#{$global-right}: $breadcrumbs-item-margin;
+    } @else {
+      margin-#{global.$global-right}: $breadcrumbs-item-margin;
     }
   }
 

@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for text utilities
 /// @type Boolean
-$prototype-utilities-breakpoints: $global-prototype-breakpoints !default;
+$prototype-utilities-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Default Value for `text-overflow` variable
 /// @type String
@@ -63,9 +66,9 @@ $prototype-text-overflow: ellipsis !default;
 
   @if ($prototype-utilities-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-text-hide {
             @include text-hide;
           }

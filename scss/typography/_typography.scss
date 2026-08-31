@@ -7,20 +7,20 @@
 ////
 
 // Base typography styles (tags only)
-@import 'base';
+@use 'base';
 
 // Typography helper classes (classes only)
-@import 'helpers';
+@use 'helpers';
 
 // Text alignment classes
-@import 'alignment';
+@use 'alignment';
 
 // Print styles
-@import 'print';
+@use 'print';
 
 @mixin foundation-typography {
-  @include foundation-typography-base;
-  @include foundation-typography-helpers;
-  @include foundation-text-alignment;
-  @include foundation-print-styles;
+  @include base.foundation-typography-base;
+  @include helpers.foundation-typography-helpers;
+  @include alignment.foundation-text-alignment;
+  @include print.foundation-print-styles;
 }

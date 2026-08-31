@@ -1,3 +1,8 @@
+@use "sass:meta";
+@use "../util/breakpoint";
+@use "../util/mixins";
+@use "../util/unit";
+
 // sass-lint:disable no-vendor-prefixes
 
 /// Modifies a grid to give it "frame" behavior (no overflow, no wrap, stretch behavior)
@@ -14,7 +19,6 @@
   $breakpoint: null,
   $include-base: true
 ) {
-
   @if $include-base {
     overflow: hidden;
     position: relative;
@@ -22,19 +26,28 @@
     align-items: stretch;
   }
 
-  @if $breakpoint == null and type-of($gutters) == 'map' {
-    @include -zf-each-breakpoint() {
-      @include xy-grid-frame($vertical, $nested, $gutters, $-zf-size, false);
+  @if $breakpoint == null and meta.type-of($gutters) == "map" {
+    @include mixins.zf-each-breakpoint() {
+      @include xy-grid-frame(
+        $vertical,
+        $nested,
+        $gutters,
+        breakpoint.$zf-size,
+        false
+      );
     }
   } @else {
     // Get our gutters if applicable
-    $gutter: -zf-get-bp-val($gutters, $breakpoint);
+    $gutter: breakpoint.zf-get-bp-val($gutters, $breakpoint);
 
     // If we have a gutter, add it to the width/height
     @if $gutter {
       @if $vertical == true {
-        $unit: if($nested == true, 100%, 100vh);
-        $gutter: rem-calc($gutter);
+        $unit: 100vh;
+        @if $nested == true {
+          $unit: 100%;
+        }
+        $gutter: unit.rem-calc($gutter);
         // Make sure that 0 is translated in 0rem for calc()
         @if $gutter == 0 {
           // sass-lint:disable zero-unit
@@ -42,8 +55,11 @@
         }
         height: calc(#{$unit} + #{$gutter});
       } @else {
-        $unit: if($nested == true, 100%, 100vw);
-        $gutter: rem-calc($gutter);
+        $unit: 100vw;
+        @if $nested == true {
+          $unit: 100%;
+        }
+        $gutter: unit.rem-calc($gutter);
         // Make sure that 0 is translated in 0rem for calc()
         @if $gutter == 0 {
           // sass-lint:disable zero-unit
@@ -51,12 +67,19 @@
         }
         width: calc(#{$unit} + #{$gutter});
       }
-    }
-    @else {
+    } @else {
       @if $vertical == true {
-        height: if($nested == true, 100%, 100vh);
+        $h: 100vh;
+        @if $nested == true {
+          $h: 100%;
+        }
+        height: $h;
       } @else {
-        width: if($nested == true, 100%, 100vw);
+        $w: 100vw;
+        @if $nested == true {
+          $w: 100%;
+        }
+        width: $w;
       }
     }
   }
@@ -65,10 +88,11 @@
 /// Modifies a cell to give it "block" behavior (overflow auto, inertial scrolling)
 ///
 /// @param {Boolean} $vertical [false] - Is grid vertical or horizontal. Should match grid.
-@mixin xy-cell-block(
-  $vertical: false
-) {
-  $property: if($vertical == true, 'overflow-y', 'overflow-x');
+@mixin xy-cell-block($vertical: false) {
+  $property: "overflow-x";
+  @if $vertical == true {
+    $property: "overflow-y";
+  }
 
   @if $vertical == true {
     overflow-y: auto;

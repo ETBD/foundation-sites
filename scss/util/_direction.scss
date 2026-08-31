@@ -1,3 +1,4 @@
+@use "sass:list";
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -14,7 +15,7 @@
   $dir
 ) {
   $dirs: (top, right, bottom, left);
-  $place: index($dirs, $dir);
+  $place: list.index($dirs, $dir);
 
   @if $place == null {
     @error 'direction-opposite: Invalid $dir parameter, expected a value from "#{$dirs}", found "#{$dir}".';
@@ -22,10 +23,10 @@
   }
 
   // Calculate the opposite place in a circle, with a starting index of 1
-  $length: length($dirs);
+  $length: list.length($dirs);
   $demi: $length * 0.5;
   $opposite-place: (($place + $demi - 1) % $length) + 1;
 
-  @return nth($dirs, $opposite-place);
+  @return list.nth($dirs, $opposite-place);
 }
 

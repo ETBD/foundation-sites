@@ -1,6 +1,13 @@
+@use "../global";
+@use "../util/color" as color2;
+@use "../util/mixins";
+@use "../util/unit";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
+
+@use "sass:color";
 
 ////
 /// @group switch
@@ -8,19 +15,25 @@
 
 /// Background color of a switch.
 /// @type Color
-$switch-background: $medium-gray !default;
+$switch-background: global.$medium-gray !default;
 
 /// Background color of a switch on focus.
 /// @type Color
-$switch-background-focus: scale-color($switch-background, $lightness: -10%) !default;
+$switch-background-focus: color.scale(
+  $switch-background,
+  $lightness: -10%
+) !default;
 
 /// Background active color of a switch.
 /// @type Color
-$switch-background-active: $primary-color !default;
+$switch-background-active: color2.$primary-color !default;
 
 /// Background active color of a switch on focus.
 /// @type Color
-$switch-background-active-focus: scale-color($switch-background-active, $lightness: -15%) !default;
+$switch-background-active-focus: color.scale(
+  $switch-background-active,
+  $lightness: -15%
+) !default;
 
 /// Height of a switch, with no class applied.
 /// @type Number
@@ -40,15 +53,15 @@ $switch-height-large: 2.5rem !default;
 
 /// Border radius of the switch
 /// @type Number
-$switch-radius: $global-radius !default;
+$switch-radius: global.$global-radius !default;
 
 /// border around a modal.
 /// @type Number
-$switch-margin: $global-margin !default;
+$switch-margin: global.$global-margin !default;
 
 /// Background color for the switch container and paddle.
 /// @type Color
-$switch-paddle-background: $white !default;
+$switch-paddle-background: global.$white !default;
 
 /// Spacing between a switch paddle and the edge of the body.
 /// @type Number
@@ -56,7 +69,7 @@ $switch-paddle-offset: 0.25rem !default;
 
 /// border radius of the switch paddle
 /// @type Number
-$switch-paddle-radius: $global-radius !default;
+$switch-paddle-radius: global.$global-radius !default;
 
 /// switch transition.
 /// @type Number
@@ -81,9 +94,9 @@ $switch-cursor-disabled: not-allowed !default;
   outline: 0;
 
   // These properties cascade down to the switch text
-  font-size: rem-calc(14);
+  font-size: unit.rem-calc(14);
   font-weight: bold;
-  color: $white;
+  color: global.$white;
 
   user-select: none;
 }
@@ -126,7 +139,7 @@ $switch-cursor-disabled: not-allowed !default;
   &::after {
     position: absolute;
     top: $switch-paddle-offset;
-    #{$global-left}: $switch-paddle-offset;
+    #{global.$global-left}: $switch-paddle-offset;
 
     display: block;
     width: $paddle-width;
@@ -136,7 +149,7 @@ $switch-cursor-disabled: not-allowed !default;
     border-radius: $switch-paddle-radius;
     background: $switch-paddle-background;
     transition: $switch-paddle-transition;
-    content: '';
+    content: "";
   }
 
   // Change the visual style when the switch is active
@@ -144,10 +157,9 @@ $switch-cursor-disabled: not-allowed !default;
     background: $switch-background-active;
 
     &::after {
-      #{$global-left}: $paddle-active-offest;
+      #{global.$global-left}: $paddle-active-offest;
     }
   }
-
 
   // Change the visual style when the switch is focused
   input:focus-visible ~ & {
@@ -162,7 +174,6 @@ $switch-cursor-disabled: not-allowed !default;
     background: $switch-background-active-focus;
   }
 
-
   // indicate a disabled switch
   input:disabled ~ & {
     cursor: $switch-cursor-disabled;
@@ -170,7 +181,7 @@ $switch-cursor-disabled: not-allowed !default;
   }
 
   input:focus ~ & {
-    @include disable-mouse-outline;
+    @include mixins.disable-mouse-outline;
   }
 }
 
@@ -183,7 +194,7 @@ $switch-cursor-disabled: not-allowed !default;
 
 /// Adds styles for the active state text within a switch.
 @mixin switch-text-active {
-  #{$global-left}: 8%;
+  #{global.$global-left}: 8%;
   display: none;
 
   input:checked + label > & {
@@ -193,7 +204,7 @@ $switch-cursor-disabled: not-allowed !default;
 
 /// Adds styles for the inactive state text within a switch.
 @mixin switch-text-inactive {
-  #{$global-right}: 15%;
+  #{global.$global-right}: 15%;
 
   input:checked + label > & {
     display: none;
@@ -209,7 +220,6 @@ $switch-cursor-disabled: not-allowed !default;
   $switch-height: 2rem,
   $paddle-offset: 0.25rem
 ) {
-
   $switch-width: $switch-height * 2;
   $paddle-width: $switch-height - ($paddle-offset * 2);
   $paddle-height: $switch-height - ($paddle-offset * 2);
@@ -225,13 +235,13 @@ $switch-cursor-disabled: not-allowed !default;
 
   .switch-paddle::after {
     top: $paddle-offset;
-    #{$global-left}: $paddle-offset;
+    #{global.$global-left}: $paddle-offset;
     width: $paddle-width;
     height: $paddle-height;
   }
 
   input:checked ~ .switch-paddle::after {
-    #{$global-left}: $paddle-active-offest;
+    #{global.$global-left}: $paddle-active-offest;
   }
 }
 
@@ -271,14 +281,26 @@ $switch-cursor-disabled: not-allowed !default;
 
   // Switch sizes
   .switch.tiny {
-    @include switch-size(rem-calc(10), $switch-height-tiny, $switch-paddle-offset);
+    @include switch-size(
+      unit.rem-calc(10),
+      $switch-height-tiny,
+      $switch-paddle-offset
+    );
   }
 
   .switch.small {
-    @include switch-size(rem-calc(12), $switch-height-small, $switch-paddle-offset);
+    @include switch-size(
+      unit.rem-calc(12),
+      $switch-height-small,
+      $switch-paddle-offset
+    );
   }
 
   .switch.large {
-    @include switch-size(rem-calc(16), $switch-height-large, $switch-paddle-offset);
+    @include switch-size(
+      unit.rem-calc(16),
+      $switch-height-large,
+      $switch-paddle-offset
+    );
   }
 }

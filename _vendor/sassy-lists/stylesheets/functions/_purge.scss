@@ -1,3 +1,7 @@
+@use "sass:list";
+@use "../helpers/true" as sl-true;
+@use "to-list";
+
 /// Removes all false and null values from `$list`.
 ///
 /// @ignore Documentation: http://at-import.github.io/SassyLists/documentation/#function-sl-purge
@@ -15,24 +19,22 @@
 ///
 
 @function sl-purge($list) {
-  $_: sl-missing-dependencies('sl-is-true', 'sl-to-list');
-  
   $result: ();
 
   @each $item in $list {
-    @if sl-is-true($item) {
-      $result: append($result, $item, list-separator($list));
+    @if sl-true.sl-is-true($item) {
+      $result: list.append($result, $item, list.separator($list));
     }
   }
 
-  @return sl-to-list($result);
+  @return to-list.sl-to-list($result);
 }
 
 ///
 /// @requires sl-purge
 /// @alias sl-purge
 ///
- 
+
 @function sl-clean($list) {
   @return sl-purge($list);
 }

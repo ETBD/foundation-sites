@@ -1,3 +1,6 @@
+@use "../global";
+@use "../util/breakpoint";
+
 // Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
@@ -8,7 +11,7 @@
 
 /// Responsive breakpoints for border box.
 /// @type Boolean
-$prototype-border-box-breakpoints: $global-prototype-breakpoints !default;
+$prototype-border-box-breakpoints: global.$global-prototype-breakpoints !default;
 
 /// Border box utility
 @mixin border-box {
@@ -22,9 +25,9 @@ $prototype-border-box-breakpoints: $global-prototype-breakpoints !default;
 
   @if ($prototype-border-box-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in $breakpoint-classes {
-      @include breakpoint($size) {
-        @if $size != $-zf-zero-breakpoint {
+    @each $size in breakpoint.$breakpoint-classes {
+      @include breakpoint.breakpoint($size) {
+        @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-border-box {
             @include border-box;
           }
