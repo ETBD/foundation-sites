@@ -56,6 +56,8 @@ yarn test:javascript:units
 yarn test:visual
 ```
 
+There is also a **CSS output regression harness** in [`test/regression/`](test/regression/README.md). The Sass unit tests exercise utility functions in isolation with default settings, which leaves the framework's central contract untested: a setting you change must actually reach the compiled CSS. The harness closes that gap by compiling Foundation under a range of configurations — custom breakpoints, palettes, `$global-font-size`, RTL, each grid mode — normalizing the result, and diffing it against a baseline recorded from a known-good git ref. Because it describes configurations rather than stylesheet syntax, it can compare across the `@import`-to-`@use` migration, and because both sides compile with the same Sass binary a diff is never a compiler-version artifact. Generate a baseline with `yarn test:regression:baseline`, then check the working tree against it with `yarn test:regression` (add `:diff` to see the diffs). See the [harness README](test/regression/README.md) for fixtures, probes and normalization details.
+
 ## Contributing
 
 Check out [CONTRIBUTING.md](CONTRIBUTING.md) to see how to report an issue or submit a bug fix or a new feature, and our [contributing guide](https://get.foundation/get-involved/contribute.html) to learn how you can contribute more globally to Foundation. You can also browse the [Help Wanted](https://github.com/foundation/foundation-sites/labels/help%20wanted) tag in our issue tracker to find things to do.

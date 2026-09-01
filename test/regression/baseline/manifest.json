@@ -1,0 +1,43 @@
+{
+  "ref": "develop",
+  "sha": "337be7a8d9d20d28f5d27d2d98131a6d3772506c",
+  "dialect": "import",
+  "fixtures": {
+    "default": {
+      "status": "ok"
+    },
+    "global-font-size": {
+      "status": "ok"
+    },
+    "breakpoints": {
+      "status": "ok"
+    },
+    "text-direction-rtl": {
+      "status": "ok"
+    },
+    "palette": {
+      "status": "ok"
+    },
+    "global-misc": {
+      "status": "ok"
+    },
+    "colors-greys": {
+      "status": "ok"
+    },
+    "component-vars": {
+      "status": "ok"
+    },
+    "grid-flex": {
+      "status": "ok"
+    },
+    "grid-float": {
+      "status": "ok"
+    },
+    "xy-grid-gutters": {
+      "status": "ok"
+    },
+    "prototype": {
+      "status": "ok"
+    }
+  }
+}
