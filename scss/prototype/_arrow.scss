@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 
 // Foundation for Sites
@@ -24,7 +24,7 @@ $prototype-arrow-size: 0.4375rem;
 
 /// Color of the Arrow, `$black` by default.
 /// @type Color
-$prototype-arrow-color: global.$black;
+$prototype-arrow-color: config.$black;
 
 @mixin foundation-prototype-arrow {
   @each $prototype-arrow-direction in $prototype-arrow-directions {

@@ -1,5 +1,5 @@
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/mixins";
 @use "../util/unit";
@@ -14,7 +14,7 @@
 
 /// Margin around a breadcrumbs container.
 /// @type Number
-$breadcrumbs-margin: 0 0 global.$global-margin 0 !default;
+$breadcrumbs-margin: 0 0 config.$global-margin 0 !default;
 
 /// Font size of breadcrumb links.
 /// @type Number
@@ -26,11 +26,11 @@ $breadcrumbs-item-color: color.$primary-color !default;
 
 /// Color of the active breadcrumb link.
 /// @type Color
-$breadcrumbs-item-color-current: global.$black !default;
+$breadcrumbs-item-color-current: config.$black !default;
 
 /// Opacity of disabled breadcrumb links.
 /// @type Number
-$breadcrumbs-item-color-disabled: global.$medium-gray !default;
+$breadcrumbs-item-color-disabled: config.$medium-gray !default;
 
 /// Margin between breadcrumb items.
 /// @type Number
@@ -59,7 +59,7 @@ $breadcrumbs-item-separator-item-rtl: "\\" !default;
 
 /// Color of breadcrumb item.
 /// @type Color
-$breadcrumbs-item-separator-color: global.$medium-gray !default;
+$breadcrumbs-item-separator-color: config.$medium-gray !default;
 
 // If it exists $breadcrumbs-item-slash-color is used to build $breadcrumbs-item-separator-color. See the documentation.
 @if meta.variable-exists(breadcrumbs-item-slash-color) {
@@ -75,7 +75,7 @@ $breadcrumbs-item-separator-color: global.$medium-gray !default;
 
   // Item wrapper
   li {
-    float: #{global.$global-left};
+    float: #{config.$global-left};
 
     font-size: $breadcrumbs-item-font-size;
     color: $breadcrumbs-item-color-current;
@@ -88,7 +88,7 @@ $breadcrumbs-item-separator-color: global.$medium-gray !default;
     @if $breadcrumbs-item-separator {
       // Need to escape the backslash
       $separator: $breadcrumbs-item-separator-item-rtl;
-      @if global.$global-text-direction == "ltr" {
+      @if config.$global-text-direction == "ltr" {
         $separator: $breadcrumbs-item-separator-item;
       }
 
@@ -102,7 +102,7 @@ $breadcrumbs-item-separator-color: global.$medium-gray !default;
         }
       }
     } @else {
-      margin-#{global.$global-right}: $breadcrumbs-item-margin;
+      margin-#{config.$global-right}: $breadcrumbs-item-margin;
     }
   }
 

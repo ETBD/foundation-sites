@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/color" as color2;
 @use "../util/unit";
@@ -17,7 +17,7 @@
 
 /// Default color for table background.
 /// @type Color
-$table-background: global.$white  !default;
+$table-background: config.$white  !default;
 
 /// Default scale for darkening the striped table rows and the table border.
 /// @type Number
@@ -73,11 +73,11 @@ $table-foot-row-hover: color.adjust($table-foot-background, $lightness: -$table-
 
 /// Default font color for header.
 /// @type Color
-$table-head-font-color: global.$body-font-color !default;
+$table-head-font-color: config.$body-font-color !default;
 
 /// Default font color for footer.
 /// @type Color
-$table-foot-font-color: global.$body-font-color !default;
+$table-foot-font-color: config.$body-font-color !default;
 
 /// Default value for showing the header when using stacked tables.
 /// @type Boolean
@@ -124,7 +124,7 @@ $table-stack-breakpoint: medium !default;
   // Caption
   caption {
     padding: $table-padding;
-    font-weight: global.$global-weight-bold;
+    font-weight: config.$global-weight-bold;
   }
 
   // Table head
@@ -151,8 +151,8 @@ $table-stack-breakpoint: medium !default;
     th,
     td {
       padding: $table-padding;
-      font-weight: global.$global-weight-bold;
-      text-align: #{global.$global-left};
+      font-weight: config.$global-weight-bold;
+      text-align: #{config.$global-left};
     }
   }
 
@@ -201,8 +201,8 @@ $table-stack-breakpoint: medium !default;
 ) {
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: global.$global-margin;
-  border-radius: global.$global-radius;
+  margin-bottom: config.$global-margin;
+  border-radius: config.$global-radius;
 
   @if $nest {
     @include -zf-table-children-styles($stripe);

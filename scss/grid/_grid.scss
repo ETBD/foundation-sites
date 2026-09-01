@@ -6,7 +6,8 @@
 /// @group grid
 ////
 
-@use "../global";
+@use "../config";
+@forward "vars";
 @use "vars";
 @use "row";
 @use "column";
@@ -18,16 +19,12 @@
 
 @use "flex-grid";
 
-// Re-export variables from vars for external access
-$grid-row-width: vars.$grid-row-width !default;
-$grid-column-count: vars.$grid-column-count !default;
-$grid-column-gutter: vars.$grid-column-gutter !default;
-$grid-column-align-edge: vars.$grid-column-align-edge !default;
-$grid-column-alias: vars.$grid-column-alias !default;
-$block-grid-max: vars.$block-grid-max !default;
+// Settings are declared in `_vars.scss` and re-exported by the `@forward`
+// above; re-declaring them here would collide once the entry point forwards
+// both modules.
 
 // Internal value to store the end column float direction
-$zf-end-float: global.$global-left;
-@if $grid-column-align-edge {
-  $zf-end-float: global.$global-right;
+$zf-end-float: config.$global-left;
+@if vars.$grid-column-align-edge {
+  $zf-end-float: config.$global-right;
 }

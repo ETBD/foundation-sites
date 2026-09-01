@@ -10,6 +10,7 @@
 @use "layout";
 @use "position";
 @use "vars";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -161,9 +162,7 @@
     > .cell {
       @include cell.xy-cell(
         $vertical: $vertical,
-        $output: (
-          size gutters,
-        )
+        $output: (size gutters)
       );
     }
 
@@ -179,9 +178,7 @@
         > .cell {
           @include cell.xy-cell(
             $vertical: $vertical,
-            $output: (
-              size gutters,
-            )
+            $output: (size gutters)
           );
         }
       }
@@ -303,7 +300,7 @@
 
 // Collapse classes
 @mixin xy-collapse-grid-classes($margin-grid: true, $padding-grid: true) {
-  @each $bp in breakpoint.$breakpoint-classes {
+  @each $bp in settings.$breakpoint-classes {
     @if $margin-grid {
       .#{$bp}-margin-collapse {
         @include collapse.xy-grid-collapse(

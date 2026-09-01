@@ -1,9 +1,8 @@
 @use "sass:color";
+@use "true" as *;
 
-@import "true";
-
-@import "../../scss/global";
-@import "../../scss/util/color";
+@use "../../scss/core-settings" as *;
+@use "../../scss/util/color" as *;
 
 @include test-module("Color") {
   @include test("Foreground (Black) [function]") {

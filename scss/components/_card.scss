@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 
 // Foundation for Sites
 // https://get.foundation
@@ -10,19 +10,19 @@
 
 /// Default background color.
 /// @type Color
-$card-background: global.$white !default;
+$card-background: config.$white !default;
 
 /// Default font color for cards.
 /// @type Color
-$card-font-color: global.$body-font-color !default;
+$card-font-color: config.$body-font-color !default;
 
 /// Default background.
 /// @type Color
-$card-divider-background: global.$light-gray !default;
+$card-divider-background: config.$light-gray !default;
 
 /// Default border style.
 /// @type List
-$card-border: 1px solid global.$light-gray !default;
+$card-border: 1px solid config.$light-gray !default;
 
 /// Default card shadow.
 /// @type List
@@ -30,15 +30,15 @@ $card-shadow: none !default;
 
 /// Default border radius.
 /// @type List
-$card-border-radius: global.$global-radius !default;
+$card-border-radius: config.$global-radius !default;
 
 /// Default padding.
 /// @type Number
-$card-padding: global.$global-padding !default;
+$card-padding: config.$global-padding !default;
 
 /// Default bottom margin.
 /// @type number
-$card-margin-bottom: global.$global-margin !default;
+$card-margin-bottom: config.$global-margin !default;
 
 /// Adds styles for a card container.
 /// @param {Color} $background - Background color of the card.
@@ -55,7 +55,7 @@ $card-margin-bottom: global.$global-margin !default;
   $radius: $card-border-radius,
   $shadow: $card-shadow
 ) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -82,7 +82,7 @@ $card-margin-bottom: global.$global-margin !default;
   $background: $card-divider-background,
   $padding: $card-padding
 ) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     display: flex;
     flex: 0 1 auto;
   }
@@ -99,7 +99,7 @@ $card-margin-bottom: global.$global-margin !default;
 @mixin card-section(
   $padding: $card-padding
 ) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex: 1 0 auto;
   }
 

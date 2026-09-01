@@ -1,11 +1,12 @@
 @use "sass:list";
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../typography/base";
 @use "../util/breakpoint";
 @use "../util/color";
 @use "../util/mixins";
 @use "menu";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -41,11 +42,11 @@ $dropdownmenu-background: null !default;
 
 /// Background color for dropdowns.
 /// @type Color
-$dropdownmenu-submenu-background: global.$white !default;
+$dropdownmenu-submenu-background: config.$white !default;
 
 /// Padding for top level items.
 /// @type Number
-$dropdownmenu-padding: global.$global-menu-padding !default;
+$dropdownmenu-padding: config.$global-menu-padding !default;
 
 /// Sets dropdown menu nested margin
 /// @type Number
@@ -57,7 +58,7 @@ $dropdownmenu-submenu-padding: $dropdownmenu-padding !default;
 
 /// Border for dropdown sub-menus.
 /// @type List
-$dropdownmenu-border: 1px solid global.$medium-gray !default;
+$dropdownmenu-border: 1px solid config.$medium-gray !default;
 
 // Border width for dropdown sub-menus.
 // Used to adjust top margin of a sub-menu if a border is used.
@@ -74,7 +75,7 @@ $dropdown-menu-item-background-active: transparent !default;
 
 @mixin zf-dropdown-left-right-arrows {
   > a::after {
-    #{global.$global-right}: 14px;
+    #{config.$global-right}: 14px;
   }
 
   &.opens-left > a::after {
@@ -109,13 +110,13 @@ $dropdown-menu-item-background-active: transparent !default;
     @if $dropdownmenu-arrows {
       > li.is-dropdown-submenu-parent > a { // sass-lint:disable-line no-qualifying-elements
         position: relative;
-        padding-#{global.$global-right}: $dropdownmenu-arrow-padding;
+        padding-#{config.$global-right}: $dropdownmenu-arrow-padding;
       }
 
       > li.is-dropdown-submenu-parent > a::after { // sass-lint:disable-line no-qualifying-elements
         @include mixins.css-triangle($dropdownmenu-arrow-size, $dropdownmenu-arrow-color, down);
-        #{global.$global-right}: 5px;
-        #{global.$global-left}: auto;
+        #{config.$global-right}: 5px;
+        #{config.$global-left}: auto;
         margin-top: -1 * ($dropdownmenu-arrow-size * 0.5);
       }
     }
@@ -183,7 +184,7 @@ $dropdown-menu-item-background-active: transparent !default;
       @include dropdown-menu-direction(vertical);
     }
 
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @if $size != breakpoint.$zf-zero-breakpoint {
         @include breakpoint.breakpoint($size) {
           &.#{$size}-horizontal {
@@ -220,15 +221,15 @@ $dropdown-menu-item-background-active: transparent !default;
     a::after {
       position: absolute;
       top: 50%;
-      #{global.$global-right}: 5px;
-      #{global.$global-left}: auto;
+      #{config.$global-right}: 5px;
+      #{config.$global-left}: auto;
       margin-top: -1 * $dropdownmenu-arrow-size;
     }
 
     &.opens-inner > .is-dropdown-submenu {
 
       top: 100%;
-      @if global.$global-text-direction == 'rtl' {
+      @if config.$global-text-direction == 'rtl' {
         right: auto;
       }
       @else {
@@ -250,7 +251,7 @@ $dropdown-menu-item-background-active: transparent !default;
   .is-dropdown-submenu {
     position: absolute;
     top: 0;
-    #{global.$global-left}: 100%;
+    #{config.$global-left}: 100%;
     z-index: 1;
 
     display: none;

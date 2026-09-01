@@ -6,14 +6,11 @@
 @use "sass:math";
 @use "sass:meta";
 @use 'math' as math2;
-
-$unit-warnings: true !default;
+@use '../core-settings' as settings;
 
 ////
 /// @group functions
 ////
-
-$global-font-size: 100% !default;
 
 /// Removes the unit (e.g. px, em, rem) from a value, returning the number only.
 ///
@@ -36,7 +33,7 @@ $global-font-size: 100% !default;
 
   // If no base is defined, defer to the global font size
   @if $base == null {
-    $base: $global-font-size;
+    $base: settings.$global-font-size;
   }
 
   // If the base font size is a %, then multiply it by 16px
@@ -51,11 +48,11 @@ $global-font-size: 100% !default;
   }
 
   @if $count == 1 {
-    @return -zf-to-rem($values, $base);
+    @return zf-to-rem($values, $base);
   }
 
   @for $i from 1 through $count {
-    $rem-values: list.append($rem-values, -zf-to-rem(list.nth($values, $i), $base));
+    $rem-values: list.append($rem-values, zf-to-rem(list.nth($values, $i), $base));
   }
 
   @return $rem-values;
@@ -79,10 +76,10 @@ $global-font-size: 100% !default;
 /// @param {Number} $base [null] - Base for pixel conversion.
 ///
 /// @returns {Number} A number in rems, calculated based on the given value and the base pixel value. rem values are passed through as is.
-@function -zf-to-rem($value, $base: null) {
+@function zf-to-rem($value, $base: null) {
   // Check if the value is a number
   @if meta.type-of($value) != 'number' {
-    @if $unit-warnings {
+    @if settings.$unit-warnings {
       @warn meta.inspect($value) + ' was passed to rem-calc(), which is not a number.';
     }
     @return $value;
@@ -116,7 +113,7 @@ $global-font-size: 100% !default;
 
   // If no base is defined, defer to the global font size
   @if $base == null {
-    $base: $global-font-size;
+    $base: settings.$global-font-size;
   }
 
   // First, lets convert our $base to pixels

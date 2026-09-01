@@ -31,9 +31,9 @@ As a mocha suite (for CI):
 npx mocha test/regression/test_regression.js
 ```
 
-It is deliberately **not** wired into `yarn test` yet, because every fixture
-currently fails on the migration branch. Add `test:regression` to `test` and
-`test:ci` once the migration is green, so it guards future changes.
+It runs as part of `yarn test`, `yarn test:ci` and their single-process
+variants, so any change that moves a setting out of a consumer's reach fails the
+build rather than shipping silently.
 
 ## How it handles two dialects
 
@@ -66,8 +66,8 @@ Neutralized, because none of it affects rendering:
 Preserved, because all of it affects the cascade: rule order, declaration order
 within a rule, at-rule nesting and params, every property and value.
 
-The payoff: on this branch the stock `default` fixture reports 58 changed lines
-and **every one is a real defect**. No filtering by hand.
+The payoff: no filtering by hand. When the module migration landed, the stock
+`default` fixture reported 58 changed lines and **every one was a real defect**.
 
 ## Fixtures
 
@@ -88,6 +88,13 @@ works before an `@import` but not inside `@use ... with (...)`, so write
 `62.5rem`. Comma-containing values are auto-parenthesized (`listSafe`), because
 a bare comma would otherwise be read as another argument.
 
+Every name in `vars` must be a real `!default` setting. Under `@import` a
+misspelled name was a silent no-op — it assigned a global nothing read — so such
+a fixture passed while proving nothing. Under `@use` it is a hard error
+("this variable was not declared with !default in the @used module"), which is
+how `$callout-padding` and `$menu-item-padding` were found never to have
+existed.
+
 ### Probes
 
 Some regressions never show up in emitted CSS — a function's return value, or a
@@ -97,6 +104,12 @@ value into the output.
 Probes name a *logical* thing to measure; `PROBES` in `lib/render.js` owns the
 per-dialect spelling. That table is the one place that records API renames
 (`-zf-bp-serialize` → `zf-bp-serialize`) and where a symbol now lives.
+
+In the `use` dialect the probes' `@use` lines are emitted *after*
+`@use 'foundation' with (...)`. Configuration only applies to a module that has
+not been loaded yet, and a probe reaching into `util/unit` would load
+Foundation's settings modules first, making every configured fixture a
+"module was already loaded" error.
 
 `flex-justify-global` vs `flex-justify-util` is the pattern worth copying: it
 reads *the same logical setting* through two different modules. On a correct

@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/color" as color2;
 @use "../util/mixins";
@@ -11,6 +11,7 @@
 // Licensed under MIT Open Source
 
 @use "sass:color";
+@use "../core-settings" as settings;
 
 ////
 /// @group button
@@ -31,7 +32,7 @@ $button-padding: 0.85em 1em !default;
 
 /// Margin around buttons.
 /// @type List
-$button-margin: 0 0 global.$global-margin 0 !default;
+$button-margin: 0 0 config.$global-margin 0 !default;
 
 /// Default fill for buttons. Can either be `solid` or `hollow`.
 /// @type Keyword
@@ -50,15 +51,15 @@ $button-background-hover: color.scale(
 
 /// Font color for buttons.
 /// @type List
-$button-color: global.$white !default;
+$button-color: config.$white !default;
 
 /// Alternative font color for buttons.
 /// @type List
-$button-color-alt: global.$black !default;
+$button-color-alt: config.$black !default;
 
 /// Border radius for buttons, defaulted to global-radius.
 /// @type Number
-$button-radius: global.$global-radius !default;
+$button-radius: config.$global-radius !default;
 
 /// Border for buttons, transparent by default
 /// @type List
@@ -79,7 +80,7 @@ $button-sizes: (
 
 /// Coloring classes. A map of classes to output in your CSS, like `.secondary`, `.success`, and so on.
 /// @type Map
-$button-palette: global.$foundation-palette !default;
+$button-palette: config.$foundation-palette !default;
 
 /// opacity for a disabled button.
 /// @type List
@@ -94,8 +95,8 @@ $button-background-hover-lightness: -20% !default;
 $button-hollow-hover-lightness: -50% !default;
 
 // Internal: flip from margin-right to margin-left for defaults
-@if global.$global-text-direction == "rtl" {
-  $button-margin: 0 0 global.$global-margin global.$global-margin !default;
+@if config.$global-text-direction == "rtl" {
+  $button-margin: 0 0 config.$global-margin config.$global-margin !default;
 }
 
 /// transitions for buttons.
@@ -325,7 +326,7 @@ $button-responsive-expanded: false !default;
 /// @param {Number} $offset [$button-padding] - Distance between the arrow and the text of the button. Defaults to whatever the right padding of a button is.
 @mixin button-dropdown(
   $size: 0.4em,
-  $color: global.$white,
+  $color: config.$white,
   $offset: value.get-side($button-padding, right)
 ) {
   &::after {
@@ -334,8 +335,8 @@ $button-responsive-expanded: false !default;
     top: 0.4em; // Aligns the arrow with the text of the button
 
     display: inline-block;
-    float: #{global.$global-right};
-    margin-#{global.$global-left}: $offset;
+    float: #{config.$global-right};
+    margin-#{config.$global-left}: $offset;
   }
 }
 
@@ -377,7 +378,7 @@ $button-responsive-expanded: false !default;
     }
 
     @if $button-responsive-expanded {
-      @each $size in breakpoint.$breakpoint-classes {
+      @each $size in settings.$breakpoint-classes {
         @include breakpoint.breakpoint(#{$size} only) {
           &.#{$size}-only-expanded {
             @include button-expand;
@@ -454,7 +455,7 @@ $button-responsive-expanded: false !default;
     &.arrow-only::after {
       top: -0.1em;
       float: none;
-      margin-#{global.$global-left}: 0;
+      margin-#{config.$global-left}: 0;
     }
   }
 

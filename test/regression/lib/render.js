@@ -111,14 +111,18 @@ function renderEntry(fixture, dialect) {
     out.push(`@import 'foundation';`);
     out.push(`@include foundation-everything${args};`);
   } else {
-    // @use rules must precede everything else.
-    for (const [url, ns] of uses) out.push(`@use '${url}' as ${ns};`);
+    // `@use 'foundation' with (...)` must come FIRST. Configuration only
+    // applies to a module that has not been loaded yet, and a probe's `@use`
+    // of e.g. `util/unit` loads Foundation's settings modules transitively --
+    // so emitting probes first makes every configured fixture a hard
+    // "module was already loaded" error.
     if (varNames.length) {
       const withList = varNames.map((n) => `  $${n}: ${listSafe(vars[n])}`).join(',\n');
       out.push(`@use 'foundation' with (\n${withList}\n);`);
     } else {
       out.push(`@use 'foundation';`);
     }
+    for (const [url, ns] of uses) out.push(`@use '${url}' as ${ns};`);
     out.push(`@include foundation.foundation-everything${args};`);
   }
 

@@ -4,7 +4,11 @@
 //
 // XY Grid variables — extracted to avoid circular @use dependencies.
 
-@use "../global";
+@use "../config";
+
+////
+/// @group xy-grid
+////
 
 /// Enables the XY grid.
 /// @type Boolean
@@ -12,7 +16,7 @@ $xy-grid: true !default;
 
 /// The maximum width of a grid container.
 /// @type Number
-$grid-container: global.$global-width !default;
+$grid-container: config.$global-width !default;
 
 /// The number of columns used in the grid.
 /// @type Number
@@ -35,7 +39,7 @@ $grid-container-padding: $grid-padding-gutters !default;
 
 /// The maximum width of the grid container. Set to `null` to have no limit.
 /// @type Number
-$grid-container-max: global.$global-width !default;
+$grid-container-max: config.$global-width !default;
 
 /// Number of times the block grid should be able to generate columns. One for each breakpoint.
 /// @type Number

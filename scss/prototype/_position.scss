@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for position helpers
 /// @type Boolean
-$prototype-position-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-position-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `position` classes
 /// @type Map
@@ -41,16 +42,16 @@ $prototype-position-z-index: 975 !default;
 ) {
   position: $position !important;
   @if $top != null {
-    top: $top * global.$global-position !important;
+    top: $top * config.$global-position !important;
   }
   @if $right != null {
-    right: $right * global.$global-position !important;
+    right: $right * config.$global-position !important;
   }
   @if $bottom != null {
-    bottom: $bottom * global.$global-position !important;
+    bottom: $bottom * config.$global-position !important;
   }
   @if $left != null {
-    left: $left * global.$global-position !important;
+    left: $left * config.$global-position !important;
   }
 }
 
@@ -90,7 +91,7 @@ $prototype-position-z-index: 975 !default;
 
   @if ($prototype-position-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         // Position: Static, Relative, Fixed, Absolute
         @each $position in $prototype-position {

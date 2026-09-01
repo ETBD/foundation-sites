@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 
 // Foundation for Sites
 // https://get.foundation
@@ -14,11 +14,11 @@ $dropdown-padding: 1rem !default;
 
 /// Background for dropdown panes.
 /// @type Color
-$dropdown-background: global.$body-background !default;
+$dropdown-background: config.$body-background !default;
 
 /// Border for dropdown panes.
 /// @type List
-$dropdown-border: 1px solid global.$medium-gray !default;
+$dropdown-border: 1px solid config.$medium-gray !default;
 
 /// Font size for dropdown panes.
 /// @type List
@@ -30,7 +30,7 @@ $dropdown-width: 300px !default;
 
 /// Border radius dropdown panes.
 /// @type Number
-$dropdown-radius: global.$global-radius !default;
+$dropdown-radius: config.$global-radius !default;
 
 /// Sizes for dropdown panes. Each size is a CSS class you can apply.
 /// @type Map

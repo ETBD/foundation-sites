@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/value";
 
@@ -16,11 +16,11 @@ $slider-height: 0.5rem !default;
 
 /// Default background color of the slider's track.
 /// @type Color
-$slider-background: global.$light-gray !default;
+$slider-background: config.$light-gray !default;
 
 /// Default color of the active fill color of the slider.
 /// @type Color
-$slider-fill-background: global.$medium-gray !default;
+$slider-fill-background: config.$medium-gray !default;
 
 /// Default height of the handle of the slider.
 /// @type Number
@@ -40,7 +40,7 @@ $slider-opacity-disabled: 0.25 !default;
 
 /// Default radius for slider.
 /// @type Number
-$slider-radius: global.$global-radius !default;
+$slider-radius: config.$global-radius !default;
 
 @mixin foundation-range-input {
   input[type='range'] {  // sass-lint:disable-line no-qualifying-elements
@@ -115,8 +115,8 @@ $slider-radius: global.$global-radius !default;
       height: $slider-height;
 
       border: 0;
-      border-top: $margin solid global.$body-background;
-      border-bottom: $margin solid global.$body-background;
+      border-top: $margin solid config.$body-background;
+      border-bottom: $margin solid config.$body-background;
       background: $slider-background;
 
       overflow: visible;

@@ -2,6 +2,7 @@
 @use "../util/breakpoint";
 @use "cell";
 @use "vars";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -41,7 +42,7 @@
     $excluded-bps: breakpoint.zf-breakpoints-less-than($min-breakpoint);
 
     // Output new widths to not include gutters
-    @each $bp in breakpoint.$breakpoint-classes {
+    @each $bp in settings.$breakpoint-classes {
       @if(contain.sl-contain($excluded-bps, $bp)) {
         @include breakpoint.breakpoint($min-breakpoint) {
           @for $i from 1 through vars.$grid-columns {

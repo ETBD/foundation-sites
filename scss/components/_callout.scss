@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "../global";
+@use "../config";
 @use "../util/color" as color2;
 
 // Foundation for Sites
@@ -14,7 +14,7 @@
 
 /// Default background color.
 /// @type Color
-$callout-background: global.$white !default;
+$callout-background: config.$white !default;
 
 /// Default fade value for callout backgrounds.
 /// @type Number
@@ -22,7 +22,7 @@ $callout-background-fade: 85% !default;
 
 /// Default border style for callouts.
 /// @type List
-$callout-border: 1px solid rgba(global.$black, 0.25) !default;
+$callout-border: 1px solid rgba(config.$black, 0.25) !default;
 
 /// Default bottom margin for callouts.
 /// @type Number
@@ -38,15 +38,15 @@ $callout-sizes: (
 
 /// Default font color for callouts.
 /// @type Color
-$callout-font-color: global.$body-font-color !default;
+$callout-font-color: config.$body-font-color !default;
 
 /// Default font color for callouts, if the callout has a dark background.
 /// @type Color
-$callout-font-color-alt: global.$body-background !default;
+$callout-font-color-alt: config.$body-background !default;
 
 /// Default border radius for callouts.
 /// @type Color
-$callout-radius: global.$global-radius !default;
+$callout-radius: config.$global-radius !default;
 
 /// Amount to tint links used within colored panels. Set to `false` to disable this feature.
 /// @type Number | Boolean
@@ -101,7 +101,7 @@ $callout-link-tint: 30% !default;
   .callout {
     @include callout;
 
-    @each $name, $color in global.$foundation-palette {
+    @each $name, $color in config.$foundation-palette {
       &.#{"" + $name} {
         @include callout-style($color);
       }

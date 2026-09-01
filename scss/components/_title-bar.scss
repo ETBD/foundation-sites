@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 
 // Foundation for Sites
@@ -11,11 +11,11 @@
 
 /// Background color of a title bar.
 /// @type Color
-$titlebar-background: global.$black !default;
+$titlebar-background: config.$black !default;
 
 /// Color of text inside a title bar.
 /// @type Color
-$titlebar-color: global.$white !default;
+$titlebar-color: config.$white !default;
 
 /// Padding inside a title bar.
 /// @type Length
@@ -27,11 +27,11 @@ $titlebar-text-font-weight: bold !default;
 
 /// Color of menu icons inside a title bar.
 /// @type Color
-$titlebar-icon-color: global.$white !default;
+$titlebar-icon-color: config.$white !default;
 
 /// Color of menu icons inside a title bar on hover.
 /// @type Color
-$titlebar-icon-color-hover: global.$medium-gray !default;
+$titlebar-icon-color-hover: config.$medium-gray !default;
 
 /// Spacing between the menu icon and text inside a title bar.
 /// @type Length
@@ -43,7 +43,7 @@ $titlebar-icon-spacing: 0.25rem !default;
     background: $titlebar-background;
     color: $titlebar-color;
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -53,12 +53,12 @@ $titlebar-icon-spacing: 0.25rem !default;
     }
 
     .menu-icon {
-      margin-#{global.$global-left}: $titlebar-icon-spacing;
-      margin-#{global.$global-right}: $titlebar-icon-spacing;
+      margin-#{config.$global-left}: $titlebar-icon-spacing;
+      margin-#{config.$global-right}: $titlebar-icon-spacing;
     }
   }
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     .title-bar-left,
     .title-bar-right {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit

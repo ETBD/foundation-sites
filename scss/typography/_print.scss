@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 
 // Foundation for Sites
 // https://get.foundation
@@ -65,7 +65,7 @@ $print-hrefs: true !default;
     // Prevent page breaks in the middle of a blockquote or preformatted text block
     pre,
     blockquote {
-      border: 1px solid global.$dark-gray;
+      border: 1px solid config.$dark-gray;
       page-break-inside: avoid;
     }
 

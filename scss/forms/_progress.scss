@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/value";
 
@@ -16,11 +16,11 @@ $progress-height: 1rem !default;
 
 /// Background color of a progress bar.
 /// @type Color
-$progress-background: global.$medium-gray !default;
+$progress-background: config.$medium-gray !default;
 
 /// Bottom margin of a progress bar.
 /// @type Number
-$progress-margin-bottom: global.$global-margin !default;
+$progress-margin-bottom: config.$global-margin !default;
 
 /// Default color of a progress bar's meter.
 /// @type Color
@@ -28,7 +28,7 @@ $progress-meter-background: color.$primary-color !default;
 
 /// Default radius of a progress bar.
 /// @type Number
-$progress-radius: global.$global-radius !default;
+$progress-radius: config.$global-radius !default;
 
 @mixin foundation-progress-element {
   progress {
@@ -71,7 +71,7 @@ $progress-radius: global.$global-radius !default;
       }
     }
 
-    @each $name, $color in global.$foundation-palette {
+    @each $name, $color in config.$foundation-palette {
       &.#{"" + $name} {
         // Internet Explorer sets the fill with color
         color: $color;

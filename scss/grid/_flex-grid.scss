@@ -193,7 +193,7 @@
   }
 
   @include mixins.zf-each-breakpoint {
-    @for $i from 1 through row.$grid-column-count {
+    @for $i from 1 through vars.$grid-column-count {
       // Sizing (percentage)
       .#{breakpoint.$zf-size}-#{$i} {
         flex: flex-grid-column($i);

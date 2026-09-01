@@ -1,7 +1,6 @@
 @use "sass:list";
 @use "sass:math";
 @use "sass:meta";
-@use "../../_vendor/sassy-lists/stylesheets/functions/remove";
 @use "breakpoint";
 @use "math" as math2;
 @use "value";
@@ -15,13 +14,15 @@
 ////
 
 @use "sass:color";
+@use "../core-settings" as settings;
+@use "../../_vendor/sassy-lists/stylesheets/functions/remove";
 
-// Local defaults matching _global.scss to avoid circular dependency
-$black: #0a0a0a !default;
-$dark-gray: #8a8a8a !default;
-$global-flexbox: true !default;
-
-// Patch to fix issue #12080
+// Mutable module state: the breakpoint name most recently matched by
+// `zf-breakpoint-inherit()`. Set with `!global` inside a loop and read straight
+// after, so it never outlives the mixin that writes it.
+//
+// Module-private under `@use` and left as-is; see the note on `$zf-size` in
+// util/_breakpoint.scss.
 $zf-bp-value: null;
 
 /// Creates an inner box-shadow for only one side
@@ -32,7 +33,7 @@ $zf-bp-value: null;
 @mixin inner-side-shadow(
   $side: bottom,
   $size: 20px,
-  $color: rgba($black, 0.25)
+  $color: rgba(settings.$black, 0.25)
 ) {
   $helper: math.round($size * 0.65);
 
@@ -82,15 +83,15 @@ $zf-bp-value: null;
 
 /// Creates a menu icon with a set width, height, number of bars, and colors. The mixin uses the height of the icon and the weight of the bars to determine spacing. <div class="docs-example-burger"></div>
 ///
-/// @param {Color} $color [$black] - Color to use for the icon.
-/// @param {Color} $color-hover [$dark-gray] - Color to use when the icon is hovered over.
+/// @param {Color} $color [settings.$black] - Color to use for the icon.
+/// @param {Color} $color-hover [settings.$dark-gray] - Color to use when the icon is hovered over.
 /// @param {Number} $width [20px] - Width of the icon.
 /// @param {Number} $height [16px] - Height of the icon.
 /// @param {Number} $weight [2px] - Height of individual bars in the icon.
 /// @param {Number} $bars [3] - Number of bars in the icon.
 @mixin hamburger(
-  $color: $black,
-  $color-hover: $dark-gray,
+  $color: settings.$black,
+  $color-hover: settings.$dark-gray,
   $width: 20px,
   $height: 16px,
   $weight: 2px,
@@ -158,8 +159,8 @@ $zf-bp-value: null;
 /// Adds a downward-facing triangle as a background image to an element. The image is formatted as an SVG, making it easy to change the color. Because Internet Explorer doesn't support encoded SVGs as background images, a PNG fallback is also included.
 /// There are two PNG fallbacks: a black triangle and a white triangle. The one used depends on the lightness of the input color.
 ///
-/// @param {Color} $color [$black] - Color to use for the triangle.
-@mixin background-triangle($color: $black) {
+/// @param {Color} $color [settings.$black] - Color to use for the triangle.
+@mixin background-triangle($color: settings.$black) {
   $red: math.round(color.channel($color, "red", $space: rgb));
   $green: math.round(color.channel($color, "green", $space: rgb));
   $blue: math.round(color.channel($color, "blue", $space: rgb));
@@ -188,7 +189,7 @@ $zf-bp-value: null;
     display: table;
     content: " ";
 
-    @if $global-flexbox {
+    @if settings.$global-flexbox {
       flex-basis: 0;
       order: 1;
     }
@@ -313,7 +314,7 @@ $zf-bp-value: null;
 
   // Retrieve the list of breakpoint(s) to iterate on.
   @if $breakpoints == auto {
-    $-list: breakpoint.$breakpoint-classes;
+    $-list: settings.$breakpoint-classes;
   } @else if meta.type-of($breakpoints) == "list" {
     $-list: $breakpoints;
   } @else if meta.type-of($breakpoints) == "string" {

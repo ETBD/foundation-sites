@@ -8,26 +8,24 @@
 @use "sass:math";
 @use "math" as math2;
 
-$contrast-warnings: true !default;
+@use "../core-settings" as settings;
 
-// Local defaults matching _global.scss to avoid circular dependency
-$white: #fefefe !default;
-$black: #0a0a0a !default;
-$global-color-pick-contrast-tolerance: 0 !default;
-$foundation-palette: (
-  "primary": #1779ba,
-  "secondary": #767676,
-  "success": #3adb76,
-  "warning": #ffae00,
-  "alert": #cc4b37,
-) !default;
+// Derived from $foundation-palette. Because $foundation-palette lives in a leaf
+// module, these are ordinary `!default` derivations rather than the `!global`
+// mutation `add-foundation-colors()` used to perform: configuring the palette
+// at the entry point now reaches them, and each remains overridable on its own.
+@function -zf-palette-color($key, $fallback) {
+  @if map.has-key(settings.$foundation-palette, $key) {
+    @return map.get(settings.$foundation-palette, $key);
+  }
+  @return $fallback;
+}
 
-/// Patch to fix issue #12080
-$primary-color: null !default;
-$secondary-color: null !default;
-$warning-color: null !default;
-$alert-color: null !default;
-$success-color: null !default;
+$primary-color: -zf-palette-color(primary, #1779ba) !default;
+$secondary-color: -zf-palette-color(secondary, #767676) !default;
+$success-color: -zf-palette-color(success, #3adb76) !default;
+$warning-color: -zf-palette-color(warning, #ffae00) !default;
+$alert-color: -zf-palette-color(alert, #cc4b37) !default;
 
 ////
 /// @group functions
@@ -90,14 +88,14 @@ $success-color: null !default;
 /// Checks the luminance of `$base`, and returns the color from `$colors` (list of colors) that has the most contrast.
 ///
 /// @param {Color} $base - Color to check luminance.
-/// @param {List} $colors [($white, $black)] - Colors to compare.
-/// @param {Number} $tolerance [$global-color-pick-contrast-tolerance] - Contrast tolerance.
+/// @param {List} $colors [(settings.$white, settings.$black)] - Colors to compare.
+/// @param {Number} $tolerance [settings.$global-color-pick-contrast-tolerance] - Contrast tolerance.
 ///
 /// @returns {Color} the color from `$colors` (list of colors) that has the most contrast.
 @function color-pick-contrast(
   $base,
-  $colors: ($white, $black),
-  $tolerance: $global-color-pick-contrast-tolerance
+  $colors: (settings.$white, settings.$black),
+  $tolerance: settings.$global-color-pick-contrast-tolerance
 ) {
   $contrast: color-contrast($base, list.nth($colors, 1));
   $best: list.nth($colors, 1);
@@ -110,7 +108,7 @@ $success-color: null !default;
     }
   }
 
-  @if ($contrast-warnings and $contrast < 3) {
+  @if (settings.$contrast-warnings and $contrast < 3) {
     @warn 'Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}';
   }
 
@@ -147,35 +145,16 @@ $success-color: null !default;
   @if map.has-key($colors, $key) {
     @return map.get($colors, $key);
   } @else {
-    @error 'given $key is not available in $foundation-palette';
+    @error 'given $key is not available in settings.$foundation-palette';
   }
 }
 
-/// Transfers the colors in the `$foundation-palette` map into variables, such as `$primary-color` and `$secondary-color`. Call this mixin below the Global section of your settings file to properly migrate your codebase.
-@mixin add-foundation-colors($palette: $foundation-palette) {
-  @if map.has-key($palette, primary) {
-    $primary-color: map.get($palette, primary) !global;
-  } @else {
-    $primary-color: #1779ba !global;
-  }
-  @if map.has-key($palette, secondary) {
-    $secondary-color: map.get($palette, secondary) !global;
-  } @else {
-    $secondary-color: #767676 !global;
-  }
-  @if map.has-key($palette, success) {
-    $success-color: map.get($palette, success) !global;
-  } @else {
-    $success-color: #3adb76 !global;
-  }
-  @if map.has-key($palette, warning) {
-    $warning-color: map.get($palette, warning) !global;
-  } @else {
-    $warning-color: #ffae00 !global;
-  }
-  @if map.has-key($palette, alert) {
-    $alert-color: map.get($palette, alert) !global;
-  } @else {
-    $alert-color: #cc4b37 !global;
-  }
+/// Transfers the colors in the `$foundation-palette` map into variables, such as `$primary-color` and `$secondary-color`.
+///
+/// @deprecated No longer required, and does nothing. `$primary-color` and its
+///   siblings are now derived from `$foundation-palette` automatically, so
+///   configuring the palette at the entry point is enough. Retained as a no-op
+///   so that existing settings files continue to compile.
+@mixin add-foundation-colors($palette: settings.$foundation-palette) {
+  // Intentionally empty. See @deprecated above.
 }

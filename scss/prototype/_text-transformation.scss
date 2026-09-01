@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for text transformation classes
 /// @type Boolean
-$prototype-transformation-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-transformation-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `text-transformation` classes
 /// @type Map
@@ -36,7 +37,7 @@ $prototype-text-transformation: (
 
   @if ($prototype-transformation-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $transformation in $prototype-text-transformation {
           @if $size != breakpoint.$zf-zero-breakpoint {

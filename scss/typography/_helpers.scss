@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/unit";
 @use "base";
 
@@ -12,7 +12,7 @@
 
 /// Default font size for lead paragraphs.
 /// @type Number
-$lead-font-size: global.$global-font-size * 1.25 !default;
+$lead-font-size: config.$global-font-size * 1.25 !default;
 
 /// Default line height for lead paragraphs.
 /// @type String
@@ -24,11 +24,11 @@ $subheader-lineheight: 1.4 !default;
 
 /// Default font color for subheaders.
 /// @type Color
-$subheader-color: global.$dark-gray !default;
+$subheader-color: config.$dark-gray !default;
 
 /// Default font weight for subheaders.
 /// @type String
-$subheader-font-weight: global.$global-weight-normal !default;
+$subheader-font-weight: config.$global-weight-normal !default;
 
 /// Default top margin for subheaders.
 /// @type Number
@@ -44,7 +44,7 @@ $stat-font-size: 2.5rem !default;
 
 /// Text color for `.cite-block` component.
 /// @type Color
-$cite-color: global.$dark-gray !default;
+$cite-color: config.$dark-gray !default;
 
 /// Font size for `.cite-block` component.
 /// @type Number
@@ -56,7 +56,7 @@ $cite-pseudo-content: '\2014 \0020' !default;
 
 /// Text color of `.code-inline` and `.code-block` components.
 /// @type Color
-$code-color: global.$black !default;
+$code-color: config.$black !default;
 
 /// Font family of `.code-inline` and `.code-block` components.
 /// @type String | List
@@ -64,15 +64,15 @@ $code-font-family: base.$font-family-monospace !default;
 
 /// Font weight of text in `.code-inline` and `.code-block` components.
 /// @type String
-$code-font-weight: global.$global-weight-normal !default;
+$code-font-weight: config.$global-weight-normal !default;
 
 /// Background color of `.code-inline` and `.code-block` components.
 /// @type Color
-$code-background: global.$light-gray !default;
+$code-background: config.$light-gray !default;
 
 /// Border around `.code-inline` and `.code-block` components.
 /// @type List
-$code-border: 1px solid global.$medium-gray !default;
+$code-border: 1px solid config.$medium-gray !default;
 
 /// Padding around text of the `.code-inline` component.
 /// @type Number | List
@@ -163,7 +163,7 @@ $code-block-margin-bottom: 1.5rem !default;
   ul, ol {
     // Use to remove numbers from ordered list & bullets from unordered list
     &.no-bullet {
-      margin-#{global.$global-left}: 0;
+      margin-#{config.$global-left}: 0;
       list-style: none;
     }
   }

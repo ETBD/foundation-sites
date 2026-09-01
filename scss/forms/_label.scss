@@ -1,9 +1,10 @@
-@use "../global";
+@use "../config";
 @use "../util/unit";
-$form-spacing: unit.rem-calc(16) !default;
+
 @use "../util/value";
 
 @use "text";
+@use "vars";
 
 // Foundation for Sites
 // https://get.foundation
@@ -15,7 +16,7 @@ $form-spacing: unit.rem-calc(16) !default;
 
 /// Color for form labels.
 /// @type Color
-$form-label-color: global.$black !default;
+$form-label-color: config.$black !default;
 
 /// Font size for form labels.
 /// @type Number
@@ -23,7 +24,7 @@ $form-label-font-size: unit.rem-calc(14) !default;
 
 /// Font weight for form labels.
 /// @type Keyword
-$form-label-font-weight: global.$global-weight-normal !default;
+$form-label-font-weight: config.$global-weight-normal !default;
 
 /// Line height for form labels. The higher the number, the more space between the label and its input field.
 /// @type Number
@@ -42,9 +43,9 @@ $form-label-line-height: 1.8 !default;
 @mixin form-label-middle {
   $input-border-width: value.get-border-value(text.$input-border, width);
 
-  margin: 0 0 $form-spacing;
-  line-height: global.$global-lineheight;
-  padding: ($form-spacing * 0.5 + unit.rem-calc($input-border-width)) 0;
+  margin: 0 0 vars.$form-spacing;
+  line-height: config.$global-lineheight;
+  padding: (vars.$form-spacing * 0.5 + unit.rem-calc($input-border-width)) 0;
 }
 
 @mixin foundation-form-label {

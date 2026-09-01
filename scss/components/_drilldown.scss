@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/mixins";
 @use "dropdown-menu";
@@ -22,7 +22,7 @@ $drilldown-arrows: true !default;
 
 /// Sets drilldown menu item padding.
 /// @type Number
-$drilldown-padding: global.$global-menu-padding !default;
+$drilldown-padding: config.$global-menu-padding !default;
 
 /// Sets drilldown menu nested margin
 /// @type Number
@@ -30,7 +30,7 @@ $drilldown-nested-margin: 0 !default;
 
 /// Background color for drilldown top level items.
 /// @type Color
-$drilldown-background: global.$white !default;
+$drilldown-background: config.$white !default;
 
 /// Sets drilldown menu item padding in the submenu.
 /// @type Number
@@ -38,7 +38,7 @@ $drilldown-submenu-padding: $drilldown-padding !default;
 
 /// Background color for drilldown submenus.
 /// @type Color
-$drilldown-submenu-background: global.$white !default;
+$drilldown-submenu-background: config.$white !default;
 
 /// Sets drilldown arrow color if arrow is used.
 /// @type Color
@@ -56,12 +56,12 @@ $drilldown-arrow-size: 6px !default;
       @include mixins.css-triangle(
         $drilldown-arrow-size,
         $drilldown-arrow-color,
-        global.$global-right
+        config.$global-right
       );
       position: absolute;
       top: 50%;
       margin-top: -1 * $drilldown-arrow-size;
-      #{global.$global-right}: 1rem;
+      #{config.$global-right}: 1rem;
     }
   }
 
@@ -112,7 +112,7 @@ $drilldown-arrow-size: 6px !default;
     .is-drilldown-submenu {
       position: absolute;
       top: 0;
-      #{global.$global-left}: 100%;
+      #{config.$global-left}: 100%;
       z-index: -1;
 
       width: 100%;
@@ -123,7 +123,7 @@ $drilldown-arrow-size: 6px !default;
         z-index: 1;
         display: block;
         $tx: 100%;
-        @if global.$global-text-direction == ltr {
+        @if config.$global-text-direction == ltr {
           $tx: -100%;
         }
         transform: translateX($tx);
@@ -131,7 +131,7 @@ $drilldown-arrow-size: 6px !default;
 
       &.is-closing {
         $tx: -100%;
-        @if global.$global-text-direction == ltr {
+        @if config.$global-text-direction == ltr {
           $tx: 100%;
         }
         transform: translateX($tx);
@@ -158,11 +158,11 @@ $drilldown-arrow-size: 6px !default;
         @include mixins.css-triangle(
           $drilldown-arrow-size,
           $drilldown-arrow-color,
-          global.$global-left
+          config.$global-left
         );
         display: inline-block;
         vertical-align: middle;
-        margin-#{global.$global-right}: 0.75rem; // Creates space between the arrow and the text
+        margin-#{config.$global-right}: 0.75rem; // Creates space between the arrow and the text
       }
     }
   }

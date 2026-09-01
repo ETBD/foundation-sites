@@ -1,8 +1,10 @@
 @use "sass:map";
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/flex";
 @use "../util/mixins";
+@use "../core-settings" as settings;
+@use "../util/flex" as flex-util;
 
 // Foundation for Sites
 // https://get.foundation
@@ -45,7 +47,7 @@ $flexbox-responsive-breakpoints: true !default;
 
   @if ($flexbox-responsive-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-flex-container {
@@ -77,14 +79,14 @@ $flexbox-responsive-breakpoints: true !default;
 
 @mixin foundation-flex-classes {
   // Horizontal alignment using justify-content
-  @each $hdir, $prop in global.$zf-flex-justify {
+  @each $hdir, $prop in flex-util.$zf-flex-justify {
     .align-#{$hdir} {
       @include flex.flex-align($x: $hdir);
     }
   }
   
   // Horizontal alignment Specifically for Vertical Menu
-  @each $hdir, $prop in map.remove(global.$zf-flex-justify, 'justify', 'spaced') {
+  @each $hdir, $prop in map.remove(flex-util.$zf-flex-justify, 'justify', 'spaced') {
     .align-#{$hdir} {
       &.vertical {
         &.menu > li > a {

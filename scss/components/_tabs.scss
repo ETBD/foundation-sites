@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color" as color2;
 @use "../util/mixins";
 @use "../util/unit";
@@ -19,7 +19,7 @@ $tab-margin: 0 !default;
 
 /// Default background color of a tab bar.
 /// @type Color
-$tab-background: global.$white !default;
+$tab-background: config.$white !default;
 
 /// Font color of tab item.
 /// @type Color
@@ -27,7 +27,7 @@ $tab-color: color2.$primary-color !default;
 
 /// Active background color of a tab bar.
 /// @type Color
-$tab-background-active: global.$light-gray !default;
+$tab-background-active: config.$light-gray !default;
 
 /// Active font color of tab item.
 /// @type Color
@@ -38,7 +38,7 @@ $tab-active-color: color2.$primary-color !default;
 $tab-item-font-size: unit.rem-calc(12) !default;
 
 /// Default background color on hover for items in a Menu.
-$tab-item-background-hover: global.$white !default;
+$tab-item-background-hover: config.$white !default;
 
 /// Default padding of a tab item.
 /// @type Number
@@ -46,15 +46,15 @@ $tab-item-padding: 1.25rem 1.5rem !default;
 
 /// Default background color of tab content.
 /// @type Color
-$tab-content-background: global.$white !default;
+$tab-content-background: config.$white !default;
 
 /// Default border color of tab content.
 /// @type Color
-$tab-content-border: global.$light-gray !default;
+$tab-content-border: config.$light-gray !default;
 
 /// Default text color of tab content.
 /// @type Color
-$tab-content-color: global.$body-font-color !default;
+$tab-content-color: config.$body-font-color !default;
 
 /// Default padding for tab content.
 /// @type Number | List
@@ -91,7 +91,7 @@ $tab-content-padding: 1rem !default;
   $background-hover: $tab-item-background-hover,
   $background-active: $tab-background-active
 ) {
-  float: #{global.$global-left};
+  float: #{config.$global-left};
 
   > a {
     display: block;
@@ -130,7 +130,7 @@ $tab-content-padding: 1rem !default;
 /// Augments a tab content container to have a vertical style, by shifting the border around. Use this in conjunction with `tabs-content()`.
 @mixin tabs-content-vertical($border-color: $tab-content-border) {
   border: 1px solid $border-color;
-  border-#{global.$global-left}: 0;
+  border-#{config.$global-left}: 0;
 }
 
 /// Adds styles for an individual tab content panel within the tab content container.

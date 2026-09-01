@@ -1,9 +1,10 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/color";
 @use "../util/mixins";
 @use "../util/unit";
 @use "position";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -15,7 +16,7 @@
 
 /// Responsive breakpoints for separator.
 /// @type Boolean
-$prototype-separator-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-separator-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Default alignment of a separator.
 /// @type String
@@ -35,7 +36,7 @@ $prototype-separator-background: color.$primary-color !default;
 
 /// Top Margin of a separator.
 /// @type Number
-$prototype-separator-margin-top: global.$global-margin !default;
+$prototype-separator-margin-top: config.$global-margin !default;
 
 /// Title separator Utility, mostly used to style the main heading of a section
 /// @param {String} $align [$prototype-separator-align] - separator Alignment
@@ -84,7 +85,7 @@ $prototype-separator-margin-top: global.$global-margin !default;
 
   @if ($prototype-separator-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-separator-center {

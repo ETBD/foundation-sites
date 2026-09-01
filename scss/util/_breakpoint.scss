@@ -5,6 +5,7 @@
 @use "math";
 @use "unit";
 @use "value";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -14,47 +15,29 @@
 /// @group breakpoints
 ////
 
-/// Patch to fix issue #12080
+// Mutable module state: the breakpoint currently being emitted.
+//
+// `zf-each-breakpoint()` sets this before yielding `@content` and restores it
+// afterwards, so mixins running inside the loop can ask which breakpoint they
+// are in without it being threaded through every signature.
+//
+// This is legal under `@use`: `!global` here writes to *this module's* scope,
+// not to a shared global one, and the module is only ever loaded once. It stays
+// as-is deliberately -- redesigning it is orthogonal to the settings migration
+// and would widen the blast radius for no change in emitted CSS. The one part
+// worth revisiting is `zf-set-size()` below.
 $zf-size: null;
-
-/// A list of named breakpoints. You can use these with the `breakpoint()` mixin to quickly create media queries.
-/// @type Map
-$breakpoints: (
-  "small": 0,
-  "medium": 640px,
-  "large": 1024px,
-  "xlarge": 1200px,
-  "xxlarge": 1440px,
-) !default;
-
-/// A list of named HiDPI breakpoints. You can use these with the `breakpoint()` mixin to quickly create media queries for resolutions.
-/// Values must represent the device pixels / web pixels ration and be unitless or in DPPX.
-/// @type Map
-$breakpoints-hidpi: (
-  "hidpi-1": 1,
-  "hidpi-1-5": 1.5,
-  "hidpi-2": 2,
-  "retina": 2,
-  "hidpi-3": 3,
-) !default;
-
-/// The largest named breakpoint in which to include print as a media type
-/// @type Keyword
-$print-breakpoint: large !default;
 
 $zf-zero-breakpoint: small !default;
 
-$-zf-breakpoints-keys: value.map-to-list($breakpoints, "keys");
+$-zf-breakpoints-keys: value.map-to-list(settings.$breakpoints, "keys");
 
-@if list.nth(map.values($breakpoints), 1) != 0 {
+@if list.nth(map.values(settings.$breakpoints), 1) != 0 {
   @error 'The first key in the $breakpoints map must have a value of "0".';
 } @else {
-  $zf-zero-breakpoint: list.nth(map.keys($breakpoints), 1);
+  $zf-zero-breakpoint: list.nth(map.keys(settings.$breakpoints), 1);
 }
 
-/// All of the names in this list will be output as classes in your CSS, like `.small-12`, `.medium-6`, and so on. Each value in this list must also be in the `$breakpoints` map.
-/// @type List
-$breakpoint-classes: (small medium large) !default;
 
 /// Generates a media query string matching the input value. Refer to the documentation for the `breakpoint()` mixin to see what the possible inputs are.
 ///
@@ -87,16 +70,16 @@ $breakpoint-classes: (small medium large) !default;
     @return "(orientation: #{$bp})";
   }
 
-  // If a breakpoint name is given, get its value from the $breakpoints/$breakpoints-hidpi map.
+  // If a breakpoint name is given, get its value from the settings.$breakpoints/settings.$breakpoints-hidpi map.
   @if meta.type-of($bp) == "string" {
-    @if map.has-key($breakpoints, $bp) {
+    @if map.has-key(settings.$breakpoints, $bp) {
       $name: $bp;
-      $bp: map.get($breakpoints, $name);
-      $bp-next: zf-map-next($breakpoints, $name);
-    } @else if map.has-key($breakpoints-hidpi, $bp) {
+      $bp: map.get(settings.$breakpoints, $name);
+      $bp-next: zf-map-next(settings.$breakpoints, $name);
+    } @else if map.has-key(settings.$breakpoints-hidpi, $bp) {
       $name: $bp;
-      $bp: map.get($breakpoints-hidpi, $name);
-      $bp-next: -zf-map-next-number($breakpoints-hidpi, $bp);
+      $bp: map.get(settings.$breakpoints-hidpi, $name);
+      $bp-next: -zf-map-next-number(settings.$breakpoints-hidpi, $bp);
       $hidpi: true;
     } @else {
       $bp: 0;
@@ -168,7 +151,7 @@ $breakpoint-classes: (small medium large) !default;
 }
 
 /// Wraps a media query around the content you put inside the mixin. This mixin accepts a number of values:
-///  - If a string is passed, the mixin will look for it in the `$breakpoints` and `$breakpoints-hidpi` maps, and use a media query there.
+///  - If a string is passed, the mixin will look for it in the `settings.$breakpoints` and `settings.$breakpoints-hidpi` maps, and use a media query there.
 ///  - If a pixel value is passed, it will be converted to an em value using `$global-font-size` as the base.
 ///  - If a rem value is passed, the unit will be changed to em.
 ///  - If an em value is passed, the value will be used as-is.
@@ -185,7 +168,7 @@ $breakpoint-classes: (small medium large) !default;
     $value: list.nth($values, $i);
     $str: breakpoint($value);
     $bp: list.index($-zf-breakpoints-keys, list.nth($value, 1));
-    $pbp: list.index($-zf-breakpoints-keys, $print-breakpoint);
+    $pbp: list.index($-zf-breakpoints-keys, settings.$print-breakpoint);
     // Direction of media query (up, down, or only)
     $dir: up;
     @if list.length($value) > 1 {
@@ -210,7 +193,7 @@ $breakpoint-classes: (small medium large) !default;
 
     // Otherwise, wrap the content in a media query
     @else {
-      // For named breakpoints less than or equal to $print-breakpoint, add print to the media types
+      // For named breakpoints less than or equal to settings.$print-breakpoint, add print to the media types
       // generate print if the breakpoint affects the print-breakpoint (or smaller).
       // This means the current condition only needs to be extended so 'down' always generates print.
       @if $bp != null and ($bp <= $pbp or $dir == down) {
@@ -228,8 +211,15 @@ $breakpoint-classes: (small medium large) !default;
   }
 }
 
-/// Sets the current breakpoint context variable. Used internally by mixins that
-/// need to update `$zf-size` from other modules without direct !global access.
+/// Sets the current breakpoint context variable.
+///
+/// Exists because `!global` cannot reach across module boundaries: another
+/// module that needs to establish a breakpoint context has to ask this module
+/// to do it. That makes a piece of what used to be incidental global mutation
+/// into part of this module's surface, which is why it is marked private --
+/// callers outside Foundation should use `zf-each-breakpoint()` or
+/// `breakpoint()` instead.
+///
 /// @access private
 /// @param {Keyword} $size - The breakpoint name to set as the current context.
 @mixin zf-set-size($size) {
@@ -338,7 +328,7 @@ $breakpoint-classes: (small medium large) !default;
   $found: false;
 
   $value: unit.unitless-calc($breakpoint, 1px);
-  @each $key, $val in $breakpoints {
+  @each $key, $val in settings.$breakpoints {
     @if not $found {
       @if unit.unitless-calc($val) > $value {
         $found: true;
@@ -368,7 +358,7 @@ $breakpoint-classes: (small medium large) !default;
   }
 
   // Check if the breakpoint name exists globally
-  @if not map.has-key($breakpoints, $value) {
+  @if not map.has-key(settings.$breakpoints, $value) {
     @if meta.type-of($value) == "number" {
       $value: -zf-closest-named-breakpoint($value);
     } @else {
@@ -385,7 +375,7 @@ $breakpoint-classes: (small medium large) !default;
     $anchor: null;
     $found: false;
 
-    @each $key, $val in $breakpoints {
+    @each $key, $val in settings.$breakpoints {
       @if not $found {
         @if map.has-key($map, $key) {
           $anchor: $key;
@@ -454,7 +444,7 @@ $breakpoint-classes: (small medium large) !default;
 $small-up: "";
 $small-only: "";
 
-@if map.has-key($breakpoints, small) {
+@if map.has-key(settings.$breakpoints, small) {
   $small-up: screen;
   $small-only: string.unquote("screen and #{breakpoint(small only)}");
 }
@@ -462,7 +452,7 @@ $small-only: "";
 $medium-up: "";
 $medium-only: "";
 
-@if map.has-key($breakpoints, medium) {
+@if map.has-key(settings.$breakpoints, medium) {
   $medium-up: string.unquote("screen and #{breakpoint(medium)}");
   $medium-only: string.unquote("screen and #{breakpoint(medium only)}");
 }
@@ -470,7 +460,7 @@ $medium-only: "";
 $large-up: "";
 $large-only: "";
 
-@if map.has-key($breakpoints, large) {
+@if map.has-key(settings.$breakpoints, large) {
   $large-up: string.unquote("screen and #{breakpoint(large)}");
   $large-only: string.unquote("screen and #{breakpoint(large only)}");
 }
@@ -478,13 +468,13 @@ $large-only: "";
 $xlarge-up: "";
 $xlarge-only: "";
 
-@if map.has-key($breakpoints, xlarge) {
+@if map.has-key(settings.$breakpoints, xlarge) {
   $xlarge-up: string.unquote("screen and #{breakpoint(xlarge)}");
   $xlarge-only: string.unquote("screen and #{breakpoint(xlarge only)}");
 }
 
 $xxlarge-up: "";
 
-@if map.has-key($breakpoints, xxlarge) {
+@if map.has-key(settings.$breakpoints, xxlarge) {
   $xxlarge-up: string.unquote("screen and #{breakpoint(xxlarge)}");
 }

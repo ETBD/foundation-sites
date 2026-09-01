@@ -12,10 +12,6 @@
 /// @group grid
 ////
 
-// Module-level override for grid-context; allows grid-context to update
-// $grid-column-count within this module's scope via !global.
-$grid-column-count: null;
-
 /// Change the behavior of columns defined inside this mixin to use a different column count.
 /// @content
 ///
@@ -26,7 +22,7 @@ $grid-column-count: null;
 @mixin grid-context($columns, $root: false) {
   // Store the current column count so it can be re-set later
   $old-grid-column-count: vars.$grid-column-count;
-  $grid-column-count: $columns !global;
+  vars.$grid-column-count: $columns;
 
   @if $root {
     @at-root {
@@ -37,7 +33,7 @@ $grid-column-count: null;
   }
 
   // Restore the old column count
-  $grid-column-count: $old-grid-column-count !global;
+  vars.$grid-column-count: $old-grid-column-count;
 }
 
 /// Creates a grid row.

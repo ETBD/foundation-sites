@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for display classes
 /// @type Boolean
-$prototype-display-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-display-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `display` classes
 /// @type Map
@@ -38,7 +39,7 @@ $prototype-display: (
 
   @if ($prototype-display-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $display in $prototype-display {
           @if $size != breakpoint.$zf-zero-breakpoint {

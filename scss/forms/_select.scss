@@ -1,10 +1,11 @@
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 @use "../util/unit";
-$form-spacing: unit.rem-calc(16) !default;
+
 @use "../util/value";
 
 @use "text";
+@use "vars";
 
 // Foundation for Sites
 // https://get.foundation
@@ -16,21 +17,21 @@ $form-spacing: unit.rem-calc(16) !default;
 
 /// Background color for select menus.
 /// @type Color
-$select-background: global.$white !default;
+$select-background: config.$white !default;
 
 /// Color of the dropdown triangle inside select menus. Set to `transparent` to remove it entirely.
 /// @type Color
-$select-triangle-color: global.$dark-gray !default;
+$select-triangle-color: config.$dark-gray !default;
 
 /// Default radius for select menus.
 /// @type Color
-$select-radius: global.$global-radius !default;
+$select-radius: config.$global-radius !default;
 
 @mixin form-select {
   $height: (text.$input-font-size * unit.unitless-calc(text.$input-line-height)) + (value.get-side(text.$input-padding, 'top') + value.get-side(text.$input-padding, 'bottom')) - unit.rem-calc(1);
 
   height: $height;
-  margin: 0 0 $form-spacing;
+  margin: 0 0 vars.$form-spacing;
   padding: text.$input-padding;
 
   appearance: none;
@@ -50,11 +51,11 @@ $select-radius: global.$global-radius !default;
 
   @if $select-triangle-color != transparent {
     background-origin: content-box;
-    background-position: global.$global-right (-($form-spacing)) center;
+    background-position: config.$global-right (-(vars.$form-spacing)) center;
     background-repeat: no-repeat;
     background-size: 9px 6px;
 
-    padding-#{global.$global-right}: ($form-spacing * 1.5);
+    padding-#{config.$global-right}: (vars.$form-spacing * 1.5);
 
     @include mixins.background-triangle($select-triangle-color);
   }

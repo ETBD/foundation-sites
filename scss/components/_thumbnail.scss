@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 
 // Foundation for Sites
@@ -11,15 +11,15 @@
 
 /// Border around thumbnail images.
 /// @type Border
-$thumbnail-border: 4px solid global.$white !default;
+$thumbnail-border: 4px solid config.$white !default;
 
 /// Bottom margin for thumbnail images.
 /// @type Length
-$thumbnail-margin-bottom: global.$global-margin !default;
+$thumbnail-margin-bottom: config.$global-margin !default;
 
 /// Box shadow under thumbnail images.
 /// @type Shadow
-$thumbnail-shadow: 0 0 0 1px rgba(global.$black, 0.2) !default;
+$thumbnail-shadow: 0 0 0 1px rgba(config.$black, 0.2) !default;
 
 /// Box shadow under thumbnail images.
 /// @type Shadow
@@ -31,7 +31,7 @@ $thumbnail-transition: box-shadow 200ms ease-out !default;
 
 /// Default radius for thumbnail images.
 /// @type Number
-$thumbnail-radius: global.$global-radius !default;
+$thumbnail-radius: config.$global-radius !default;
 
 /// Adds thumbnail styles to an element.
 @mixin thumbnail {

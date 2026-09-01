@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for text decoration classes
 /// @type Boolean
-$prototype-decoration-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-decoration-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `text-decoration` classes
 /// @type Map
@@ -36,7 +37,7 @@ $prototype-text-decoration: (
 
   @if ($prototype-decoration-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $decoration in $prototype-text-decoration {
           @if $size != breakpoint.$zf-zero-breakpoint {

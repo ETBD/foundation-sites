@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for list styling types
 /// @type Boolean
-$prototype-list-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-list-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `style-type-unordered` classes
 /// @type Map
@@ -55,7 +56,7 @@ $prototype-style-type-ordered: (
 
   @if ($prototype-list-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $style-type-unordered in $prototype-style-type-unordered {
           @if $size != breakpoint.$zf-zero-breakpoint {
@@ -78,7 +79,7 @@ $prototype-style-type-ordered: (
 
   @if ($prototype-list-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $style-type-ordered in $prototype-style-type-ordered {
           @if $size != breakpoint.$zf-zero-breakpoint {

@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../typography/base";
 @use "../util/mixins";
 
@@ -16,19 +16,19 @@ $has-tip-cursor: help !default;
 
 /// Default font weight of the defined term.
 /// @type Keyword | Number
-$has-tip-font-weight: global.$global-weight-bold !default;
+$has-tip-font-weight: config.$global-weight-bold !default;
 
 /// Default border bottom of the defined term.
 /// @type List
-$has-tip-border-bottom: dotted 1px global.$dark-gray !default;
+$has-tip-border-bottom: dotted 1px config.$dark-gray !default;
 
 /// Default color of the tooltip background.
 /// @type Color
-$tooltip-background-color: global.$black !default;
+$tooltip-background-color: config.$black !default;
 
 /// Default color of the tooltip font.
 /// @type Color
-$tooltip-color: global.$white !default;
+$tooltip-color: config.$white !default;
 
 /// Default padding of the tooltip background.
 /// @type Number
@@ -52,7 +52,7 @@ $tooltip-pip-height: $tooltip-pip-width * 0.866 !default;
 
 /// Default radius for tooltips.
 /// @type Number
-$tooltip-radius: global.$global-radius !default;
+$tooltip-radius: config.$global-radius !default;
 
 @mixin has-tip {
   position: relative;

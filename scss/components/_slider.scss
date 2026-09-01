@@ -1,5 +1,5 @@
 @use "../forms/range";
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 
 // Foundation for Sites
@@ -141,7 +141,7 @@ $slider-transition: all 0.2s ease-in-out !default;
   }
 
   // RTL support
-  @if global.$global-text-direction == rtl {
+  @if config.$global-text-direction == rtl {
     .slider:not(.vertical) {
       transform: scale(-1, 1);
     }

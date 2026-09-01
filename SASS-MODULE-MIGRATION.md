@@ -1,6 +1,10 @@
 # Sass module migration — config module implementation plan
 
-Status: **plan, not yet implemented.** Branch: `feature/dart-sass`.
+Status: **implemented.** Branch: `feature/dart-sass`.
+
+All 13 regression fixtures match `develop` byte-for-byte, `yarn test:sass`
+passes (34 tests, matching `develop`'s count file-for-file), and `gulp build`
+completes. See [Outcome](#outcome) for what changed relative to this plan.
 
 ## Why this is needed
 
@@ -223,17 +227,91 @@ Phase 0 comes first.
 
 ## Verification
 
-`yarn test:regression` after each phase — see `test/regression/README.md`.
+`yarn test:regression` after each phase — see `test/regression/README.md`. It is
+now part of `yarn test` and `yarn test:ci`.
 
-| after | expected green |
-|---|---|
-| Phase 0 | `default`, `grid-float`, `prototype`, `palette` |
-| Phase 1 | `+ global-font-size`, `text-direction-rtl`, `colors-greys` |
-| Phase 4 | `+ breakpoints`, `component-vars`, `grid-flex`, `xy-grid-gutters`, `global-misc` |
+| after | expected green | actual |
+|---|---|---|
+| Phase 0 | `default`, `grid-float`, `prototype`, `palette` | those 4, plus `global-misc` |
+| Phase 1 | `+ global-font-size`, `text-direction-rtl`, `colors-greys` | those 3, plus `breakpoints` |
+| Phase 4 | `+ breakpoints`, `component-vars`, `grid-flex`, `xy-grid-gutters`, `global-misc` | the rest |
 
-All 12 green means the migration produces byte-identical CSS to `develop` across
-every configuration tested. That is the bar for shipping this.
+`breakpoints` and `global-misc` landed a phase early: `$breakpoints` moved into
+the leaf module in Phase 1, and the Phase 0 float-grid fix was what `global-misc`
+was blocked on.
+
+All fixtures green means the migration produces byte-identical CSS to `develop`
+across every configuration tested. That is the bar for shipping this.
 
 The Sass unit suite (`yarn test:sass`) is not a substitute: it exercises util
 functions in isolation with default settings, so it would pass green while every
 bug described above was live.
+
+
+## Outcome
+
+Everything above is implemented. Five things the plan did not anticipate:
+
+**The `@forward`/`@use` ordering inside a module matters.** A module that both
+forwards and uses `core-settings` must put the `@forward` first. Configuration is
+applied where a module is *first loaded*; a `@use` earlier in the same file loads
+it unconfigured, and the forward can no longer carry values in. This is the whole
+of why Phase 1 initially compiled but changed nothing — the same class of silent
+failure the migration exists to remove. It applies to `_config.scss` and to the
+entry point, where the `@forward` block is **topologically sorted**: a module
+must not be forwarded behind another forward that already pulls it in.
+
+**The entry point forwards more than settings-bearing modules.** Phase 4 as
+written covers the 492 settings, but `@import` consumers — the docs build, and
+anyone still on `@import 'foundation'` — also relied on every public
+`foundation-*` mixin and the whole util layer being global. A namespaced `@use`
+exports nothing, so `foundation.scss` now forwards every non-internal module
+(108), and `util/_util.scss` forwards its submodules rather than using them.
+
+**Constraint 4 bit twice more than the Phase 2 audit predicted.** After the 13
+duplicated settings were resolved, forwarding the full surface surfaced two more:
+`$zf-flex-justify`, declared in both `_config.scss` and `util/_flex.scss` — the
+literal shape behind the RTL bug in the opening section — and `grid-column()`,
+which `grid/_column.scss` re-wrapped as a pass-through around
+`grid/_functions.scss`. Both now have one owner and a `@forward`.
+
+**A build task was silently reverting the vendored sassy-lists conversion.**
+`_vendor/sassy-lists` is a maintained, `@use`-converted copy tracked in git — but
+`gulp/config.js` also listed those files in `SASS_DEPS_FILES`, and the
+`sass:deps` task copied the *upstream* `@import`-era originals over them on every
+build. Upstream carries no `@use` rules, so after one `gulp build` a cross-file
+call like `sl-remove()` → `sl-replace()` resolved to a plain CSS function and
+returned the string `"sl-replace(small medium large, "small", )"` instead of a
+list. `sass:deps` is removed and `SASS_DEPS_FILES` is empty: re-vendoring after a
+sassy-lists upgrade is now a deliberate copy-and-convert step, not a build side
+effect.
+
+This is worth dwelling on because *no fixture caught it*, and because it only
+appears after a build — a clean checkout compiles fine. It fires only with
+`$global-flexbox: false`, the one configuration reaching
+`zf-each-breakpoint($small: false)`, so it broke `assets/foundation-float.scss`
+and nothing else. A `flexbox-off` fixture now covers that path.
+
+**The `assets/*.scss` build entries were still `@import`.** `foundation-float`
+and `foundation-rtl` set `$global-flexbox` / `$global-text-direction` ahead of an
+`@import`, which under the module system configures nothing — both shipped as
+plain LTR flexbox builds. Converted to `@use ... with (...)`.
+
+### Fixture corrections
+
+`component-vars` named two settings that have never existed in Foundation
+(`$callout-padding`, `$menu-item-padding`) and one that does not
+(`$sticky-padding`); `$off-canvas-background` is spelled `$offcanvas-background`.
+Under `@import` a misspelled setting is a silent no-op, so the fixture passed
+while testing nothing. Under `@use` it is a hard error. The fixture now covers 30
+real settings across 20 components, and its baseline was regenerated (the only
+baseline change in this work).
+
+### Known-unfixed
+
+- **`dist/`** still carries the missing `.cell` rule from the Phase 0 list
+  corruption. It is release output, regenerated by `gulp deploy:dist`; the
+  compiler emits the rule correctly now.
+- **`sass-lint`** cannot parse `namespace.$variable` and fails on 90-odd files
+  across the branch. Two more files join that list here. The tool is
+  unmaintained and predates the module system; replacing it is its own task.

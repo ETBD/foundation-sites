@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 
 // Foundation for Sites
@@ -11,11 +11,11 @@
 
 /// Bottom margin of a media object.
 /// @type Number
-$mediaobject-margin-bottom: global.$global-margin !default;
+$mediaobject-margin-bottom: config.$global-margin !default;
 
 /// Left and right padding on sections within a media object.
 /// @type Number
-$mediaobject-section-padding: global.$global-padding !default;
+$mediaobject-section-padding: config.$global-padding !default;
 
 /// Width of images within a media object, when the object is stacked vertically. Set to 'auto' to use the image's natural width.
 /// @type Number
@@ -24,13 +24,13 @@ $mediaobject-image-width-stacked: 100% !default;
 /// Adds styles for a media object container.
 @mixin media-object-container {
   $display: block;
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     $display: flex;
   }
   display: $display;
   margin-bottom: $mediaobject-margin-bottom;
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex-wrap: nowrap;
   }
 
@@ -38,7 +38,7 @@ $mediaobject-image-width-stacked: 100% !default;
     max-width: none;
   }
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     &.stack-for-#{breakpoint.$zf-zero-breakpoint} {
       @include breakpoint.breakpoint(breakpoint.$zf-zero-breakpoint only) {
         flex-wrap: wrap;
@@ -50,7 +50,7 @@ $mediaobject-image-width-stacked: 100% !default;
 /// Adds styles for sections within a media object.
 /// @param {Number} $padding [$mediaobject-section-padding] - Padding between sections.
 @mixin media-object-section($padding: $mediaobject-section-padding) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex: 0 1 auto;
   } @else {
     display: table-cell;
@@ -58,11 +58,11 @@ $mediaobject-image-width-stacked: 100% !default;
   }
 
   &:first-child {
-    padding-#{global.$global-right}: $padding;
+    padding-#{config.$global-right}: $padding;
   }
 
   &:last-child:not(:nth-child(2)) {
-    padding-#{global.$global-left}: $padding;
+    padding-#{config.$global-left}: $padding;
   }
 
   > :last-child {
@@ -75,7 +75,7 @@ $mediaobject-image-width-stacked: 100% !default;
     }
   }
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     &.main-section {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit
     }
@@ -95,7 +95,7 @@ $mediaobject-image-width-stacked: 100% !default;
   padding: 0;
   padding-bottom: $mediaobject-section-padding;
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex-basis: 100%;
     max-width: 100%;
   } @else {

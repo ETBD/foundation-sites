@@ -1,9 +1,10 @@
-@use "../global";
+@use "../config";
 @use "../util/unit";
-$form-spacing: unit.rem-calc(16) !default;
+
 @use "../util/value";
 
 @use "text";
+@use "vars";
 
 // Foundation for Sites
 // https://get.foundation
@@ -15,15 +16,15 @@ $form-spacing: unit.rem-calc(16) !default;
 
 /// Color of labels prefixed to an input.
 /// @type Color
-$input-prefix-color: global.$black !default;
+$input-prefix-color: config.$black !default;
 
 /// Background color of labels prefixed to an input.
 /// @type Color
-$input-prefix-background: global.$light-gray !default;
+$input-prefix-background: config.$light-gray !default;
 
 /// Border around labels prefixed to an input.
 /// @type Border
-$input-prefix-border: 1px solid global.$medium-gray !default;
+$input-prefix-border: 1px solid config.$medium-gray !default;
 
 /// Left/right padding of an pre/postfixed input label
 $input-prefix-padding: 1rem !default;
@@ -37,14 +38,14 @@ $input-prefix-padding: 1rem !default;
 
   .input-group {
     $display: table;
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       $display: flex;
     }
     display: $display;
     width: 100%;
-    margin-bottom: $form-spacing;
+    margin-bottom: vars.$form-spacing;
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       align-items: stretch;
     }
 
@@ -52,7 +53,7 @@ $input-prefix-padding: 1rem !default;
       &,
       &.input-group-button > * {
         $radius: text.$input-radius 0 0 text.$input-radius;
-        @if global.$global-text-direction == rtl {
+        @if config.$global-text-direction == rtl {
           $radius: 0 text.$input-radius text.$input-radius 0;
         }
         border-radius: $radius;
@@ -63,7 +64,7 @@ $input-prefix-padding: 1rem !default;
       &,
       &.input-group-button > * {
         $radius: 0 text.$input-radius text.$input-radius 0;
-        @if global.$global-text-direction == rtl {
+        @if config.$global-text-direction == rtl {
           $radius: text.$input-radius 0 0 text.$input-radius;
         }
         border-radius: $radius;
@@ -75,7 +76,7 @@ $input-prefix-padding: 1rem !default;
     margin: 0;
     white-space: nowrap;
 
-    @if not global.$global-flexbox {
+    @if not config.$global-flexbox {
       display: table-cell;
       vertical-align: middle;
     }
@@ -91,7 +92,7 @@ $input-prefix-padding: 1rem !default;
     text-align: center;
     white-space: nowrap;
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       display: flex;
       flex: 0 0 auto;
       align-items: center;
@@ -102,11 +103,11 @@ $input-prefix-padding: 1rem !default;
 
     @if value.has-value($input-prefix-border) {
       &:first-child {
-        border-#{global.$global-right}: 0;
+        border-#{config.$global-right}: 0;
       }
 
       &:last-child {
-        border-#{global.$global-left}: 0;
+        border-#{config.$global-left}: 0;
       }
     }
   }
@@ -115,7 +116,7 @@ $input-prefix-padding: 1rem !default;
     @extend %input-group-child;
     border-radius: 0;
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit
       min-width: 0;
     }
@@ -127,7 +128,7 @@ $input-prefix-padding: 1rem !default;
     padding-bottom: 0;
     text-align: center;
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       display: flex;
       flex: 0 0 auto;
     } @else {
@@ -141,7 +142,7 @@ $input-prefix-padding: 1rem !default;
     label {
       @extend %input-group-child;
 
-      @if global.$global-flexbox {
+      @if config.$global-flexbox {
         align-self: stretch;
         height: auto;
       } @else {
@@ -154,7 +155,7 @@ $input-prefix-padding: 1rem !default;
   }
 
   // Specificity bump needed to prevent override by buttons
-  @if not global.$global-flexbox {
+  @if not config.$global-flexbox {
     .input-group {
       .input-group-button {
         display: table-cell;

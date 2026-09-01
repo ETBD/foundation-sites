@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 
 // Foundation for Sites
@@ -15,15 +15,15 @@ $badge-background: color.$primary-color !default;
 
 /// Default text color for badges.
 /// @type Color
-$badge-color: global.$white !default;
+$badge-color: config.$white !default;
 
 /// Alternate text color for badges.
 /// @type Color
-$badge-color-alt: global.$black !default;
+$badge-color-alt: config.$black !default;
 
 /// Coloring classes. A map of classes to output in your CSS, like `.secondary`, `.success`, and so on.
 /// @type Map
-$badge-palette: global.$foundation-palette !default;
+$badge-palette: config.$foundation-palette !default;
 
 /// Default padding inside badges.
 /// @type Number

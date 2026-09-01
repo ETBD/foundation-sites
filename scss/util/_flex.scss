@@ -1,8 +1,7 @@
 @use "sass:map";
+@use "../core-settings" as settings;
 
-$global-text-direction: ltr !default;
-
-@function zf-flex-justify($text-direction: $global-text-direction) {
+@function zf-flex-justify($text-direction: settings.$global-text-direction) {
   $left: flex-start;
   $right: flex-end;
   @if $text-direction == rtl {

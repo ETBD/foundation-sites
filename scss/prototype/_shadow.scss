@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for shadow utility.
 /// @type Boolean
-$prototype-shadow-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-shadow-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Default value for `prototype-box-shadow`
 /// @type Number
@@ -32,7 +33,7 @@ $prototype-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 
 
   @if ($prototype-shadow-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @if $size != breakpoint.$zf-zero-breakpoint {
           .#{$size}-shadow {

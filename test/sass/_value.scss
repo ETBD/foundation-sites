@@ -1,7 +1,7 @@
-@import "true";
+@use "true" as *;
 
-@import '../../scss/util/unit';
-@import '../../scss/util/value';
+@use "../../scss/util/unit" as *;
+@use "../../scss/util/value" as *;
 
 @include test-module('Value') {
 

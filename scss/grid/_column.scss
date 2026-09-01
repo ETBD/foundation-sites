@@ -1,4 +1,9 @@
-@use "../global";
+// `grid-column()` lives in _functions.scss (extracted to break a cycle). This
+// file used to wrap it in an identical pass-through, which is a hard error once
+// both modules are forwarded from the entry point.
+@forward "functions" show grid-column;
+
+@use "../config";
 @use "../util/math";
 @use "functions";
 @use "vars";
@@ -14,19 +19,6 @@
 /// @group grid
 ////
 
-/// Calculates the width of a column based on a number of factors.
-///
-/// @param {Number|List} $columns
-///   Width of the column. Accepts multiple values:
-///   - A percentage value will make the column that exact size.
-///   - A single digit will make the column span that number of columns wide, taking into account the column count of the parent row.
-///   - A list of the format "x of y" (without quotes) will make a column that is *x* columns wide, assuming *y* total columns for the parent.
-///
-/// @returns {Number} A calculated percentage value.
-@function grid-column($columns) {
-  @return functions.grid-column($columns);
-}
-
 /// Creates a grid column.
 ///
 /// @param {Mixed} $columns [$grid-column-count] - Width of the column. Refer to the `grid-column()` function to see possible values.
@@ -35,7 +27,7 @@
   $columns: vars.$grid-column-count,
   $gutters: vars.$grid-column-gutter
 ) {
-  float: global.$global-left;
+  float: config.$global-left;
 
   @include size.grid-column-size($columns);
 
@@ -45,13 +37,13 @@
   // Auto position (equivalent of grid-col-pos(auto))
   &,
   &:last-child:not(:first-child) {
-    float: global.$global-left;
+    float: config.$global-left;
     clear: none;
   }
 
   @if vars.$grid-column-align-edge {
     &:last-child:not(:first-child) {
-      float: global.$global-right;
+      float: config.$global-right;
     }
   }
 }

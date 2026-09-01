@@ -1,5 +1,6 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -11,7 +12,7 @@
 
 /// Responsive breakpoints for overflow helper classes
 /// @type Boolean
-$prototype-overflow-breakpoints: global.$global-prototype-breakpoints !default;
+$prototype-overflow-breakpoints: config.$global-prototype-breakpoints !default;
 
 /// Map containing all the `overflow` classes
 /// @type Map
@@ -63,7 +64,7 @@ $prototype-overflow: (
 
   @if ($prototype-overflow-breakpoints) {
     // Loop through Responsive Breakpoints
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @include breakpoint.breakpoint($size) {
         @each $overflow in $prototype-overflow {
           @if $size != breakpoint.$zf-zero-breakpoint {

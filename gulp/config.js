@@ -25,15 +25,23 @@ module.exports = {
   ],
 
   // Sass
-  SASS_DEPS_FILES: [
-    'node_modules/@(sassy-lists)/stylesheets/helpers/_missing-dependencies.scss',
-    'node_modules/@(sassy-lists)/stylesheets/helpers/_true.scss',
-    'node_modules/@(sassy-lists)/stylesheets/functions/_contain.scss',
-    'node_modules/@(sassy-lists)/stylesheets/functions/_purge.scss',
-    'node_modules/@(sassy-lists)/stylesheets/functions/_remove.scss',
-    'node_modules/@(sassy-lists)/stylesheets/functions/_replace.scss',
-    'node_modules/@(sassy-lists)/stylesheets/functions/_to-list.scss'
-  ],
+  //
+  // `_vendor/sassy-lists` used to be listed here and copied from node_modules on
+  // every build by the `sass:deps` task. It no longer is, and that task is gone:
+  // those files are now a *maintained* vendored copy, converted from `@import`
+  // to `@use`, and tracked in git.
+  //
+  // Copying over them silently undid that conversion. Upstream sassy-lists has
+  // no `@use` rules, so under the module system a cross-file call such as
+  // `sl-remove()` -> `sl-replace()` resolves to a plain CSS function and returns
+  // the string `"sl-replace(a b c, b, )"` instead of a list. The only
+  // configuration that reaches it is the no-flexbox build, so a single
+  // `gulp build` broke `assets/foundation-float.scss` and nothing else. The
+  // `flexbox-off` regression fixture covers that path.
+  //
+  // Re-vendoring after a sassy-lists upgrade is now a deliberate step: copy the
+  // files in and convert them, rather than letting a build task do it.
+  SASS_DEPS_FILES: [],
 
   SASS_DOC_PATHS: [
     'scss',

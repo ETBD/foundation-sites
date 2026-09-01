@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/mixins";
 @use "../util/unit";
@@ -67,7 +67,7 @@
     $breakpoint,
     $default: breakpoint.$zf-zero-breakpoint
   );
-  $direction: global.$global-left;
+  $direction: config.$global-left;
   @if $vertical {
     $direction: "top";
   }

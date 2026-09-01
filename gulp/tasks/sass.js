@@ -10,14 +10,8 @@ var CONFIG = require('../config.js');
 // Compiles Sass files into CSS
 gulp.task('sass', gulp.series('sass:foundation', 'sass:docs'));
 
-// Prepare dependencies
-gulp.task('sass:deps', function() {
-  return gulp.src(CONFIG.SASS_DEPS_FILES)
-    .pipe(gulp.dest('_vendor'));
-});
-
 // Compiles Foundation Sass
-gulp.task('sass:foundation', gulp.series('sass:deps', function() {
+gulp.task('sass:foundation', function() {
   return gulp.src(['assets/*'])
     .pipe(sourcemaps.init())
     .pipe(plumber())
@@ -25,10 +19,10 @@ gulp.task('sass:foundation', gulp.series('sass:deps', function() {
     .pipe(postcss([autoprefixer()])) // uses ".browserslistrc"
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('_build/assets/css'));
-}));
+});
 
 // Compiles docs Sass (includes Foundation code also)
-gulp.task('sass:docs', gulp.series('sass:deps', function() {
+gulp.task('sass:docs', function() {
   return gulp.src('docs/assets/scss/docs.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -37,4 +31,4 @@ gulp.task('sass:docs', gulp.series('sass:deps', function() {
     .pipe(postcss([autoprefixer()])) // uses ".browserslistrc"
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('_build/assets/css'));
-}));
+});

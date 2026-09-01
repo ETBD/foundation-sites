@@ -1,0 +1,18 @@
+// Foundation for Sites
+// https://get.foundation
+// Licensed under MIT Open Source
+//
+// Form variable defaults — extracted so that the nine modules under `forms/`
+// share one declaration. Previously each declared its own `$form-spacing`,
+// which made the setting unreachable from the entry point (only one copy could
+// be forwarded) and is a hard error once several of them are.
+
+////
+/// @group forms
+////
+
+@use "../util/unit";
+
+/// Global spacing for form elements.
+/// @type Number
+$form-spacing: unit.rem-calc(16) !default;

@@ -121,14 +121,33 @@ module.exports = [
     vars: {
       'button-background': '#ff0000',
       'button-radius': '6px',
+      'button-padding': '1em 2em',
       'callout-background': '#eeddcc',
-      'callout-padding': '2rem',
+      'callout-margin': '0 0 2rem 0',
+      'callout-radius': '5px',
       'accordion-background': '#fff8f0',
+      'accordion-item-padding': '1.5rem 1rem',
       'card-padding': '1.25rem',
+      'card-background': '#fbfbfb',
       'table-striped-background': '#f0f0f0',
+      'table-padding': '0.75rem 0.75rem 0.75rem',
       'tooltip-background-color': '#333333',
+      'tooltip-font-size': '90%',
       'reveal-background': '#fdfdfd',
-      'menu-item-padding': '0.5rem 1.5rem',
+      'reveal-width': '500px',
+      'menu-items-padding': '0.5rem 1.5rem',
+      'badge-background': '#334455',
+      'breadcrumbs-item-color': '#446688',
+      'label-background': '#987654',
+      'pagination-item-padding': '0.25rem 0.75rem',
+      'dropdown-padding': '1.25rem',
+      'switch-height': '2.5rem',
+      'slider-height': '0.75rem',
+      'thumbnail-border': '3px solid #ffffff',
+      'tab-background': '#f7f7f7',
+      'offcanvas-background': '#e4e4e4',
+      'titlebar-background': '#111111',
+      'topbar-padding': '0.75rem',
     },
   },
 
@@ -145,6 +164,19 @@ module.exports = [
   {
     name: 'grid-float',
     doc: 'Legacy float grid.',
+    args: { flex: 'false' },
+  },
+
+  {
+    name: 'flexbox-off',
+    doc:
+      'The no-flexbox build (assets/foundation-float.scss). This is the only ' +
+      'configuration that reaches zf-each-breakpoint($small: false), and so ' +
+      'the only one that exercises sl-remove() on the breakpoint list. It ' +
+      'caught the sass:deps build task copying upstream @import-era ' +
+      'sassy-lists over the @use-converted copy in _vendor/, after which ' +
+      'sl-remove() resolved to a plain CSS function and returned a string.',
+    vars: { 'global-flexbox': 'false' },
     args: { flex: 'false' },
   },
 

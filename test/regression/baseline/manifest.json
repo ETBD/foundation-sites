@@ -33,6 +33,9 @@
     "grid-float": {
       "status": "ok"
     },
+    "flexbox-off": {
+      "status": "ok"
+    },
     "xy-grid-gutters": {
       "status": "ok"
     },

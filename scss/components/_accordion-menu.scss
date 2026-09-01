@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/mixins";
 @use "menu";
@@ -9,11 +9,11 @@
 
 /// Sets accordion menu padding.
 /// @type Number
-$accordionmenu-padding: global.$global-menu-padding !default;
+$accordionmenu-padding: config.$global-menu-padding !default;
 
 /// Sets accordion menu nested margin
 /// @type Number
-$accordionmenu-nested-margin: global.$global-menu-nested-margin !default;
+$accordionmenu-nested-margin: config.$global-menu-nested-margin !default;
 
 /// Sets accordion menu submenu padding.
 /// @type Number
@@ -64,7 +64,7 @@ $accordionmenu-arrow-size: 6px !default;
       position: absolute;
       top: 50%;
       margin-top: -1 * ($accordionmenu-arrow-size * 0.5);
-      #{global.$global-right}: 1rem;
+      #{config.$global-right}: 1rem;
     }
   }
 
@@ -109,7 +109,7 @@ $accordionmenu-arrow-size: 6px !default;
       @include menu.menu-nested($accordionmenu-nested-margin);
     }
 
-    &.align-#{global.$global-right} {
+    &.align-#{config.$global-right} {
       .nested.is-accordion-submenu {
         @include menu.menu-nested($accordionmenu-nested-margin, right);
       }
@@ -137,21 +137,21 @@ $accordionmenu-arrow-size: 6px !default;
   }
 
   .has-submenu-toggle > a {
-    margin-#{global.$global-right}: $accordionmenu-submenu-toggle-width;
+    margin-#{config.$global-right}: $accordionmenu-submenu-toggle-width;
   }
 
   // Submenu toggle
   .submenu-toggle {
     position: absolute;
     top: 0;
-    #{global.$global-right}: 0;
+    #{config.$global-right}: 0;
 
     width: $accordionmenu-submenu-toggle-width;
     height: $accordionmenu-submenu-toggle-height;
 
     cursor: pointer;
 
-    border-#{global.$global-left}: $accordion-submenu-toggle-border;
+    border-#{config.$global-left}: $accordion-submenu-toggle-border;
 
     @if $accordionmenu-submenu-toggle-background {
       background: $accordionmenu-submenu-toggle-background;

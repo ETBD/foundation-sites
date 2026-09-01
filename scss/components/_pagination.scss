@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/color";
 @use "../util/mixins";
@@ -18,11 +18,11 @@ $pagination-font-size: unit.rem-calc(14) !default;
 
 /// Default bottom margin of the pagination object.
 /// @type Number
-$pagination-margin-bottom: global.$global-margin !default;
+$pagination-margin-bottom: config.$global-margin !default;
 
 /// Text color of pagination items.
 /// @type Color
-$pagination-item-color: global.$black !default;
+$pagination-item-color: config.$black !default;
 
 /// Padding inside of pagination items.
 /// @type Number
@@ -34,11 +34,11 @@ $pagination-item-spacing: unit.rem-calc(1) !default;
 
 /// Default radius for pagination items.
 /// @type Number
-$pagination-radius: global.$global-radius !default;
+$pagination-radius: config.$global-radius !default;
 
 /// Background color of pagination items on hover.
 /// @type Color
-$pagination-item-background-hover: global.$light-gray !default;
+$pagination-item-background-hover: config.$light-gray !default;
 
 /// Background color of pagination item for the current page.
 /// @type Color
@@ -46,15 +46,15 @@ $pagination-item-background-current: color.$primary-color !default;
 
 /// Text color of the pagination item for the current page.
 /// @type Color
-$pagination-item-color-current: global.$white !default;
+$pagination-item-color-current: config.$white !default;
 
 /// Text color of a disabled pagination item.
 /// @type Color
-$pagination-item-color-disabled: global.$medium-gray !default;
+$pagination-item-color-disabled: config.$medium-gray !default;
 
 /// Color of the ellipsis in a pagination menu.
 /// @type Color
-$pagination-ellipsis-color: global.$black !default;
+$pagination-ellipsis-color: config.$black !default;
 
 /// If `false`, don't display page number links on mobile, only next/previous links
 /// and optionally current page number.
@@ -89,13 +89,13 @@ $pagination-arrow-next: '\00BB' !default;
   $padding: $pagination-item-padding,
   $background-hover: $pagination-item-background-hover
 ) {
-  margin-#{global.$global-left}: 0;
+  margin-#{config.$global-left}: 0;
   margin-bottom: $margin-bottom;
   @include mixins.clearfix;
 
   // List item
   li {
-    margin-#{global.$global-right}: $spacing;
+    margin-#{config.$global-right}: $spacing;
     border-radius: $radius;
     font-size: $font-size;
 
@@ -193,14 +193,14 @@ $pagination-arrow-next: '\00BB' !default;
     .pagination-previous a::before,
     .pagination-previous.disabled::before {
       display: inline-block;
-      margin-#{global.$global-right}: 0.5rem;
+      margin-#{config.$global-right}: 0.5rem;
       content: $pagination-arrow-previous;
     }
 
     .pagination-next a::after,
     .pagination-next.disabled::after {
       display: inline-block;
-      margin-#{global.$global-left}: 0.5rem;
+      margin-#{config.$global-left}: 0.5rem;
       content: $pagination-arrow-next;
     }
   }

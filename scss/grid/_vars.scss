@@ -5,11 +5,15 @@
 // Grid variable defaults — extracted to avoid circular @use dependencies.
 // Submodules should @use 'vars' instead of 'grid' for variables.
 
-@use "../global";
+@use "../config";
+
+////
+/// @group grid
+////
 
 /// The maximum width of a row.
 /// @type Number
-$grid-row-width: global.$global-width !default;
+$grid-row-width: config.$global-width !default;
 
 /// The default column count of a grid. Changing this value affects the logic of the grid mixins, and the number of CSS classes output.
 /// @type Number

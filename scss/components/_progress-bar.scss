@@ -1,5 +1,5 @@
 @use "../forms/progress";
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 @use "../util/value";
 
@@ -24,7 +24,7 @@
   background-color: progress.$progress-meter-background;
 
   @if value.has-value(progress.$progress-radius) {
-    border-radius: global.$global-radius;
+    border-radius: config.$global-radius;
   }
 }
 
@@ -34,7 +34,7 @@
   margin: 0;
   font-size: 0.75rem;
   font-weight: bold;
-  color: global.$white;
+  color: config.$white;
   white-space: nowrap;
 
   @if value.has-value(progress.$progress-radius) {
@@ -47,7 +47,7 @@
   .progress {
     @include progress-container;
 
-    @each $name, $color in global.$foundation-palette {
+    @each $name, $color in config.$foundation-palette {
       &.#{"" + $name} {
         .progress-meter {
           background-color: $color;

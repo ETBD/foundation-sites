@@ -1,7 +1,8 @@
-@use "../global";
+@use "../config";
 @use "../util/unit";
+@use "vars";
 
-$form-spacing: unit.rem-calc(16) !default; // Foundation for Sites
+// Foundation for Sites
 // https://get.foundation
 // Licensed under MIT Open Source
 
@@ -13,7 +14,7 @@ $form-spacing: unit.rem-calc(16) !default; // Foundation for Sites
   [type="file"],
   [type="checkbox"],
   [type="radio"] {
-    margin: 0 0 $form-spacing;
+    margin: 0 0 vars.$form-spacing;
   }
 
   // Styles for input/label siblings
@@ -22,8 +23,8 @@ $form-spacing: unit.rem-calc(16) !default; // Foundation for Sites
     display: inline-block;
     vertical-align: baseline;
 
-    margin-#{global.$global-left}: $form-spacing * 0.5;
-    margin-#{global.$global-right}: $form-spacing;
+    margin-#{config.$global-left}: vars.$form-spacing * 0.5;
+    margin-#{config.$global-right}: vars.$form-spacing;
     margin-bottom: 0;
 
     &[for] {
@@ -34,7 +35,7 @@ $form-spacing: unit.rem-calc(16) !default; // Foundation for Sites
   // Styles for inputs inside labels
   label > [type="checkbox"],
   label > [type="radio"] {
-    margin-#{global.$global-right}: $form-spacing * 0.5;
+    margin-#{config.$global-right}: vars.$form-spacing * 0.5;
   }
 
   // Normalize file input width

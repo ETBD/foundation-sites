@@ -7,7 +7,7 @@ var cleancss = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var replace = require('gulp-replace');
-var octophant = require('octophant');
+var settingsTemplate = require('../lib/settings-template');
 var readline = require('readline');
 var { green, bold } = require('kleur');
 var exec = require('child_process').execSync;
@@ -142,11 +142,18 @@ gulp.task('deploy:plugins:sourcemaps', function () {
     .pipe(gulp.dest('dist/js/plugins'));
 });
 
-// Generates a settings file
-gulp.task('deploy:settings', function(done) {
-  var options = {
+// Generates the settings template consumers copy and edit.
+//
+// See gulp/lib/settings-template.js: grouping and section order still come from
+// sassdoc via octophant's processSassDoc, but the file is written as a single
+// `@use "foundation" with (...)` block rather than the `@import`-era list of
+// plain assignments, which no longer reaches Foundation's `!default`s.
+gulp.task('deploy:settings', function() {
+  var output = './scss/settings/_settings.scss';
+
+  return settingsTemplate.generate('./scss', {
     title: 'Foundation for Sites Settings',
-    output: './scss/settings/_settings.scss',
+    output: output,
     groups: {
       'grid': 'The Grid',
       'off-canvas': 'Off-canvas',
@@ -158,12 +165,10 @@ gulp.task('deploy:settings', function(done) {
       'grid',
       'typography-base',
       'typography-helpers'
-    ],
-    imports: ['util/util'],
-    _foundationShim: true
-  }
-
-  octophant('./scss', options, done);
+    ]
+  }).then(function(count) {
+    console.log('Wrote ' + count + ' settings to ' + output);
+  });
 });
 
 // Writes a commit with the changes to the version numbers

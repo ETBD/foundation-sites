@@ -1,0 +1,115 @@
+// Foundation for Sites
+// https://get.foundation
+// Licensed under MIT Open Source
+
+// sass-lint:disable no-color-literals
+
+////
+/// @group global
+////
+
+// The settings layer.
+//
+// Re-exports every literal setting from `_core-settings.scss` and adds the ones
+// that are *derived* -- those whose default value calls a Foundation function
+// (`$global-width`). Those cannot live in the leaf module, because the leaf is
+// what `util/` itself depends on.
+//
+// Everything downstream -- `_global.scss`, `components/`, `forms/`, `grid/`,
+// `xy-grid/` -- reads its settings from here, so there is exactly one
+// declaration of each and configuration from the entry point reaches all of it.
+
+@use "sass:map";
+// The @forward must precede the @use: configuration passed down from the entry
+// point is applied where a module is first loaded, so a plain @use here would
+// load core-settings unconfigured before the forward could carry the values in.
+@forward "core-settings";
+// The flex justifying options. Declared in util/_flex.scss -- which derives it
+// from $global-text-direction through this same leaf module -- and re-exported
+// here so downstream modules can read it alongside the rest of the settings.
+// Declaring a second copy is a hard error once both are forwarded, and was the
+// shape that let LTR and RTL answers coexist in one compile.
+@forward "util/flex" show $zf-flex-justify;
+@use "core-settings" as settings;
+@use "util/flex";
+@use "util/unit";
+
+/// Global width of your site. Used by the grid to determine row width.
+/// @type Number
+$global-width: unit.rem-calc(1200) !default;
+
+/// Default line height for all type. `$global-lineheight` is 24px while `$global-font-size` is 16px
+/// @type Number
+$global-lineheight: 1.5 !default;
+
+/// Background color of the body.
+/// @type Color
+$body-background: settings.$white !default;
+
+/// Text color of the body.
+/// @type Color
+$body-font-color: settings.$black !default;
+
+/// Font stack of the body.
+/// @type List
+$body-font-family:
+  "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif !default;
+
+/// Set to `true` to enable safe padding on the body for non-rectangular devices (i.e. phones with notches)
+/// @type Boolean
+$body-safe-padding: false !default;
+
+/// Set to `true` to enable antialiased type, using the `-webkit-font-smoothing` and `-moz-osx-font-smoothing` CSS properties.
+/// @type Boolean
+$body-antialiased: true !default;
+
+/// Global value used for margin on components.
+/// @type Number
+$global-margin: 1rem !default;
+
+/// Global value used for padding on components.
+/// @type Number
+$global-padding: 1rem !default;
+
+/// Global value used for positioning on components.
+/// @type Number
+$global-position: 1rem !default;
+
+/// Global font weight used for normal type.
+/// @type Keyword | Number
+$global-weight-normal: normal !default;
+
+/// Global font weight used for bold type.
+/// @type Keyword | Number
+$global-weight-bold: bold !default;
+
+/// Global value used for all elements that have a border radius.
+/// @type Number
+$global-radius: 0 !default;
+
+/// Global value used for all menu styles. Can be overwritten at individual menu component level.
+/// @type Number
+$global-menu-padding: 0.7rem 1rem !default;
+
+/// Global value used for all menu styles. Nested margin for submenu.
+$global-menu-nested-margin: 1rem !default;
+
+/// Enabled responsive breakpoints for prototypes if applicable
+/// @type Boolean
+$global-prototype-breakpoints: false !default;
+
+/// Button cursor's value, `auto` by default
+/// @type Keyword
+$global-button-cursor: auto !default;
+
+@if not map.has-key(settings.$foundation-palette, primary) {
+  @error 'In $foundation-palette, you must have a color named "primary".';
+}
+
+// Internal variables used for text direction
+$global-left: left;
+$global-right: right;
+@if settings.$global-text-direction == rtl {
+  $global-left: right;
+  $global-right: left;
+}

@@ -1,13 +1,14 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:meta";
-@use "../../_vendor/sassy-lists/stylesheets/functions/remove";
 @use "../util/breakpoint";
 @use "../util/math";
 @use "../util/mixins";
 @use "../util/unit";
 @use "gutters";
 @use "vars";
+@use "../util/value";
+@use "../../_vendor/sassy-lists/stylesheets/functions/remove";
 
 // Foundation for Sites
 // https://get.foundation
@@ -262,9 +263,7 @@
   $gutter-position: null,
   $breakpoint: null,
   $vertical: false,
-  $output: (
-    base size gutters,
-  )
+  $output: (base size gutters)
 ) {
   // Default for $gutter-output
   @if ($gutter-output != null) {

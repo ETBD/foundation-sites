@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/value";
 
@@ -16,11 +16,11 @@ $meter-height: 1rem !default;
 
 /// Border radius of a `<meter>` element.
 /// @type Length
-$meter-radius: global.$global-radius !default;
+$meter-radius: config.$global-radius !default;
 
 /// Background color of a `<meter>` element.
 /// @type Color
-$meter-background: global.$medium-gray !default;
+$meter-background: config.$medium-gray !default;
 
 /// Meter fill for an optimal value in a `<meter>` element.
 /// @type Color

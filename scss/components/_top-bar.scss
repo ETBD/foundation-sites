@@ -1,6 +1,7 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/mixins";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -16,7 +17,7 @@ $topbar-padding: 0.5rem !default;
 
 /// Background color for the top bar. This color also cascades to menus within the top bar.
 /// @type Color
-$topbar-background: global.$light-gray !default;
+$topbar-background: config.$light-gray !default;
 
 /// Background color submenus within the top bar. Usefull if $topbar-background is transparent.
 /// @type Color
@@ -38,7 +39,7 @@ $topbar-unstack-breakpoint: medium !default;
 @mixin top-bar-container {
   padding: $topbar-padding;
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -63,13 +64,13 @@ $topbar-unstack-breakpoint: medium !default;
   // Restrain width of inputs by default to make them easier to arrange
   input {
     max-width: $topbar-input-width;
-    margin-#{global.$global-right}: 1rem;
+    margin-#{config.$global-right}: 1rem;
   }
 
   // The above styles shouldn't apply to input group fields
   .input-group-field {
     width: 100%;
-    margin-#{global.$global-right}: 0;
+    margin-#{config.$global-right}: 0;
   }
 
   input.button { // sass-lint:disable-line no-qualifying-elements
@@ -79,7 +80,7 @@ $topbar-unstack-breakpoint: medium !default;
 
 /// Makes sections of a top bar stack on top of each other.
 @mixin top-bar-stacked {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex-wrap: wrap;
 
     // Sub-sections
@@ -100,7 +101,7 @@ $topbar-unstack-breakpoint: medium !default;
 
 /// Undoes the CSS applied by the `top-bar-stacked()` mixin.
 @mixin top-bar-unstack {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex-wrap: nowrap;
 
     .top-bar-left {
@@ -136,7 +137,7 @@ $topbar-unstack-breakpoint: medium !default;
     }
 
     // Generate classes for stacking on each screen size (defined in $breakpoint-classes)
-    @each $size in breakpoint.$breakpoint-classes {
+    @each $size in settings.$breakpoint-classes {
       @if $size != breakpoint.$zf-zero-breakpoint {
         &.stacked-for-#{$size} {
           @include breakpoint.breakpoint($size down) {
@@ -148,7 +149,7 @@ $topbar-unstack-breakpoint: medium !default;
   }
 
   // Sub-sections
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     .top-bar-title {
       flex: 0 0 auto;
       margin: $topbar-title-spacing;

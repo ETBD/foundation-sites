@@ -2,13 +2,18 @@
 // https://get.foundation
 // Licensed under MIT Open Source
 
-@use 'math';
-@use 'unit';
-@use 'value';
-@use 'direction';
-@use 'color';
-@use 'selector';
-@use 'flex';
-@use 'breakpoint';
-@use 'mixins';
-@use 'typography';
+// The util barrel. `@forward` rather than `@use`, so that everything the util
+// layer makes public -- `rem-calc()`, `clearfix()`, `breakpoint()`,
+// `get-color()` and the rest -- is reachable through it, and through
+// `foundation` which forwards this file. Under `@import` these were global; a
+// namespaced `@use` here would have exported nothing.
+@forward 'math';
+@forward 'unit';
+@forward 'value';
+@forward 'direction';
+@forward 'color';
+@forward 'selector';
+@forward 'flex';
+@forward 'breakpoint';
+@forward 'mixins';
+@forward 'typography';

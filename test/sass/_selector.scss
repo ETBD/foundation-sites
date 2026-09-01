@@ -1,6 +1,6 @@
-@import "true";
+@use "true" as *;
 
-@import '../../scss/util/selector';
+@use "../../scss/util/selector" as *;
 
 @include test-module('Selector') {
 

@@ -111,14 +111,14 @@
   }
 
   @include mixins.zf-each-breakpoint {
-    @for $i from 1 through row.$grid-column-count {
+    @for $i from 1 through vars.$grid-column-count {
       // Column width
       .#{breakpoint.$zf-size}-#{$i} {
         @include size.grid-column-size($i);
       }
 
       // Source ordering
-      @if $i < row.$grid-column-count {
+      @if $i < vars.$grid-column-count {
         @if $push {
           .#{breakpoint.$zf-size}-#{$push}-#{$i} {
             @include position.grid-col-pos($i);

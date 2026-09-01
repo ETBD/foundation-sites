@@ -1,9 +1,11 @@
-@import "true";
+@use "true" as *;
 
-@import '../../scss/util/math';
-@import '../../scss/global';
-@import '../../scss/components/responsive-embed';
-@import '../../scss/grid/grid';
+@use "../../scss/util/math" as *;
+@use "../../scss/config" as *;
+@use "../../scss/components/responsive-embed" as *;
+@use "../../scss/grid/grid" as *;
+@use "../../scss/grid/functions" as *;
+@use "../../scss/grid/flex-grid" as *;
 
 @include test-module('Components') {
 

@@ -5,20 +5,139 @@
  * Licensed under MIT Open Source
  */
 
-// Forward configurable variables so consumers can @use this file with ($var: value)
+// --- Settings ---
+//
+// Every module that declares `!default` settings is forwarded here, which is
+// what makes those settings reachable from the entry point:
+//
+//   @use "foundation" with ($button-background: red, $breakpoints: (...));
+//
+// These `@forward` rules MUST come before the `@use` rules below. Configuration
+// is applied where a module is first loaded, so a `@use` that reached one of
+// these modules first would load it unconfigured -- and configuring it
+// afterwards is a hard error ("this module was already loaded").
+//
+// Two forwarded modules may not define the same name, so each setting has
+// exactly one declaring module. See `_config.scss` and the `_vars.scss` files.
+
+// Ordered dependency-first. A module is loaded the first time it is reached,
+// and configuration cannot be applied to an already-loaded module, so a forward
+// must not sit behind another forward that pulls it in.
+@forward "config";
+@forward "util/flex";
+@forward "util/math";
+@forward "util/unit";
+@forward "util/color";
+@forward "components/accordion";
+@forward "util/value";
+@forward "util/breakpoint";
+@forward "util/mixins";
+@forward "components/menu";
+@forward "components/accordion-menu";
+@forward "components/badge";
+@forward "components/breadcrumbs";
+@forward "components/button";
+@forward "components/button-group";
+@forward "components/callout";
+@forward "components/card";
+@forward "components/close-button";
+@forward "typography/base";
+@forward "components/dropdown-menu";
+@forward "components/drilldown";
+@forward "components/dropdown";
+@forward "components/flex";
+@forward "components/responsive-embed";
+@forward "components/flex-video";
+@forward "components/float";
+@forward "components/label";
+@forward "components/media-object";
+@forward "components/title-bar";
+@forward "components/menu-icon";
+@forward "components/off-canvas";
+@forward "components/orbit";
+@forward "components/pagination";
+@forward "forms/progress";
+@forward "components/progress-bar";
+@forward "components/reveal";
+@forward "forms/range";
+@forward "components/slider";
+@forward "components/sticky";
+@forward "components/switch";
+@forward "components/table";
+@forward "components/tabs";
+@forward "components/thumbnail";
+@forward "components/tooltip";
+@forward "components/top-bar";
+@forward "components/visibility";
+@forward "forms/vars";
+@forward "forms/checkbox";
+@forward "forms/error";
+@forward "forms/fieldset";
+@forward "util/selector";
+@forward "forms/text";
+@forward "forms/label";
+@forward "forms/help-text";
+@forward "forms/input-group";
+@forward "forms/select";
+@forward "forms/meter";
+@forward "forms/forms";
 @forward "global";
-// Uncomment to use the default settings, or @use with your own settings before this file:
-// @forward 'settings/settings';
+@forward "grid/vars";
+@forward "grid/functions";
+@forward "grid/gutter";
+@forward "grid/row";
+@forward "grid/size";
+@forward "grid/column";
+@forward "grid/layout";
+@forward "grid/position";
+@forward "grid/classes";
+@forward "grid/flex-grid";
+@forward "grid/grid";
+@forward "prototype/arrow";
+@forward "prototype/border-box";
+@forward "prototype/border-none";
+@forward "prototype/bordered";
+@forward "prototype/box";
+@forward "prototype/display";
+@forward "prototype/font-styling";
+@forward "prototype/list-style-type";
+@forward "prototype/overflow";
+@forward "prototype/position";
+@forward "prototype/relation";
+@forward "prototype/rotate";
+@forward "prototype/text-utilities";
+@forward "prototype/text-transformation";
+@forward "prototype/text-decoration";
+@forward "prototype/rounded";
+@forward "prototype/shadow";
+@forward "prototype/separator";
+@forward "prototype/sizing";
+@forward "prototype/spacing";
+@forward "prototype/prototype";
+@forward "typography/alignment";
+@forward "typography/helpers";
+@forward "typography/print";
+@forward "typography/typography";
+@forward "util/direction";
+@forward "util/typography";
+@forward "util/util";
+@forward "xy-grid/vars";
+@forward "xy-grid/gutters";
+@forward "xy-grid/cell";
+@forward "xy-grid/collapse";
+@forward "xy-grid/frame";
+@forward "xy-grid/grid";
+@forward "xy-grid/layout";
+@forward "xy-grid/position";
+@forward "xy-grid/classes";
+@forward "xy-grid/xy-grid";
 
 // --- Dependencies ---
 @use "vendor/normalize";
-@use "../_vendor/sassy-lists/stylesheets/helpers/missing-dependencies";
-@use "../_vendor/sassy-lists/stylesheets/helpers/true";
-@use "../_vendor/sassy-lists/stylesheets/functions/contain";
-@use "../_vendor/sassy-lists/stylesheets/functions/purge";
-@use "../_vendor/sassy-lists/stylesheets/functions/remove";
-@use "../_vendor/sassy-lists/stylesheets/functions/replace";
-@use "../_vendor/sassy-lists/stylesheets/functions/to-list";
+// sassy-lists is loaded where it is used (util/_mixins.scss, xy-grid/_cell.scss,
+// xy-grid/_collapse.scss), not here. Under `@import` this list made every `sl-*`
+// function global; under `@use` a namespaced load exports nothing, so the
+// imports that used to sit here were dead.
 
 // --- Settings ---
 // import your own `settings` here or
@@ -29,6 +148,7 @@
 // Utilities
 @use "util/util";
 // Global styles
+@use "config";
 @use "global";
 @use "forms/forms";
 @use "typography/typography";

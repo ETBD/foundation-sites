@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/unit";
 
@@ -12,7 +12,7 @@
 
 /// Default background color of an accordion group.
 /// @type Color
-$accordion-background: global.$white !default;
+$accordion-background: config.$white !default;
 
 /// If `true`, adds plus and minus icons to the side of each accordion title.
 /// @type Boolean
@@ -36,7 +36,7 @@ $accordion-item-color: color.$primary-color !default;
 
 /// Default background color on hover for items in a Menu.
 /// @type Color
-$accordion-item-background-hover: global.$light-gray !default;
+$accordion-item-background-hover: config.$light-gray !default;
 
 /// Default padding of an accordion item.
 /// @type Number | List
@@ -44,15 +44,15 @@ $accordion-item-padding: 1.25rem 1rem !default;
 
 /// Default background color of tab content.
 /// @type Color
-$accordion-content-background: global.$white !default;
+$accordion-content-background: config.$white !default;
 
 /// Default border color of tab content.
 /// @type Color
-$accordion-content-border: 1px solid global.$light-gray !default;
+$accordion-content-border: 1px solid config.$light-gray !default;
 
 /// Default text color of tab content.
 /// @type Color
-$accordion-content-color: global.$body-font-color !default;
+$accordion-content-color: config.$body-font-color !default;
 
 /// Default padding for tab content.
 /// @type Number | List
@@ -62,7 +62,7 @@ $accordion-content-padding: 1rem !default;
 @mixin accordion-container (
   $background: $accordion-background
 ) {
-  margin-#{global.$global-left}: 0;
+  margin-#{config.$global-left}: 0;
   background: $background;
   list-style-type: none;
 
@@ -76,11 +76,11 @@ $accordion-content-padding: 1rem !default;
 /// Adds styles for the accordion item. Apply this to the list item within an accordion ul.
 @mixin accordion-item {
   &:first-child > :first-child {
-    border-radius: global.$global-radius global.$global-radius 0 0;
+    border-radius: config.$global-radius config.$global-radius 0 0;
   }
 
   &:last-child > :last-child {
-    border-radius: 0 0 global.$global-radius global.$global-radius;
+    border-radius: 0 0 config.$global-radius config.$global-radius;
   }
 }
 
@@ -105,7 +105,7 @@ $accordion-content-padding: 1rem !default;
 
   :last-child:not(.is-active) > & {
     border-bottom: $border;
-    border-radius: 0 0 global.$global-radius global.$global-radius;
+    border-radius: 0 0 config.$global-radius config.$global-radius;
   }
 
   &:hover,
@@ -117,7 +117,7 @@ $accordion-content-padding: 1rem !default;
     &::before {
       position: absolute;
       top: 50%;
-      #{global.$global-right}: 1rem;
+      #{config.$global-right}: 1rem;
       margin-top: -0.5rem;
       content: $accordion-plus-content;
     }

@@ -2,6 +2,7 @@
 @use "../util/breakpoint";
 @use "../util/mixins";
 @use "../util/unit";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -10,7 +11,7 @@
 /// Hide an element by default, only displaying it above a certain screen size.
 /// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
 @mixin show-for($size) {
-  $size: map.get(breakpoint.$breakpoints, $size);
+  $size: map.get(settings.$breakpoints, $size);
   // Max value is 0.2px under the next breakpoint (0.02 / 16 = 0.00125).
   // Use a precision under 1px to support browser zoom, but not to low to avoid rounding.
   // See https://github.com/foundation/foundation-sites/issues/11313
@@ -24,8 +25,8 @@
 /// Hide an element by default, only displaying it within a certain breakpoint.
 /// @param {Keyword} $size - Breakpoint to use. **Must be a breakpoint defined in `$breakpoints`.**
 @mixin show-for-only($size) {
-  $lower-bound-size: map.get(breakpoint.$breakpoints, $size);
-  $upper-bound-size: breakpoint.zf-map-next(breakpoint.$breakpoints, $size);
+  $lower-bound-size: map.get(settings.$breakpoints, $size);
+  $upper-bound-size: breakpoint.zf-map-next(settings.$breakpoints, $size);
 
   // more often than not this will be correct, just one time round the loop it won't so set in scope here
   $lower-bound: unit.zf-bp-to-em($lower-bound-size) - 0.00125;
@@ -79,7 +80,7 @@
   }
 
   // Responsive visibility classes
-  @each $size in breakpoint.$breakpoint-classes {
+  @each $size in settings.$breakpoint-classes {
     @if $size != breakpoint.$zf-zero-breakpoint {
       .hide-for-#{$size} {
         @include hide-for($size);

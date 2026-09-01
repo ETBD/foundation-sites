@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/math";
 @use "../util/unit";
 
@@ -41,7 +41,7 @@ $responsive-embed-ratios: (
   video {
     position: absolute;
     top: 0;
-    #{global.$global-left}: 0;
+    #{config.$global-left}: 0;
     width: 100%;
     height: 100%;
   }

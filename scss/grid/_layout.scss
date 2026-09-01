@@ -1,6 +1,6 @@
 @use "sass:math";
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/math" as math2;
 @use "../util/unit";
@@ -27,7 +27,7 @@
   $gutter: null
 ) {
   & > #{$selector} {
-    float: global.$global-left;
+    float: config.$global-left;
     width: math.percentage(math2.divide(1, $n));
 
     // If a $gutter value is passed
@@ -59,7 +59,7 @@
     }
 
     &:last-child {
-      float: global.$global-left;
+      float: config.$global-left;
     }
   }
 }

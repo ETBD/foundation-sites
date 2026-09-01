@@ -1,7 +1,7 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/mixins";
 
 // Foundation for Sites
@@ -54,11 +54,11 @@ $closebutton-lineheight: 1 !default;
 
 /// Default color of the close button.
 /// @type Color
-$closebutton-color: global.$dark-gray !default;
+$closebutton-color: config.$dark-gray !default;
 
 /// Default color of the close button when being hovered on.
 /// @type Color
-$closebutton-color-hover: global.$black !default;
+$closebutton-color-hover: config.$black !default;
 
 
 /// Get the size and position for a close button. If the input value is a number, the number is returned. If the input value is a config map and the map has the key `$size`, the value is returned.

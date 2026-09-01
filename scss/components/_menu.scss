@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/color";
 @use "../util/mixins";
@@ -17,11 +17,11 @@ $menu-margin: 0 !default;
 
 /// Left-hand margin of a nested menu.
 /// @type Number
-$menu-nested-margin: global.$global-menu-nested-margin !default;
+$menu-nested-margin: config.$global-menu-nested-margin !default;
 
 /// Padding for items in a pill menu.
 /// @type Number
-$menu-items-padding: global.$global-menu-padding !default;
+$menu-items-padding: config.$global-menu-padding !default;
 
 /// margin for items in a simple menu.
 /// @type Number
@@ -29,11 +29,11 @@ $menu-simple-margin: 1rem !default;
 
 /// Text color of an active menu item.
 /// @type Color
-$menu-item-color-active: global.$white !default;
+$menu-item-color-active: config.$white !default;
 
 /// Alternative text color of an active menu item..
 /// @type Color
-$menu-item-color-alt-active: global.$black !default;
+$menu-item-color-alt-active: config.$black !default;
 
 /// Background color of an active menu item.
 /// @type Color
@@ -65,7 +65,7 @@ $menu-icons-back-compat: true !default;
   list-style: none;
   position: relative;
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     display: flex;
     flex-wrap: wrap;
   }
@@ -97,7 +97,7 @@ $menu-icons-back-compat: true !default;
 
 /// Expands the items of a Menu, so each item is the same width.
 @mixin menu-expand {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     li {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit
     }
@@ -116,15 +116,15 @@ $menu-icons-back-compat: true !default;
 /// Align menu items.
 @mixin menu-align($alignment) {
   @if $alignment == left {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       justify-content: flex-start;
     }
     @else {
-      text-align: global.$global-left;
+      text-align: config.$global-left;
     }
   }
   @else if $alignment == right {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       li {
         display: flex;
         justify-content: flex-end;
@@ -136,29 +136,29 @@ $menu-icons-back-compat: true !default;
 
       &.vertical li {
         display: block;
-        text-align: global.$global-right;
+        text-align: config.$global-right;
 
         .submenu li {
-          text-align: global.$global-right;
+          text-align: config.$global-right;
         }
       }
     }
     @else {
-      text-align: global.$global-right;
+      text-align: config.$global-right;
 
       .submenu li {
-        text-align: global.$global-left;
+        text-align: config.$global-left;
       }
 
       &.vertical {
         .submenu li {
-          text-align: global.$global-right;
+          text-align: config.$global-right;
         }
       }
     }
   }
   @else if $alignment == center {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       li {
         display: flex;
         justify-content: center;
@@ -172,7 +172,7 @@ $menu-icons-back-compat: true !default;
       text-align: center;
 
       .submenu li {
-        text-align: global.$global-left;
+        text-align: config.$global-left;
       }
     }
   }
@@ -182,7 +182,7 @@ $menu-icons-back-compat: true !default;
 /// @param {Keyword} $dir [horizontal] - Direction of the Menu. Can be `horizontal` or `vertical`.
 @mixin menu-direction($dir: horizontal) {
   @if $dir == horizontal {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex-wrap: wrap;
       flex-direction: row;
     }
@@ -193,7 +193,7 @@ $menu-icons-back-compat: true !default;
     }
   }
   @else if $dir == vertical {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex-wrap: nowrap;
       flex-direction: column;
     }
@@ -211,8 +211,8 @@ $menu-icons-back-compat: true !default;
 /// Creates a simple Menu, which has no padding or hover state.
 /// @param {Keyword} $dir [$global-left] - Direction of the menu. This effects the side of the `<li>` that receives the margin.
 /// @param {Number} $margin [$menu-simple-margin] - The margin to apply to each `<li>`.
-@mixin menu-simple($dir: global.$global-left, $margin: $menu-simple-margin) {
-  @if global.$global-flexbox {
+@mixin menu-simple($dir: config.$global-left, $margin: $menu-simple-margin) {
+  @if config.$global-flexbox {
     align-items: center;
   }
 
@@ -233,19 +233,19 @@ $menu-icons-back-compat: true !default;
   $nested-alignment: left
 ) {
   @if $nested-alignment == right {
-    margin-#{global.$global-right}: $margin;
-    margin-#{global.$global-left}: 0;
+    margin-#{config.$global-right}: $margin;
+    margin-#{config.$global-left}: 0;
   }
   @else {
-    margin-#{global.$global-right}: 0;
-    margin-#{global.$global-left}: $margin;
+    margin-#{config.$global-right}: 0;
+    margin-#{config.$global-left}: $margin;
   }
 
 }
 
 /// Adds basic styles for icons in menus.
 @mixin menu-icons() {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     a {
       display: flex;
     }
@@ -266,7 +266,7 @@ $menu-icons-back-compat: true !default;
 /// Align top/bottom icons within a menu.
 /// @param {Keyword} $alignment [center] - Alignment of the icon
 @mixin menu-icon-alignment($alignment: center) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     &.icon-top,
     &.icon-bottom {
       li a {
@@ -294,16 +294,16 @@ $menu-icons-back-compat: true !default;
 @mixin menu-icon-position($position: left, $spacing: $menu-icon-spacing) {
   @if $position == left {
     li a {
-      @if global.$global-flexbox {
+      @if config.$global-flexbox {
         flex-flow: row nowrap;
       }
 
       img,
       i,
       svg {
-        margin-#{global.$global-right}: $spacing;
+        margin-#{config.$global-right}: $spacing;
 
-        @if not global.$global-flexbox {
+        @if not config.$global-flexbox {
           display: inline-block;
         }
       }
@@ -311,16 +311,16 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == right {
     li a {
-      @if global.$global-flexbox {
+      @if config.$global-flexbox {
         flex-flow: row nowrap;
       }
 
       img,
       i,
       svg {
-        margin-#{global.$global-left}: $spacing;
+        margin-#{config.$global-left}: $spacing;
 
-        @if not global.$global-flexbox {
+        @if not config.$global-flexbox {
           display: inline-block;
         }
       }
@@ -328,7 +328,7 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == top {
     li a {
-      @if global.$global-flexbox {
+      @if config.$global-flexbox {
         flex-flow: column nowrap;
       }
       @else {
@@ -338,7 +338,7 @@ $menu-icons-back-compat: true !default;
       img,
       i,
       svg {
-        @if not global.$global-flexbox {
+        @if not config.$global-flexbox {
           display: block;
           margin: 0 auto $spacing;
         }
@@ -352,7 +352,7 @@ $menu-icons-back-compat: true !default;
   }
   @else if $position == bottom {
     li a {
-      @if global.$global-flexbox {
+      @if config.$global-flexbox {
         flex-flow: column nowrap;
       }
       @else {
@@ -362,7 +362,7 @@ $menu-icons-back-compat: true !default;
       img,
       i,
       svg {
-        @if not global.$global-flexbox {
+        @if not config.$global-flexbox {
           display: block;
           margin: $spacing auto 0;
         }
@@ -377,7 +377,7 @@ $menu-icons-back-compat: true !default;
 }
 
 @mixin menu-text {
-  padding: global.$global-menu-padding;
+  padding: config.$global-menu-padding;
 
   font-weight: bold;
   line-height: 1;
@@ -492,12 +492,12 @@ $menu-icons-back-compat: true !default;
     }
 
     // Align left
-    &.align-#{global.$global-left} {
+    &.align-#{config.$global-left} {
       @include menu-align(left);
     }
 
     // Align right
-    &.align-#{global.$global-right} {
+    &.align-#{config.$global-right} {
       @include menu-align(right);
       @include menu-icon-alignment(right);
 
@@ -519,7 +519,7 @@ $menu-icons-back-compat: true !default;
   @if $menu-centered-back-compat {
     .menu-centered {
       > .menu {
-        @if global.$global-flexbox {
+        @if config.$global-flexbox {
           justify-content: center;
         }
 

@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color" as color2;
 @use "../util/mixins";
 @use "../util/unit";
@@ -15,7 +15,7 @@
 
 /// Background color of a switch.
 /// @type Color
-$switch-background: global.$medium-gray !default;
+$switch-background: config.$medium-gray !default;
 
 /// Background color of a switch on focus.
 /// @type Color
@@ -53,15 +53,15 @@ $switch-height-large: 2.5rem !default;
 
 /// Border radius of the switch
 /// @type Number
-$switch-radius: global.$global-radius !default;
+$switch-radius: config.$global-radius !default;
 
 /// border around a modal.
 /// @type Number
-$switch-margin: global.$global-margin !default;
+$switch-margin: config.$global-margin !default;
 
 /// Background color for the switch container and paddle.
 /// @type Color
-$switch-paddle-background: global.$white !default;
+$switch-paddle-background: config.$white !default;
 
 /// Spacing between a switch paddle and the edge of the body.
 /// @type Number
@@ -69,7 +69,7 @@ $switch-paddle-offset: 0.25rem !default;
 
 /// border radius of the switch paddle
 /// @type Number
-$switch-paddle-radius: global.$global-radius !default;
+$switch-paddle-radius: config.$global-radius !default;
 
 /// switch transition.
 /// @type Number
@@ -96,7 +96,7 @@ $switch-cursor-disabled: not-allowed !default;
   // These properties cascade down to the switch text
   font-size: unit.rem-calc(14);
   font-weight: bold;
-  color: global.$white;
+  color: config.$white;
 
   user-select: none;
 }
@@ -139,7 +139,7 @@ $switch-cursor-disabled: not-allowed !default;
   &::after {
     position: absolute;
     top: $switch-paddle-offset;
-    #{global.$global-left}: $switch-paddle-offset;
+    #{config.$global-left}: $switch-paddle-offset;
 
     display: block;
     width: $paddle-width;
@@ -157,7 +157,7 @@ $switch-cursor-disabled: not-allowed !default;
     background: $switch-background-active;
 
     &::after {
-      #{global.$global-left}: $paddle-active-offest;
+      #{config.$global-left}: $paddle-active-offest;
     }
   }
 
@@ -194,7 +194,7 @@ $switch-cursor-disabled: not-allowed !default;
 
 /// Adds styles for the active state text within a switch.
 @mixin switch-text-active {
-  #{global.$global-left}: 8%;
+  #{config.$global-left}: 8%;
   display: none;
 
   input:checked + label > & {
@@ -204,7 +204,7 @@ $switch-cursor-disabled: not-allowed !default;
 
 /// Adds styles for the inactive state text within a switch.
 @mixin switch-text-inactive {
-  #{global.$global-right}: 15%;
+  #{config.$global-right}: 15%;
 
   input:checked + label > & {
     display: none;
@@ -235,13 +235,13 @@ $switch-cursor-disabled: not-allowed !default;
 
   .switch-paddle::after {
     top: $paddle-offset;
-    #{global.$global-left}: $paddle-offset;
+    #{config.$global-left}: $paddle-offset;
     width: $paddle-width;
     height: $paddle-height;
   }
 
   input:checked ~ .switch-paddle::after {
-    #{global.$global-left}: $paddle-active-offest;
+    #{config.$global-left}: $paddle-active-offest;
   }
 }
 

@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/math" as math2;
 @use "../util/mixins";
@@ -44,7 +44,7 @@ $buttongroup-radius-on-each: true !default;
 ) {
   margin-bottom: $buttongroup-margin;
 
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
@@ -62,29 +62,29 @@ $buttongroup-radius-on-each: true !default;
 
   #{$child-selector} {
     margin: 0;
-    margin-#{global.$global-right}: $spacing;
+    margin-#{config.$global-right}: $spacing;
     margin-bottom: $spacing;
     font-size: map.get(button.$button-sizes, default);
 
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex: 0 0 auto;
     }
 
     &:last-child {
-      margin-#{global.$global-right}: 0;
+      margin-#{config.$global-right}: 0;
     }
 
     @if not $buttongroup-radius-on-each {
       border-radius: 0;
 
       &:first-child {
-        border-top-#{global.$global-left}-radius: button.$button-radius;
-        border-bottom-#{global.$global-left}-radius: button.$button-radius;
+        border-top-#{config.$global-left}-radius: button.$button-radius;
+        border-bottom-#{config.$global-left}-radius: button.$button-radius;
       }
 
       &:last-child {
-        border-top-#{global.$global-right}-radius: button.$button-radius;
-        border-bottom-#{global.$global-right}-radius: button.$button-radius;
+        border-top-#{config.$global-right}-radius: button.$button-radius;
+        border-bottom-#{config.$global-right}-radius: button.$button-radius;
       }
     }
   }
@@ -97,10 +97,10 @@ $buttongroup-radius-on-each: true !default;
   $border-width: button.$button-hollow-border-width
 ) {
   #{$selector} {
-    margin-#{global.$global-right}: unit.rem-calc(-$border-width);
+    margin-#{config.$global-right}: unit.rem-calc(-$border-width);
 
     + #{$selector} {
-      border-#{global.$global-left}-color: transparent;
+      border-#{config.$global-left}-color: transparent;
     }
   }
 }
@@ -113,8 +113,8 @@ $buttongroup-radius-on-each: true !default;
   $spacing: $buttongroup-spacing,
   $count: null
 ) {
-  @if not global.$global-flexbox {
-    margin-#{global.$global-right}: -$spacing;
+  @if not config.$global-flexbox {
+    margin-#{config.$global-right}: -$spacing;
 
     &::before,
     &::after {
@@ -123,7 +123,7 @@ $buttongroup-radius-on-each: true !default;
   }
 
   #{$selector} {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex: 1 1 0px; // sass-lint:disable-line zero-unit
     } @else {
       // One child
@@ -140,10 +140,10 @@ $buttongroup-radius-on-each: true !default;
           &:first-child:nth-last-child(#{$i}) ~ #{$selector} {
             display: inline-block;
             width: calc(#{math.percentage(math2.divide(1, $i))} - #{$spacing});
-            margin-#{global.$global-right}: $spacing;
+            margin-#{config.$global-right}: $spacing;
 
             &:last-child {
-              margin-#{global.$global-right}: $spacing *
+              margin-#{config.$global-right}: $spacing *
                 -$buttongroup-expand-max;
             }
           }
@@ -156,12 +156,12 @@ $buttongroup-radius-on-each: true !default;
 /// Stacks the buttons in a button group.
 /// @param {String} $selector [$buttongroup-child-selector] - Selector for the buttons inside the button group.
 @mixin button-group-stack($selector: $buttongroup-child-selector) {
-  @if global.$global-flexbox {
+  @if config.$global-flexbox {
     flex-wrap: wrap;
   }
 
   #{$selector} {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex: 0 0 100%;
     } @else {
       width: 100%;
@@ -175,13 +175,13 @@ $buttongroup-radius-on-each: true !default;
       border-radius: 0;
 
       &:first-child {
-        border-top-#{global.$global-left}-radius: global.$global-radius;
-        border-top-#{global.$global-right}-radius: global.$global-radius;
+        border-top-#{config.$global-left}-radius: config.$global-radius;
+        border-top-#{config.$global-right}-radius: config.$global-radius;
       }
 
       &:last-child {
-        border-bottom-#{global.$global-left}-radius: global.$global-radius;
-        border-bottom-#{global.$global-right}-radius: global.$global-radius;
+        border-bottom-#{config.$global-left}-radius: config.$global-radius;
+        border-bottom-#{config.$global-right}-radius: config.$global-radius;
       }
     }
   }
@@ -191,7 +191,7 @@ $buttongroup-radius-on-each: true !default;
 /// @param {String} $selector [$buttongroup-child-selector] - Selector for the buttons inside the button group.
 @mixin button-group-unstack($selector: $buttongroup-child-selector) {
   #{$selector} {
-    @if global.$global-flexbox {
+    @if config.$global-flexbox {
       flex: 0 0 auto;
     } @else {
       width: auto;
@@ -200,15 +200,15 @@ $buttongroup-radius-on-each: true !default;
 
     @if not $buttongroup-radius-on-each {
       &:first-child {
-        border-top-#{global.$global-left}-radius: global.$global-radius;
-        border-top-#{global.$global-right}-radius: 0;
-        border-bottom-#{global.$global-left}-radius: global.$global-radius;
+        border-top-#{config.$global-left}-radius: config.$global-radius;
+        border-top-#{config.$global-right}-radius: 0;
+        border-bottom-#{config.$global-left}-radius: config.$global-radius;
       }
 
       &:last-child {
-        border-top-#{global.$global-right}-radius: global.$global-radius;
-        border-bottom-#{global.$global-right}-radius: global.$global-radius;
-        border-bottom-#{global.$global-left}-radius: 0;
+        border-top-#{config.$global-right}-radius: config.$global-radius;
+        border-bottom-#{config.$global-right}-radius: config.$global-radius;
+        border-bottom-#{config.$global-left}-radius: 0;
       }
     }
   }
@@ -294,7 +294,7 @@ $buttongroup-radius-on-each: true !default;
 
         #{$buttongroup-child-selector} {
           display: block;
-          margin-#{global.$global-right}: 0;
+          margin-#{config.$global-right}: 0;
         }
       }
     }
@@ -305,7 +305,7 @@ $buttongroup-radius-on-each: true !default;
 
         #{$buttongroup-child-selector} {
           display: block;
-          margin-#{global.$global-right}: 0;
+          margin-#{config.$global-right}: 0;
         }
       }
     }

@@ -1,6 +1,7 @@
-@use "../global";
+@use "../config";
 @use "../util/unit";
-$form-spacing: unit.rem-calc(16) !default;
+@use "vars";
+
 
 
 // Foundation for Sites
@@ -13,7 +14,7 @@ $form-spacing: unit.rem-calc(16) !default;
 
 /// Default border around custom fieldsets.
 /// @type Border
-$fieldset-border: 1px solid global.$medium-gray !default;
+$fieldset-border: 1px solid config.$medium-gray !default;
 
 /// Default padding inside custom fieldsets.
 /// @type Number
@@ -35,7 +36,7 @@ $legend-padding: unit.rem-calc(0 3) !default;
   legend {
     // Covers up the fieldset's border to create artificial padding
     margin: 0;
-    margin-#{global.$global-left}: unit.rem-calc(-3);
+    margin-#{config.$global-left}: unit.rem-calc(-3);
     padding: $legend-padding;
   }
 }
@@ -49,7 +50,7 @@ $legend-padding: unit.rem-calc(0 3) !default;
 
   legend {
     max-width: 100%;
-    margin-bottom: $form-spacing * 0.5;
+    margin-bottom: vars.$form-spacing * 0.5;
   }
 
   .fieldset {

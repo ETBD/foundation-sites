@@ -1,4 +1,4 @@
-@use "../global";
+@use "../config";
 @use "../util/color";
 @use "../util/mixins";
 
@@ -12,11 +12,11 @@
 
 /// Default color for Orbit's bullets.
 /// @type Color
-$orbit-bullet-background: global.$medium-gray !default;
+$orbit-bullet-background: config.$medium-gray !default;
 
 /// Default active color for Orbit's bullets.
 /// @type Color
-$orbit-bullet-background-active: global.$dark-gray !default;
+$orbit-bullet-background-active: config.$dark-gray !default;
 
 /// Default diameter for Orbit's bullets.
 /// @type Number
@@ -36,7 +36,7 @@ $orbit-bullet-margin-bottom: 0.8rem !default;
 
 /// Default background color for Orbit's caption.
 /// @type Color
-$orbit-caption-background: rgba(global.$black, 0.5) !default;
+$orbit-caption-background: rgba(config.$black, 0.5) !default;
 
 /// Default padding for Orbit's caption.
 /// @type Number
@@ -44,7 +44,7 @@ $orbit-caption-padding: 1rem !default;
 
 /// Default background color for Orbit's controls when hovered.
 /// @type Color
-$orbit-control-background-hover: rgba(global.$black, 0.5) !default;
+$orbit-control-background-hover: rgba(config.$black, 0.5) !default;
 
 /// Default padding for Orbit's controls.
 /// @type Number
@@ -108,7 +108,7 @@ $orbit-control-zindex: 10 !default;
 @mixin orbit-control {
   z-index: $orbit-control-zindex;
   padding: $orbit-control-padding;
-  color: global.$white;
+  color: config.$white;
   @include mixins.vertical-center;
   @include mixins.disable-mouse-outline;
 
@@ -121,13 +121,13 @@ $orbit-control-zindex: 10 !default;
 
 /// Adds styles for the Orbit previous button. These styles are used on the `.orbit-previous` class.
 @mixin orbit-previous {
-  #{global.$global-left}: 0;
+  #{config.$global-left}: 0;
 }
 
 /// Adds styles for the Orbit next button. These styles are used on the `.orbit-next` class.
 @mixin orbit-next {
-  #{global.$global-left}: auto;
-  #{global.$global-right}: 0;
+  #{config.$global-left}: auto;
+  #{config.$global-right}: 0;
 }
 
 /// Adds styles for a container of Orbit bullets. /// Adds styles for the Orbit previous button. These styles are used on the `.orbit-bullets` class.

@@ -1,7 +1,8 @@
 @use "sass:meta";
-@use "../global";
+@use "../config";
 @use "../util/breakpoint";
 @use "../util/mixins";
+@use "../core-settings" as settings;
 
 // Foundation for Sites
 // https://get.foundation
@@ -25,11 +26,11 @@ $offcanvas-vertical-sizes: (
 
 /// Background color of an off-canvas panel.
 /// @type Color
-$offcanvas-background: global.$light-gray !default;
+$offcanvas-background: config.$light-gray !default;
 
 /// Box shadow for the off-canvas overlap panel.
 /// @type Shadow
-$offcanvas-shadow: 0 0 10px rgba(global.$black, 0.7) !default;
+$offcanvas-shadow: 0 0 10px rgba(config.$black, 0.7) !default;
 
 /// Inner box shadow size for the off-canvas push panel.
 /// @type Number
@@ -37,7 +38,7 @@ $offcanvas-inner-shadow-size: 20px !default;
 
 /// Inner box shadow color for the off-canvas push panel.
 /// @type Color
-$offcanvas-inner-shadow-color: rgba(global.$black, 0.25) !default;
+$offcanvas-inner-shadow-color: rgba(config.$black, 0.25) !default;
 
 /// Z-index of an off-canvas content overlay.
 /// @type Number
@@ -69,7 +70,7 @@ $offcanvas-fixed-reveal: true !default;
 
 /// Background color for the overlay that appears when an off-canvas panel is open.
 /// @type Color
-$offcanvas-exit-background: rgba(global.$white, 0.25) !default;
+$offcanvas-exit-background: rgba(config.$white, 0.25) !default;
 
 /// CSS class used for the main content area. The off-canvas mixins use this to target the page content.
 $maincontent-class: "off-canvas-content" !default;
@@ -92,8 +93,16 @@ $maincontent-class: "off-canvas-content" !default;
     @warn '$offcanvas-vertical-size is deprecated and not used anymore! Please update your settings and use the map $offcanvas-vertical-sizes instead';
   }
 
-  // Checks the z-indexes and increase them due to backwards compatibility.
-  // This is necessary because the overlay's z-index is new since v6.4 and may be identical to the user custom settings of the push z-index.
+  // Checks the z-indexes and increases them for backwards compatibility. The
+  // overlay's z-index is new since v6.4 and may collide with a user's custom
+  // push z-index.
+  //
+  // These `!global` writes mutate this module's own settings, which is legal
+  // under `@use` (the module is loaded once, and `!global` cannot reach another
+  // module's scope). They are order-dependent on `off-canvas-basics` running
+  // before the mixins that read them -- which `foundation-off-canvas`
+  // guarantees. Left as-is: converting the fixup to a pure function is a
+  // separate change from the settings migration.
   @if $offcanvas-push-zindex <= $offcanvas-overlay-zindex {
     $offcanvas-push-zindex: $offcanvas-overlay-zindex + 1 !global;
   }
@@ -523,7 +532,7 @@ $maincontent-class: "off-canvas-content" !default;
   }
 
   // Reveal off-canvas panel on larger screens
-  @each $name, $value in breakpoint.$breakpoint-classes {
+  @each $name, $value in settings.$breakpoint-classes {
     @if $name != breakpoint.$zf-zero-breakpoint {
       @include breakpoint.breakpoint($name) {
         .position-left.reveal-for-#{$name} {
@@ -566,7 +575,7 @@ $maincontent-class: "off-canvas-content" !default;
   }
 
   // Move in-canvas for larger screens
-  @each $name, $value in breakpoint.$breakpoint-classes {
+  @each $name, $value in settings.$breakpoint-classes {
     @if $name != breakpoint.$zf-zero-breakpoint {
       @include breakpoint.breakpoint($name) {
         .off-canvas.in-canvas-for-#{$name} {
